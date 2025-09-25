@@ -1,0 +1,79 @@
+# Claude Context Index
+# Auto-generated index for fast context retrieval
+
+version: 1.0.0
+last_updated: 2024-01-01T00:00:00Z
+
+# Priority contexts loaded on every session
+critical_context:
+  - path: context/architecture.md
+    tags: [architecture, system-design, core]
+    summary: Core architectural decisions and system design
+  - path: references/security-rules.md
+    tags: [security, compliance, critical]
+    summary: Security requirements and compliance rules
+
+# High priority contexts for common tasks
+high_priority:
+  - path: context/patterns.md
+    tags: [patterns, conventions, standards]
+    summary: Code patterns and conventions
+  - path: context/decisions.md
+    tags: [decisions, rationale, trade-offs]
+    summary: Technical decisions with rationale
+  - path: context/dependencies.md
+    tags: [dependencies, libraries, versions]
+    summary: External dependencies and versions
+
+# Feature-specific contexts
+features:
+  authentication:
+    - path: context/domain.md#authentication
+      tags: [auth, security, users]
+    - path: references/api-contracts.yaml#auth
+      tags: [api, auth, endpoints]
+
+  payments:
+    - path: context/domain.md#payments
+      tags: [payments, billing, stripe]
+    - path: references/security-rules.md#pci
+      tags: [pci, compliance, security]
+
+# Quick lookup by tags
+tag_index:
+  security:
+    - references/security-rules.md
+    - context/patterns.md#security
+    - context/decisions.md#security
+
+  api:
+    - references/api-contracts.yaml
+    - context/patterns.md#api
+
+  database:
+    - references/data-models.json
+    - context/decisions.md#database
+    - context/patterns.md#database
+
+# Session management
+session:
+  current: sessions/current.md
+  history_dir: sessions/history/
+  max_history_files: 30
+  prune_after_days: 30
+
+# Context limits
+limits:
+  max_file_size: 2000  # lines
+  max_context_load: 10000  # tokens
+  auto_summarize: true
+  compression_threshold: 1500  # lines
+
+# Auto-update rules
+auto_update:
+  on_commit: true
+  on_file_change: true
+  patterns:
+    - "**/*.md"
+    - "**/*.yaml"
+    - "**/*.json"

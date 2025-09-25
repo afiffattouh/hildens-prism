@@ -1,0 +1,350 @@
+---
+description: AI-assisted code generation workflow with structured development process and quality gates
+globs: ["**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.py", "**/*.java", "**/*.go", "**/*.php", "**/*.rb", "**/*.cs"]
+alwaysApply: true
+---
+
+# AI-Assisted Code Generation Workflow
+
+## Development Workflow Standards
+
+### Task Decomposition Strategy
+
+**BREAK DOWN** complex features into manageable components:
+
+- **SINGLE RESPONSIBILITY**: Each component should have one clear responsibility
+- **CONTEXT LIMITS**: Limit context to 3-5 entities per generation session
+- **SESSION MANAGEMENT**: Restart sessions frequently to prevent context drift
+- **CLEAR CONSTRAINTS**: Specify exact libraries, frameworks, and constraints in every prompt
+
+#### Effective Task Breakdown Example
+
+```
+❌ Bad: "Build a complete e-commerce system"
+
+✅ Good: Break into focused tasks:
+1. User authentication service
+2. Product catalog API endpoints
+3. Shopping cart management
+4. Payment processing integration
+5. Order management system
+```
+
+### Progressive Enhancement Development Pattern
+
+Follow this structured approach for all AI-assisted development:
+
+#### 1. Basic Functionality Phase
+**START** with working basic functionality:
+- Focus on core requirements only
+- Implement happy path scenarios first
+- Ensure basic functionality works end-to-end
+- Validate against acceptance criteria
+
+```javascript
+// Phase 1: Basic user registration
+async function registerUser(email, password) {
+  // Basic implementation - happy path only
+  const user = await User.create({ email, password });
+  return user;
+}
+```
+
+#### 2. Error Handling Enhancement
+**ADD** comprehensive error handling:
+- Handle all edge cases and error conditions
+- Implement proper validation
+- Add meaningful error messages
+- Ensure graceful degradation
+
+```javascript
+// Phase 2: Add comprehensive error handling
+async function registerUser(email, password) {
+  try {
+    // Validate inputs
+    if (!isValidEmail(email)) {
+      throw new ValidationError('Invalid email format');
+    }
+    
+    if (!isValidPassword(password)) {
+      throw new ValidationError('Password does not meet requirements');
+    }
+    
+    // Check for existing user
+    const existingUser = await User.findByEmail(email);
+    if (existingUser) {
+      throw new ConflictError('Email already registered');
+    }
+    
+    const user = await User.create({ email, password });
+    return user;
+  } catch (error) {
+    logger.error('User registration failed', { email, error: error.message });
+    throw error;
+  }
+}
+```
+
+#### 3. Security Implementation
+**IMPLEMENT** security measures and input validation:
+- Add authentication and authorization
+- Implement input sanitization
+- Add rate limiting where appropriate
+- Ensure secure data handling
+
+```javascript
+// Phase 3: Add security measures
+async function registerUser(email, password, req) {
+  try {
+    // Rate limiting check
+    await rateLimiter.checkLimit(req.ip, 'user_registration');
+    
+    // Sanitize inputs
+    const sanitizedEmail = sanitizeEmail(email);
+    const hashedPassword = await hashPassword(password);
+    
+    // Validate inputs with security checks
+    if (!isValidEmail(sanitizedEmail)) {
+      throw new ValidationError('Invalid email format');
+    }
+    
+    if (!isSecurePassword(password)) {
+      throw new ValidationError('Password does not meet security requirements');
+    }
+    
+    // Check for existing user
+    const existingUser = await User.findByEmail(sanitizedEmail);
+    if (existingUser) {
+      throw new ConflictError('Email already registered');
+    }
+    
+    const user = await User.create({ 
+      email: sanitizedEmail, 
+      password: hashedPassword,
+      createdAt: new Date(),
+      emailVerified: false 
+    });
+    
+    // Trigger email verification
+    await sendVerificationEmail(user.email, user.verificationToken);
+    
+    return { id: user.id, email: user.email, emailVerified: user.emailVerified };
+  } catch (error) {
+    auditLogger.warn('User registration attempt failed', { 
+      email: sanitizedEmail, 
+      ip: req.ip, 
+      error: error.message 
+    });
+    throw error;
+  }
+}
+```
+
+#### 4. Performance Optimization
+**OPTIMIZE** performance bottlenecks:
+- Profile and identify performance issues
+- Implement caching where appropriate
+- Optimize database queries
+- Add monitoring and metrics
+
+#### 5. Comprehensive Testing
+**WRITE** comprehensive tests:
+- Unit tests for all functions
+- Integration tests for workflows
+- Performance tests for critical paths
+- Security tests for validation
+
+#### 6. Refactoring for Maintainability
+**REFACTOR** for clarity and maintainability:
+- Extract reusable components
+- Improve naming and structure
+- Add comprehensive documentation
+- Ensure consistent patterns
+
+## Multi-Layer Review Process
+
+### Structured Review Gates
+
+**IMPLEMENT** this review process for all AI-generated code:
+
+#### 1. AI Review (Automated)
+- **SYNTAX CHECK**: Verify code syntax and basic structure
+- **PATTERN ANALYSIS**: Check against established patterns
+- **DEPENDENCY VALIDATION**: Verify all dependencies are available
+- **BASIC SECURITY SCAN**: Automated vulnerability scanning
+
+#### 2. Security Check (Manual)
+**FOCUS AREAS** for security review:
+- Authentication and authorization logic
+- Input validation and sanitization
+- Data handling and storage
+- Encryption and secure communication
+- OWASP Top 10 vulnerability assessment
+
+```markdown
+## Security Review Checklist
+- [ ] Input validation implemented for all user inputs
+- [ ] SQL injection prevention measures in place
+- [ ] XSS protection implemented
+- [ ] Authentication logic reviewed and tested
+- [ ] Authorization checks verified
+- [ ] Sensitive data handling reviewed
+- [ ] Error messages don't leak sensitive information
+- [ ] Rate limiting implemented where needed
+- [ ] Encryption used for sensitive data
+- [ ] Security headers configured properly
+```
+
+#### 3. Performance Audit
+**ANALYZE** performance characteristics:
+- Algorithmic complexity assessment
+- Memory usage analysis
+- Database query optimization
+- Network request optimization
+- Benchmark comparison with existing code
+
+#### 4. Architecture Alignment
+**VERIFY** consistency with system design:
+- Interface compatibility
+- Data flow consistency
+- Pattern adherence
+- Dependency management
+- Integration points validation
+
+#### 5. Human Approval
+**FINAL REVIEW** by senior developer:
+- Overall code quality assessment
+- Business logic validation
+- User experience considerations
+- Long-term maintainability evaluation
+
+## Context Management Best Practices
+
+### Managing AI Context Effectively
+
+#### Session Management
+- **CLEAR CONTEXT**: Use `/clear` command frequently to manage context
+- **FRESH STARTS**: Begin new sessions for unrelated tasks
+- **CONTEXT SIZE**: Monitor context size and restart when approaching limits
+- **FOCUSED SESSIONS**: Keep each session focused on a specific area
+
+#### Context Corruption Prevention
+- **SAVE FREQUENTLY**: Save work frequently to prevent loss
+- **INCREMENTAL APPROACH**: Make small, focused changes
+- **VALIDATION**: Regularly validate generated code
+- **DOCUMENTATION**: Document context decisions for future reference
+
+#### Effective Prompt Engineering
+
+**SET CONTEXT** clearly in every prompt:
+
+```
+You are a senior software engineer working on a Node.js e-commerce API.
+Architecture: RESTful API with Express.js, PostgreSQL database, Redis cache
+Patterns: Repository pattern, dependency injection, async/await
+Style: ES6+, functional programming preferred, comprehensive error handling
+Testing: Jest framework, minimum 85% coverage required
+```
+
+**SPECIFY TASK** with clear inputs, outputs, and constraints:
+
+```
+Task: Create user authentication middleware
+Input: HTTP request with Authorization header
+Output: Middleware function that validates JWT and adds user to req.user
+Constraints: 
+- Must handle token expiry gracefully
+- Rate limiting for failed attempts
+- Comprehensive logging for security events
+- Compatible with existing auth service
+```
+
+**REQUEST REASONING** for complex problems:
+
+```
+Please implement the solution using chain-of-thought reasoning:
+1. Analyze the requirements
+2. Consider security implications  
+3. Design the solution architecture
+4. Implement with error handling
+5. Add comprehensive testing
+6. Document assumptions and limitations
+```
+
+## Workflow Implementation Guidelines
+
+### qnew-qplan-qcode-qcheck-qgit Workflow
+
+#### qnew: New Task Initialization
+- Clear context and start fresh session
+- Define clear requirements and constraints
+- Set up development environment
+- Create task breakdown structure
+
+#### qplan: Planning Phase
+- Create detailed implementation plan
+- Identify dependencies and integration points
+- Plan testing strategy
+- Define success criteria and quality gates
+
+#### qcode: Implementation Phase
+- Follow progressive enhancement pattern
+- Implement with continuous validation
+- Maintain focus on current context
+- Document decisions and assumptions
+
+#### qcheck: Quality Validation
+- Run comprehensive test suite
+- Perform security validation
+- Check performance benchmarks
+- Validate architecture alignment
+
+#### qgit: Version Control
+- Create descriptive commit messages
+- Include AI assistance attribution
+- Document review completion
+- Tag releases appropriately
+
+### Continuous Quality Monitoring
+
+#### Development Metrics to Track
+- **AI EFFECTIVENESS**: Success rate >80%, intervention rate <20%
+- **CODE QUALITY**: Maintainability index >60, complexity <10
+- **DEVELOPMENT VELOCITY**: 25% improvement in time-to-market
+- **DEFECT RATE**: <5% escape rate for AI-generated code
+
+#### Quality Gate Enforcement
+```markdown
+## Before Code Merge Checklist
+- [ ] Progressive enhancement pattern followed
+- [ ] Multi-layer review completed
+- [ ] Security validation passed
+- [ ] Performance benchmarks met
+- [ ] Test coverage ≥85%
+- [ ] Documentation updated
+- [ ] Architecture alignment verified
+- [ ] Human approval obtained
+```
+
+## Emergency Response Protocols
+
+### Context Drift Detection
+**SIGNS** of context corruption:
+- Inconsistent coding patterns
+- Violation of established conventions
+- Decreased code quality
+- Repetitive or nonsensical suggestions
+
+**RESPONSE**:
+1. Immediately save current work
+2. Clear context and restart session
+3. Review last 3-5 generations for issues
+4. Document problematic context patterns
+
+### Quality Degradation Response
+**WHEN** output quality drops significantly:
+1. Stop generation immediately
+2. Review recent context for drift patterns
+3. Reset with fresh context and specific constraints
+4. Implement additional validation steps
+5. Document lessons learned

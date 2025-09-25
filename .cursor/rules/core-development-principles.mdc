@@ -1,0 +1,62 @@
+---
+description: Core development principles for AI-assisted development with architecture-first approach
+globs: ["**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.py", "**/*.java", "**/*.go", "**/*.php", "**/*.rb", "**/*.cs"]
+alwaysApply: true
+---
+
+# Core Development Principles
+
+## Evidence-Based Development
+
+**ALWAYS** validate AI suggestions against project requirements and architecture before implementation:
+
+- **NEVER** accept AI-generated code without thorough review
+- **MEASURE** performance impacts before accepting optimizations  
+- **DOCUMENT** all AI-assisted contributions with clear attribution
+- **VERIFY** that code aligns with existing patterns and conventions
+
+## Architecture-First Approach
+
+**HUMANS DECIDE** what and why - AI implements how:
+
+- **DEFINE** interfaces and data contracts before implementation
+- **MAINTAIN** clear abstraction layers and system boundaries
+- **USE** reference implementations and patterns from existing codebase
+- **ENSURE** new code follows established architectural decisions
+
+## Implementation Guidelines
+
+### Before Writing Code:
+1. Understand the existing system architecture
+2. Identify relevant patterns in the current codebase
+3. Define clear interfaces and contracts
+4. Consider scalability and maintainability implications
+
+### During Implementation:
+- Follow established coding conventions consistently
+- Maintain separation of concerns
+- Use dependency injection where appropriate
+- Implement proper error boundaries and handling
+
+### After Implementation:
+- Review generated code against architecture principles
+- Ensure code integrates seamlessly with existing systems
+- Validate that abstractions remain clean and logical
+- Document any architectural decisions or trade-offs made
+
+## Code Quality Principles
+
+- **PRIORITIZE** readability and maintainability over cleverness
+- **AVOID** over-engineering simple problems
+- **REFACTOR** generic AI solutions to match project-specific idioms
+- **MAINTAIN** consistent naming conventions throughout the codebase
+- **ENSURE** proper separation between business logic and infrastructure concerns
+
+## Integration Standards
+
+When integrating with existing systems:
+- Respect existing interfaces and contracts
+- Follow established data flow patterns
+- Maintain consistency with existing error handling strategies
+- Use existing utilities and helper functions where appropriate
+- Avoid duplicating functionality that already exists in the codebase

@@ -1,0 +1,229 @@
+---
+description: Comprehensive testing requirements and TDD practices for AI-generated code
+globs: ["**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.py", "**/*.java", "**/*.go", "**/*.php", "**/*.rb", "**/*.cs", "**/*.test.*", "**/*.spec.*"]
+alwaysApply: true
+---
+
+# Testing Requirements for AI-Generated Code
+
+## Coverage Minimums
+
+### Mandatory Coverage Thresholds
+- **85%** unit test coverage for all AI-generated code
+- **100%** coverage for security-critical paths
+- **MANDATORY** integration tests at system boundaries
+- **REQUIRED** performance tests for all endpoints
+- **ESSENTIAL** adversarial testing for input validation
+
+### Testing Strategy by Component Type
+
+#### Business Logic
+- **UNIT TESTS**: Test each function/method in isolation
+- **EDGE CASES**: Cover all boundary conditions and edge cases
+- **ERROR HANDLING**: Test all error conditions and recovery paths
+- **MOCKING**: Mock external dependencies appropriately
+
+#### API Endpoints
+- **REQUEST/RESPONSE**: Test all request/response combinations
+- **STATUS CODES**: Verify correct HTTP status codes
+- **ERROR HANDLING**: Test error responses and edge cases
+- **AUTHENTICATION**: Test auth requirements and permissions
+- **RATE LIMITING**: Test rate limiting behavior
+
+#### Database Operations
+- **CRUD OPERATIONS**: Test create, read, update, delete operations
+- **TRANSACTIONS**: Test transaction behavior and rollbacks
+- **CONSTRAINTS**: Test database constraints and validations
+- **PERFORMANCE**: Test query performance under load
+
+## Test-Driven Development with AI
+
+### TDD Workflow for AI-Assisted Development
+
+1. **GENERATE** comprehensive test cases first
+   - Define test scenarios covering happy path, edge cases, and error conditions
+   - Validate test scenarios and edge cases manually
+   - Ensure tests are specific, measurable, and verifiable
+
+2. **VALIDATE** test design
+   - Review test cases for completeness
+   - Ensure tests are independent and repeatable
+   - Verify tests follow project testing conventions
+
+3. **IMPLEMENT** features to pass failing tests
+   - Write minimal code to make tests pass
+   - Refactor while keeping tests green
+   - Add implementation details iteratively
+
+4. **REVIEW** implementation and coverage
+   - Verify all tests pass consistently
+   - Check coverage metrics meet requirements
+   - Review code quality and maintainability
+
+5. **REFACTOR** based on test feedback
+   - Improve code structure while maintaining test coverage
+   - Optimize performance where needed
+   - Update tests as implementation evolves
+
+### Test Categories
+
+#### Unit Tests
+**SCOPE**: Individual functions, methods, or classes in isolation
+
+```javascript
+// Example: Test individual function behavior
+describe('calculateTotal', () => {
+  it('should calculate total with tax correctly', () => {
+    const result = calculateTotal(100, 0.08);
+    expect(result).toBe(108);
+  });
+
+  it('should handle zero tax rate', () => {
+    const result = calculateTotal(100, 0);
+    expect(result).toBe(100);
+  });
+
+  it('should throw error for negative amounts', () => {
+    expect(() => calculateTotal(-100, 0.08)).toThrow();
+  });
+});
+```
+
+#### Integration Tests
+**SCOPE**: Multiple components working together
+
+- **API INTEGRATION**: Test API endpoints with real database
+- **SERVICE INTEGRATION**: Test service-to-service communication
+- **DATABASE INTEGRATION**: Test data persistence and retrieval
+- **EXTERNAL SERVICES**: Test integration with third-party services
+
+#### End-to-End Tests
+**SCOPE**: Complete user workflows and system behavior
+
+- **USER JOURNEYS**: Test complete user workflows
+- **CROSS-BROWSER**: Test across different browsers
+- **PERFORMANCE**: Test system performance under realistic loads
+- **SECURITY**: Test security measures and access controls
+
+#### Performance Tests
+**SCOPE**: System performance under various conditions
+
+- **LOAD TESTING**: Test with expected user load
+- **STRESS TESTING**: Test beyond expected capacity
+- **SPIKE TESTING**: Test sudden load increases
+- **VOLUME TESTING**: Test with large amounts of data
+
+## Testing Best Practices
+
+### Test Structure and Organization
+
+#### Test File Organization
+```
+src/
+  components/
+    Button/
+      Button.js
+      Button.test.js
+      Button.integration.test.js
+  services/
+    api/
+      userService.js
+      userService.test.js
+  __tests__/
+    integration/
+    e2e/
+```
+
+#### Test Naming Conventions
+- **DESCRIPTIVE**: Tests should clearly describe what they test
+- **CONSISTENT**: Follow consistent naming patterns
+- **READABLE**: Test names should be readable by non-technical stakeholders
+
+```javascript
+// Good: Descriptive test names
+describe('UserRegistration', () => {
+  it('should create new user with valid email and password', () => {});
+  it('should reject registration with invalid email format', () => {});
+  it('should require password to meet complexity requirements', () => {});
+});
+```
+
+### Test Data Management
+
+#### Test Data Strategy
+- **ISOLATED**: Each test should use independent test data
+- **PREDICTABLE**: Test data should be predictable and controlled
+- **CLEANUP**: Clean up test data after each test
+- **FIXTURES**: Use fixtures for complex test data setup
+
+#### Mocking and Stubbing
+- **EXTERNAL DEPENDENCIES**: Mock external APIs and services
+- **DATABASE**: Use in-memory databases for unit tests
+- **TIME**: Mock time-dependent functionality
+- **NETWORK**: Mock network requests for consistent testing
+
+### Adversarial Testing for Input Validation
+
+#### Security-Focused Test Cases
+- **SQL INJECTION**: Test with malicious SQL inputs
+- **XSS ATTACKS**: Test with script injection attempts
+- **BUFFER OVERFLOW**: Test with oversized inputs
+- **INVALID FORMATS**: Test with malformed data
+- **BOUNDARY CONDITIONS**: Test at data limits and boundaries
+
+```javascript
+describe('Input Validation Security Tests', () => {
+  const maliciousInputs = [
+    "'; DROP TABLE users; --",
+    "<script>alert('xss')</script>",
+    "../../../../etc/passwd",
+    "A".repeat(10000), // Very long string
+    null,
+    undefined,
+    {},
+    []
+  ];
+
+  maliciousInputs.forEach(input => {
+    it(`should safely handle malicious input: ${JSON.stringify(input)}`, () => {
+      expect(() => processUserInput(input)).not.toThrow();
+      // Additional security assertions
+    });
+  });
+});
+```
+
+## Test Quality and Maintenance
+
+### Test Quality Metrics
+- **RELIABILITY**: Tests should pass consistently
+- **SPEED**: Tests should execute quickly
+- **MAINTAINABILITY**: Tests should be easy to update
+- **COVERAGE**: Tests should provide meaningful coverage
+
+### Regular Test Maintenance
+- **REVIEW**: Regular review of test effectiveness
+- **REFACTOR**: Update tests as code evolves
+- **PERFORMANCE**: Monitor and optimize test execution time
+- **DEPENDENCIES**: Keep test dependencies updated
+
+### Continuous Integration Requirements
+- **ALL TESTS**: All tests must pass before merge
+- **COVERAGE**: Coverage thresholds must be met
+- **PERFORMANCE**: Performance tests must meet benchmarks
+- **SECURITY**: Security tests must pass validation
+
+## Testing Checklist for AI-Generated Code
+
+Before deploying any AI-generated code:
+
+- [ ] Unit tests written and passing (≥85% coverage)
+- [ ] Integration tests cover system boundaries
+- [ ] Security tests validate input handling
+- [ ] Performance tests meet benchmark requirements
+- [ ] Edge cases and error conditions tested
+- [ ] Test data cleanup implemented
+- [ ] Mocks and stubs properly configured
+- [ ] Tests are independent and repeatable
+- [ ] Test documentation is clear and complete
+- [ ] Continuous integration tests passing

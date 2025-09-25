@@ -1,0 +1,160 @@
+---
+description: Quality and performance standards for AI-generated code with specific metrics and benchmarks
+globs: ["**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.py", "**/*.java", "**/*.go", "**/*.php", "**/*.rb", "**/*.cs"]
+alwaysApply: true
+---
+
+# Quality & Performance Standards
+
+## Code Quality Requirements
+
+### Quality Metrics
+- **Cyclomatic Complexity**: Must be <10 for all functions
+- **Maintainability Index**: Must be >60
+- **Code Coverage**: Minimum 85% for AI-generated components
+- **Defect Escape Rate**: <5% for AI-generated code
+
+### Quality Standards
+
+**ACHIEVE** these minimum quality thresholds:
+
+- **ERROR HANDLING**: Implement comprehensive error handling for all edge cases
+- **CONVENTIONS**: Follow existing project conventions and patterns consistently
+- **SIMPLICITY**: Avoid over-engineering simple problems
+- **IDIOMS**: Refactor generic AI solutions to match project-specific idioms
+
+### Code Structure Guidelines
+
+#### Function Design
+- **SINGLE RESPONSIBILITY**: Each function should have one clear purpose
+- **PURE FUNCTIONS**: Prefer pure functions where possible
+- **PARAMETER LIMITS**: Maximum 5 parameters per function
+- **RETURN VALUES**: Consistent return type patterns
+- **NAMING**: Use clear, descriptive names that explain intent
+
+#### Class Design
+- **COHESION**: High cohesion within classes
+- **COUPLING**: Low coupling between classes
+- **INHERITANCE**: Favor composition over inheritance
+- **INTERFACES**: Define clear interfaces for external interactions
+
+#### Module Organization
+- **SEPARATION**: Clear separation of concerns
+- **DEPENDENCIES**: Minimal and explicit dependencies
+- **EXPORTS**: Export only what's necessary
+- **IMPORTS**: Group and organize imports logically
+
+## Performance Guidelines
+
+### Performance Requirements
+
+**PROFILE** and **BENCHMARK** all AI-generated code:
+
+- **API Response Times**: <200ms for standard endpoints
+- **Page Load Times**: <3s for complete page loads
+- **Memory Usage**: Efficient memory allocation and cleanup
+- **CPU Usage**: Optimize algorithmic complexity
+
+### Algorithmic Complexity
+
+**OPTIMIZE** for performance:
+
+- **PREFER**: O(n) algorithms over O(n²) when possible
+- **ANALYZE**: Time and space complexity for all algorithms
+- **BENCHMARK**: Compare against existing implementations
+- **PROFILE**: Identify and eliminate performance bottlenecks
+
+### Performance Best Practices
+
+#### Memory Management
+- **AVOID**: Memory leaks in long-running processes
+- **USE**: Object pooling for frequently created objects
+- **IMPLEMENT**: Proper garbage collection strategies
+- **MONITOR**: Memory usage patterns and growth
+
+#### Database Performance
+- **INDEX**: Ensure proper database indexing
+- **QUERIES**: Optimize query performance and avoid N+1 problems
+- **CONNECTIONS**: Use connection pooling appropriately
+- **CACHING**: Implement intelligent caching strategies
+
+#### Network Performance
+- **MINIMIZE**: API calls and network requests
+- **BATCH**: Multiple operations where possible
+- **COMPRESS**: Response data when appropriate
+- **CDN**: Use content delivery networks for static assets
+
+### Scalability Validation
+
+**VALIDATE** scalability under load conditions:
+
+- **LOAD TESTING**: Test with realistic user loads
+- **STRESS TESTING**: Identify breaking points
+- **CAPACITY PLANNING**: Plan for growth and scaling
+- **MONITORING**: Implement performance monitoring
+
+## Development Workflow Standards
+
+### Task Decomposition
+
+**BREAK DOWN** features effectively:
+
+- **SINGLE RESPONSIBILITY**: Components with single responsibility
+- **CONTEXT LIMITS**: 3-5 entities per generation session
+- **SESSION MANAGEMENT**: Restart sessions frequently to prevent context drift
+- **CONSTRAINTS**: Specify exact libraries, frameworks, and constraints
+
+### Progressive Enhancement Pattern
+
+Follow this development sequence:
+
+1. **BASIC FUNCTIONALITY**: Start with working basic functionality
+2. **ERROR HANDLING**: Add comprehensive error handling
+3. **SECURITY**: Implement security measures and input validation
+4. **PERFORMANCE**: Optimize performance bottlenecks
+5. **TESTING**: Write comprehensive tests (unit, integration, e2e)
+6. **REFACTORING**: Refactor for maintainability and clarity
+
+### Multi-Layer Review Process
+
+**IMPLEMENT** structured review process:
+
+1. **AI REVIEW**: Automated scanning for common issues
+2. **SECURITY CHECK**: Manual validation of auth, data handling, encryption
+3. **PERFORMANCE AUDIT**: Complexity analysis and benchmarking
+4. **ARCHITECTURE ALIGNMENT**: Verify consistency with system design
+5. **HUMAN APPROVAL**: Final review by senior developer
+
+## Quality Gates
+
+### Generation Phase Checklist
+- [ ] Input validation completeness verified
+- [ ] Requirement clarity confirmed
+- [ ] Template compliance checked
+- [ ] Existing patterns referenced
+
+### Review Phase Checklist
+- [ ] Automated vulnerability scanning completed
+- [ ] Cross-verification with multiple approaches
+- [ ] Pattern consistency validated
+- [ ] Performance implications assessed
+
+### Validation Phase Checklist
+- [ ] Test coverage verified (≥85%)
+- [ ] Performance benchmarks compared
+- [ ] Security compliance audited
+- [ ] Documentation updated
+
+## Continuous Improvement Metrics
+
+### Track These Metrics
+- **AI EFFECTIVENESS**: Success rate >80%, intervention frequency <20%
+- **DEVELOPMENT VELOCITY**: 25% time-to-market improvement target
+- **CODE QUALITY**: Maintain quality metrics within acceptable ranges
+- **BUG RATES**: Monitor defect rates in production
+
+### Regular Review Schedule
+- **WEEKLY**: Review AI-generated code patterns and quality
+- **MONTHLY**: Audit security vulnerabilities and performance
+- **QUARTERLY**: Update rules based on lessons learned
+- **ANNUALLY**: Comprehensive framework assessment and optimization
