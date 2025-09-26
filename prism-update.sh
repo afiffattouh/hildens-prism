@@ -30,9 +30,15 @@ PRISM_TEMPLATE_FILES=(
 
 # Cursor IDE integration files (optional)
 CURSOR_FILES=(
-    ".cursor/chat.mdc"
-    ".cursor/context.mdc"
-    ".cursor/prompts.mdc"
+    ".cursor/README.md"
+    ".cursor/rules/code-generation-workflow.mdc"
+    ".cursor/rules/core-development-principles.mdc"
+    ".cursor/rules/documentation-standards.mdc"
+    ".cursor/rules/emergency-protocols.mdc"
+    ".cursor/rules/prism-integration.mdc"
+    ".cursor/rules/quality-performance-standards.mdc"
+    ".cursor/rules/security-standards.mdc"
+    ".cursor/rules/testing-requirements.mdc"
 )
 
 # Files that should NEVER be updated (user's persistent context)
@@ -254,8 +260,8 @@ update_cursor_files() {
             local updated=0
             local failed=0
 
-            # Create .cursor directory if it doesn't exist
-            mkdir -p .cursor
+            # Create .cursor directory structure if it doesn't exist
+            mkdir -p .cursor/rules
 
             for file in "${CURSOR_FILES[@]}"; do
                 download_file "$file"
@@ -285,8 +291,8 @@ update_cursor_files() {
             local updated=0
             local failed=0
 
-            # Create .cursor directory
-            mkdir -p .cursor
+            # Create .cursor directory structure
+            mkdir -p .cursor/rules
 
             for file in "${CURSOR_FILES[@]}"; do
                 download_file "$file"
