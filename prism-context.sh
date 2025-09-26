@@ -159,12 +159,12 @@ prune_context() {
 # Export context for sharing
 export_context() {
     local format=${1:-markdown}
-    local output="claude_context_export_$(date +%Y%m%d).md"
+    local output="prism_context_export_$(date +%Y%m%d).md"
 
     echo -e "${YELLOW}Exporting context to $output...${NC}"
 
     cat > "$output" << EOF
-# Claude Context Export
+# PRISM Context Export
 **Exported**: $(date -Iseconds)
 **Project**: $(basename "$PWD")
 
@@ -184,7 +184,7 @@ EOF
 
 # Show context status
 status() {
-    echo -e "${YELLOW}Claude Context Status${NC}"
+    echo -e "${YELLOW}PRISM Context Status${NC}"
     echo "---"
     echo "Context Files:"
     ls -lh "$CONTEXT_DIR"/*.md 2>/dev/null | awk '{print $9 ": " $5}'
