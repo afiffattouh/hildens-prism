@@ -1,28 +1,35 @@
-# Cursor Rules Framework for AI-Assisted Development
+# Cursor Rules Framework for PRISM AI-Assisted Development
 
-This comprehensive framework provides a structured approach to AI-assisted development using Cursor IDE, ensuring code quality, security, and maintainability across all projects.
+This comprehensive framework integrates with the PRISM (Persistent Real-time Intelligent Security Management) system to provide structured AI-assisted development using Cursor IDE, ensuring code quality, security, and maintainability across all projects.
 
 ## Framework Overview
 
-The framework consists of 7 focused rule sets that work together to moderate and guide AI-assisted development:
+The framework consists of 8 focused rule sets that integrate with the PRISM system to moderate and guide AI-assisted development:
 
 ### 📋 Rule Sets
 
 | Rule File | Purpose | Applies To |
 |-----------|---------|------------|
-| `core-development-principles.mdc` | Architecture-first development and evidence-based decisions | All code files |
-| `security-standards.mdc` | Security requirements and OWASP Top 10 prevention | All code files + SQL |
+| `core-development-principles.mdc` | PRISM architecture-first development and evidence-based decisions | All code files + PRISM |
+| `security-standards.mdc` | PRISM security requirements and OWASP Top 10 prevention | All code files + SQL + PRISM |
 | `quality-performance-standards.mdc` | Code quality metrics and performance benchmarks | All code files |
 | `testing-requirements.mdc` | Test coverage minimums and TDD practices | All files including tests |
-| `documentation-standards.mdc` | Code documentation and commit message standards | All files + markdown |
-| `code-generation-workflow.mdc` | Structured AI-assisted development process | All code files |
-| `emergency-protocols.mdc` | Response procedures for quality/security issues | All files |
+| `documentation-standards.mdc` | PRISM documentation and commit message standards | All files + markdown + PRISM |
+| `code-generation-workflow.mdc` | PRISM structured AI-assisted development process | All code files + PRISM |
+| `emergency-protocols.mdc` | PRISM response procedures for quality/security/time-sync issues | All files + PRISM |
+| `prism-integration.mdc` | **NEW**: PRISM framework integration and context management | PRISM files + scripts |
 
 ## Key Features
 
+### 🧠 PRISM Integration
+- **Time Synchronization**: WebSearch for accurate UTC time on session start
+- **Persistent Context**: `.prism/` directory for cross-session knowledge retention
+- **Shell Integration**: `prism-context.sh` commands for context management
+- **Session Tracking**: Continuous session logging and archival
+
 ### 🛡️ Security-First Approach
-- **OWASP Top 10** vulnerability prevention
-- **Manual security reviews** for all authentication code
+- **OWASP Top 10** vulnerability prevention with PRISM context awareness
+- **Manual security reviews** for all authentication code (logged in `.prism/references/security-rules.md`)
 - **Input validation** and sanitization requirements
 - **45% vulnerability rate** awareness with mandatory review processes
 
@@ -46,29 +53,40 @@ The framework consists of 7 focused rule sets that work together to moderate and
 
 ## Getting Started
 
-### 1. Framework Installation
+### 1. PRISM + Cursor Framework Installation
 ```bash
-# Clone or copy the .cursor directory to your project root
-cp -r /path/to/cursor-framework/.cursor /your/project/root/
+# Copy both PRISM and Cursor frameworks to your project
+cp -r /path/to/framework/.cursor /your/project/root/
+cp -r /path/to/framework/.prism /your/project/root/
+cp /path/to/framework/PRISM.md /your/project/root/
+cp /path/to/framework/prism-context.sh /your/project/root/
+chmod +x /your/project/root/prism-context.sh
+
+# Or use the automated setup script
+./setup-new-project.sh /your/project/root/
 
 # Verify installation
 ls -la .cursor/rules/
+ls -la .prism/
+./prism-context.sh status
 ```
 
-### 2. Cursor Configuration
-1. Open your project in Cursor IDE
-2. Navigate to `Cursor Settings > Rules`
-3. Verify that project rules are detected and active
-4. Test with a simple code generation task
+### 2. PRISM + Cursor Configuration
+1. **Initialize PRISM**: Run `./prism-context.sh init` to set up context system
+2. **Open in Cursor**: Open your project in Cursor IDE
+3. **Verify Rules**: Navigate to `Cursor Settings > Rules` and verify project rules are active
+4. **Check Integration**: Verify PRISM integration with `./prism-context.sh status`
+5. **Time Sync**: Confirm time synchronization is working (check `.prism/.time_sync`)
+6. **Test Generation**: Test with a simple code generation task
 
-### 3. Workflow Integration
-Follow the **qnew-qplan-qcode-qcheck-qgit** workflow:
+### 3. PRISM Workflow Integration
+Follow the **PRISM-enhanced qnew-qplan-qcode-qcheck-qgit** workflow:
 
-- **qnew**: Clear context, start fresh session
-- **qplan**: Create detailed implementation plan
-- **qcode**: Follow progressive enhancement pattern
-- **qcheck**: Run quality validation
-- **qgit**: Commit with proper attribution
+- **qnew**: WebSearch time sync, load PRISM context, check session continuity
+- **qplan**: Review architecture/patterns from `.prism/context/`, update session plan
+- **qcode**: Log decisions with `prism-context.sh add`, update patterns, track session
+- **qcheck**: Validate against PRISM context, log findings, verify architecture alignment
+- **qgit**: Archive session with `prism-context.sh archive`, commit with PRISM attribution
 
 ## Progressive Enhancement Pattern
 
@@ -132,24 +150,39 @@ Every AI-generated code goes through:
 
 ## Usage Examples
 
-### Starting a New Feature
+### Starting a New Feature with PRISM
 ```
+PRISM Initialization:
+1. WebSearch: "current UTC time" (automatic)
+2. Load context from .prism/context/architecture.md
+3. Check previous decisions: ./prism-context.sh query "authentication"
+4. Update session: .prism/sessions/current.md
+
 Context: Senior developer working on Node.js e-commerce API
-Architecture: RESTful API, Express.js, PostgreSQL, Redis cache
+Architecture: RESTful API, Express.js, PostgreSQL, Redis cache (from .prism/context/)
 Task: Implement user authentication with JWT tokens
 Requirements: OWASP compliant, 85% test coverage, <200ms response time
-Constraints: Use existing auth patterns, bcrypt for passwords
+Constraints: Use patterns from .prism/context/patterns.md, bcrypt for passwords
+Previous Decisions: Check .prism/context/decisions.md for auth-related choices
 ```
 
-### Commit Message Format
+### PRISM Commit Message Format
 ```
 feat: Add JWT-based user authentication (AI-assisted)
 
 - Generated with: Claude Code v3.5.0
+- PRISM Session: 2024-01-15T14:30:00Z logged in .prism/sessions/history/
 - Reviewed by: Jane Smith
 - Modified: Added rate limiting and improved error messages
-- Security review: Completed - no issues found
+- Security review: Completed - logged in .prism/references/security-rules.md
 - Test coverage: 92% (exceeds 85% requirement)
+- Context updated: .prism/context/decisions.md, .prism/context/patterns.md
+
+PRISM Integration:
+- Architecture: Follows .prism/context/architecture.md patterns
+- Decisions: JWT choice logged in .prism/context/decisions.md
+- Security: Rules updated in .prism/references/security-rules.md
+- Time: WebSearch synchronized at session start
 
 AI-Tool: Claude Code
 Prompt: "Create secure JWT authentication with proper validation, 
@@ -160,11 +193,16 @@ Closes #123
 
 ## Customization
 
-### Project-Specific Rules
-Create additional rules in subdirectories:
+### PRISM + Project-Specific Rules
+Create additional rules and customize PRISM context:
 ```
 project/
   .cursor/rules/           # Global project rules
+  .prism/context/          # PRISM context files
+    architecture.md        # Customize for your architecture
+    patterns.md           # Add your code patterns
+    dependencies.md       # Track your tech stack
+    decisions.md          # Log technical decisions
   backend/
     .cursor/rules/         # Backend-specific rules
   frontend/
@@ -179,19 +217,41 @@ globs: ["**/components/**/*.jsx"]      # React components only
 globs: ["**/*.test.*", "**/*.spec.*"] # Test files only
 ```
 
-## Monitoring and Metrics
+## PRISM Monitoring and Metrics
 
 ### Track These KPIs
 - **AI Effectiveness**: >80% success rate, <20% intervention rate
-- **Development Velocity**: 25% time-to-market improvement
+- **Development Velocity**: 25% time-to-market improvement with PRISM context
 - **Code Quality**: Complexity <10, maintainability >60
 - **Bug Rates**: <5% defect escape rate for AI-generated code
+- **PRISM Context Accuracy**: How well context reflects project reality
+- **Session Continuity**: Effectiveness of session archival/restoration
+- **Time Sync Accuracy**: WebSearch vs system time drift monitoring
+
+### PRISM-Specific Commands
+```bash
+# Check system health
+./prism-context.sh status
+
+# Add decisions during development
+./prism-context.sh add decisions.md CRITICAL "auth,jwt" "JWT tokens expire after 24h"
+
+# Query existing context
+./prism-context.sh query "authentication"
+
+# Archive session when switching tasks
+./prism-context.sh archive
+
+# Export context for team sharing
+./prism-context.sh export
+```
 
 ### Regular Reviews
-- **Weekly**: Code pattern analysis
-- **Monthly**: Security and performance audit  
-- **Quarterly**: Rules updates based on lessons learned
-- **Annually**: Comprehensive framework assessment
+- **Daily**: Update `.prism/sessions/current.md`, check time sync
+- **Weekly**: Archive sessions with `./prism-context.sh archive`, code pattern analysis
+- **Monthly**: Security and performance audit, update `.prism/references/` files
+- **Quarterly**: Rules updates based on lessons learned, export context for team
+- **Annually**: Comprehensive framework assessment, prune old context
 
 ## Red Flags - When NOT to Use AI
 
@@ -204,11 +264,19 @@ globs: ["**/*.test.*", "**/*.spec.*"] # Test files only
 
 ## Support and Updates
 
-### Framework Maintenance
+### PRISM Framework Maintenance
 - Keep rules updated with latest security standards
 - Monitor industry best practices and incorporate changes
-- Regular team training on framework usage
-- Document lessons learned and update protocols
+- Regular team training on PRISM framework usage
+- Document lessons learned in `.prism/context/decisions.md`
+- Maintain time sync accuracy and context file health
+- Update setup scripts for new project types
+
+### PRISM Troubleshooting
+- **Time Sync Issues**: Check `.prism/.time_sync`, ensure WebSearch works
+- **Context Corruption**: Use `./prism-context.sh prune 0` and reinitialize
+- **Shell Script Issues**: Check permissions with `chmod +x prism-context.sh`
+- **Session Problems**: Archive current session and start fresh
 
 ### Getting Help
 - Review emergency protocols for immediate issues
@@ -218,8 +286,21 @@ globs: ["**/*.test.*", "**/*.spec.*"] # Test files only
 
 ---
 
-**Version**: 1.0  
-**Last Updated**: [Current Date]  
+**Version**: 2.0 (PRISM Integrated)  
+**Last Updated**: Check `.prism/.time_sync` for accurate timestamp  
 **Maintainer**: [Your Name/Team]  
+**PRISM Version**: 1.0.0  
 
-This framework is designed to evolve with your team's needs and industry best practices. Regular updates and team feedback are essential for maintaining its effectiveness.
+This integrated PRISM + Cursor framework is designed to evolve with your team's needs and industry best practices. The PRISM context system ensures persistent knowledge across sessions while Cursor rules provide real-time guidance. Regular updates and team feedback are essential for maintaining its effectiveness.
+
+### Quick Reference
+```bash
+# Setup new project with PRISM + Cursor
+./setup-new-project.sh /path/to/project
+
+# Daily workflow commands
+./prism-context.sh status           # Check system
+./prism-context.sh add [file] [pri] [tags] "[content]"  # Log decisions  
+./prism-context.sh query "[term]"   # Search context
+./prism-context.sh archive          # End session
+```

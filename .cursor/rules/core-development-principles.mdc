@@ -1,36 +1,45 @@
 ---
-description: Core development principles for AI-assisted development with architecture-first approach
-globs: ["**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.py", "**/*.java", "**/*.go", "**/*.php", "**/*.rb", "**/*.cs"]
+description: Core development principles for PRISM AI-assisted development with architecture-first approach
+globs: ["**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.py", "**/*.java", "**/*.go", "**/*.php", "**/*.rb", "**/*.cs", "**/*.sh", "**/PRISM.md", "**/.prism/**/*"]
 alwaysApply: true
 ---
 
 # Core Development Principles
 
+## PRISM Framework Integration
+
+**LEVERAGE** the PRISM (Persistent Real-time Intelligent Security Management) framework:
+
+- **CONTEXT MANAGEMENT**: Use `.prism/` directory for persistent knowledge across sessions
+- **TIME SYNC**: Initialize sessions with WebSearch for accurate UTC time synchronization
+- **SHELL INTEGRATION**: Utilize `prism-context.sh` commands for context management
+- **PROGRESSIVE ENHANCEMENT**: Follow 6-phase development pattern (Basic → Secure → Optimize → Test → Refactor)
+
 ## Evidence-Based Development
 
-**ALWAYS** validate AI suggestions against project requirements and architecture before implementation:
+**ALWAYS** validate AI suggestions against project requirements and PRISM context:
 
-- **NEVER** accept AI-generated code without thorough review
+- **NEVER** accept AI-generated code without thorough review (45% vulnerability rate)
 - **MEASURE** performance impacts before accepting optimizations  
-- **DOCUMENT** all AI-assisted contributions with clear attribution
-- **VERIFY** that code aligns with existing patterns and conventions
+- **DOCUMENT** all AI-assisted contributions in `.prism/context/decisions.md`
+- **VERIFY** that code aligns with patterns in `.prism/context/patterns.md`
 
 ## Architecture-First Approach
 
-**HUMANS DECIDE** what and why - AI implements how:
+**HUMANS DECIDE** what and why - AI implements how within PRISM context:
 
-- **DEFINE** interfaces and data contracts before implementation
-- **MAINTAIN** clear abstraction layers and system boundaries
-- **USE** reference implementations and patterns from existing codebase
-- **ENSURE** new code follows established architectural decisions
+- **DEFINE** interfaces and data contracts in `.prism/references/api-contracts.yaml`
+- **MAINTAIN** system architecture documentation in `.prism/context/architecture.md`
+- **USE** reference implementations and patterns from `.prism/context/patterns.md`
+- **ENSURE** new code follows decisions logged in `.prism/context/decisions.md`
 
 ## Implementation Guidelines
 
 ### Before Writing Code:
-1. Understand the existing system architecture
-2. Identify relevant patterns in the current codebase
-3. Define clear interfaces and contracts
-4. Consider scalability and maintainability implications
+1. **SYNC TIME**: WebSearch "current UTC time" and update `.prism/.time_sync`
+2. **LOAD CONTEXT**: Read `.prism/context/architecture.md` and relevant patterns
+3. **CHECK DECISIONS**: Review `.prism/context/decisions.md` for existing choices
+4. **VALIDATE DEPENDENCIES**: Verify `.prism/context/dependencies.md` alignment
 
 ### During Implementation:
 - Follow established coding conventions consistently
@@ -39,10 +48,10 @@ alwaysApply: true
 - Implement proper error boundaries and handling
 
 ### After Implementation:
-- Review generated code against architecture principles
-- Ensure code integrates seamlessly with existing systems
-- Validate that abstractions remain clean and logical
-- Document any architectural decisions or trade-offs made
+- **UPDATE CONTEXT**: Add decisions to `.prism/context/decisions.md`
+- **DOCUMENT PATTERNS**: Update `.prism/context/patterns.md` with new patterns
+- **LOG SESSION**: Update `.prism/sessions/current.md` with key activities
+- **ARCHIVE WHEN COMPLETE**: Use `./prism-context.sh archive` to save session
 
 ## Code Quality Principles
 

@@ -1,6 +1,6 @@
 ---
-description: Security standards for AI-generated code with focus on OWASP Top 10 prevention
-globs: ["**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.py", "**/*.java", "**/*.go", "**/*.php", "**/*.rb", "**/*.cs", "**/*.sql"]
+description: PRISM security standards for AI-generated code with OWASP Top 10 prevention and context-aware security
+globs: ["**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.py", "**/*.java", "**/*.go", "**/*.php", "**/*.rb", "**/*.cs", "**/*.sql", "**/.prism/**/*", "**/prism-context.sh"]
 alwaysApply: true
 ---
 
@@ -8,7 +8,7 @@ alwaysApply: true
 
 ## Critical Security Requirements
 
-⚠️ **IMPORTANT**: 45% of AI-generated code contains security vulnerabilities. Every security-related implementation MUST undergo manual review.
+⚠️ **PRISM SECURITY ALERT**: 45% of AI-generated code contains security vulnerabilities. Every security-related implementation MUST undergo manual review and be documented in `.prism/references/security-rules.md`.
 
 ### Input Validation & Sanitization
 
@@ -110,23 +110,35 @@ alwaysApply: true
 - **IMPLEMENT** data retention policies
 - **SECURE** data transmission with proper TLS configuration
 
-### Security Review Checklist
+### PRISM Security Review Checklist
 
 Before deploying any AI-generated security code:
 
 - [ ] Manual code review by security-aware developer
+- [ ] Security rules documented in `.prism/references/security-rules.md`
 - [ ] Automated security scanning completed
 - [ ] Input validation implemented and tested
 - [ ] Authentication/authorization logic verified
 - [ ] Error handling reviewed for information leaks
 - [ ] Dependencies checked for known vulnerabilities
 - [ ] Security tests written and passing
+- [ ] Context logged: `./prism-context.sh add security-rules.md CRITICAL "security,review" "[security findings]"`
+- [ ] Time-stamped security review logged in `.prism/sessions/current.md`
 
 ## Red Flags - When NOT to Use AI
 
-**NEVER** use AI for:
+**NEVER** use AI for (log these decisions in `.prism/context/decisions.md`):
 - **Cryptographic implementations** - Use established libraries only
 - **Financial calculations** requiring precision
 - **Regulatory compliance code** - Requires legal review
 - **Safety-critical systems** - Requires specialized expertise
 - **PII handling** without immediate human review
+- **Time-critical security functions** - Use PRISM time sync for accuracy
+
+### PRISM Security Integration
+
+**CONTEXT-AWARE SECURITY**:
+- Load security rules from `.prism/references/security-rules.md` before implementation
+- Update security patterns in `.prism/context/patterns.md` after security reviews
+- Log all security decisions with: `./prism-context.sh add decisions.md CRITICAL "security" "[decision details]"`
+- Archive security sessions: `./prism-context.sh archive` after critical security work

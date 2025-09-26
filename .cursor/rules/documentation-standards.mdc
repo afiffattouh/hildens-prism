@@ -1,6 +1,6 @@
 ---
-description: Documentation standards for AI-generated code including comments, commit messages, and API documentation
-globs: ["**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.py", "**/*.java", "**/*.go", "**/*.php", "**/*.rb", "**/*.cs", "**/*.md", "**/*.mdx"]
+description: PRISM documentation standards for AI-generated code including context management, commit messages, and setup documentation
+globs: ["**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.py", "**/*.java", "**/*.go", "**/*.php", "**/*.rb", "**/*.cs", "**/*.md", "**/*.mdx", "**/.prism/**/*", "**/prism-context.sh", "**/setup-new-project.sh"]
 alwaysApply: true
 ---
 
@@ -49,9 +49,9 @@ for (let i = 0; i < items.length; i++) {
 }
 ```
 
-#### AI-Specific Documentation Requirements
+#### PRISM AI-Specific Documentation Requirements
 
-**ANNOTATE** AI assumptions and limitations:
+**ANNOTATE** AI assumptions and limitations with PRISM context:
 
 ```python
 def analyze_user_sentiment(text):
@@ -59,6 +59,9 @@ def analyze_user_sentiment(text):
     Analyzes user sentiment using AI-generated logic.
     
     AI-Generated: This function was generated using Claude Code v3.5
+    PRISM Context: Decision logged in .prism/context/decisions.md
+    Session: Tracked in .prism/sessions/current.md
+    
     Assumptions: 
     - Input text is in English
     - Text length is under 10,000 characters
@@ -73,6 +76,10 @@ def analyze_user_sentiment(text):
     - TextBlob library (rejected: insufficient accuracy)
     - VADER sentiment (rejected: not suitable for long text)
     - Custom trained model (rejected: resource constraints)
+    
+    PRISM Integration:
+    - Log usage patterns: ./prism-context.sh add patterns.md MEDIUM "ml,sentiment" "[pattern details]"
+    - Update domain knowledge: .prism/context/domain.md
     """
     # Implementation here...
 ```
@@ -162,18 +169,26 @@ async function processPayment(paymentData: PaymentRequest, user: User, options?:
 
 ## Commit Message Standards
 
-### AI-Assisted Development Commit Format
+### PRISM AI-Assisted Development Commit Format
 
-**USE** this standardized commit format for AI-generated code:
+**USE** this standardized PRISM commit format for AI-generated code:
 
 ```
 feat: Add user authentication with JWT tokens (AI-assisted)
 
 - Generated with: Claude Code v3.5.0
+- PRISM Session: [session_timestamp] - logged in .prism/sessions/history/
 - Reviewed by: Jane Smith
 - Modified: Added rate limiting and improved error messages
 - Security review: Completed - no issues found
 - Test coverage: 92% (exceeds 85% requirement)
+- Context updated: .prism/context/decisions.md, .prism/context/patterns.md
+
+PRISM Integration:
+- Architecture: Follows patterns in .prism/context/architecture.md
+- Decisions: JWT choice logged in .prism/context/decisions.md
+- Security: Rules updated in .prism/references/security-rules.md
+- Time: Synchronized via WebSearch at session start
 
 AI-Tool: Claude Code
 Prompt: "Create secure JWT-based authentication system with proper 
@@ -251,11 +266,66 @@ Added comprehensive memory usage tests and monitoring.
 Fixes #298
 ```
 
+## PRISM Setup and Framework Documentation
+
+### Project Setup Documentation
+
+**MAINTAIN** setup documentation for PRISM framework:
+
+#### Setup Script Documentation
+```bash
+# Document in project README or setup guide
+## PRISM Framework Setup
+
+### Automated Setup
+```bash
+# For new projects
+./setup-new-project.sh /path/to/new/project
+
+# For existing projects  
+cp PRISM.md .
+cp prism-context.sh .
+chmod +x prism-context.sh
+cp -r .prism .
+./prism-context.sh init
+```
+
+### Manual Setup Steps
+1. Copy framework files (PRISM.md, prism-context.sh, .prism/)
+2. Initialize context system: `./prism-context.sh init`
+3. Customize .prism/context/ files for your project
+4. Verify setup: `./prism-context.sh status`
+```
+
+#### Framework Integration Guide
+**DOCUMENT** PRISM integration in project documentation:
+
+```markdown
+## AI-Assisted Development with PRISM
+
+### Session Management
+- Time sync: Automatic WebSearch for UTC time on session start
+- Context loading: Automatic loading from .prism/context/
+- Session tracking: Active session logged in .prism/sessions/current.md
+- Archive: Use `./prism-context.sh archive` between major tasks
+
+### Context Commands
+- Check status: `./prism-context.sh status`
+- Add decisions: `./prism-context.sh add decisions.md CRITICAL "tag" "description"`
+- Query context: `./prism-context.sh query "search term"`
+- Export for team: `./prism-context.sh export`
+
+### Framework Structure
+- .prism/context/ - Persistent development context
+- .prism/sessions/ - Session history and current state
+- .prism/references/ - API contracts and specifications
+```
+
 ## Architecture Decision Records (ADRs)
 
-### AI-Assisted Architecture Decisions
+### PRISM AI-Assisted Architecture Decisions
 
-**DOCUMENT** significant architectural decisions made with AI assistance:
+**DOCUMENT** significant architectural decisions in both ADRs and PRISM context:
 
 ```markdown
 # ADR-015: API Rate Limiting Implementation
@@ -310,28 +380,44 @@ Implement sliding window rate limiting using Redis with the following characteri
 - [ ] Consider implementing rate limit bypass for trusted partners
 ```
 
-## Documentation Maintenance
+## PRISM Documentation Maintenance
 
 ### Regular Review Process
 
-**MAINTAIN** documentation quality through regular reviews:
+**MAINTAIN** documentation quality through regular PRISM-integrated reviews:
 
-- **WEEKLY**: Review and update code comments for recent changes
-- **MONTHLY**: Audit API documentation for accuracy and completeness  
-- **QUARTERLY**: Review ADRs and update architectural decisions
-- **ANNUALLY**: Comprehensive documentation audit and improvement
+- **DAILY**: Update `.prism/sessions/current.md` with session progress
+- **WEEKLY**: Review and update code comments, archive sessions with `./prism-context.sh archive`
+- **MONTHLY**: Audit API documentation, update `.prism/references/` files
+- **QUARTERLY**: Review ADRs, update `.prism/context/architecture.md` and patterns
+- **ANNUALLY**: Comprehensive documentation audit, export context with `./prism-context.sh export`
 
-### Documentation Quality Checklist
+### PRISM Context File Maintenance
+
+**KEEP CONTEXT FILES CURRENT**:
+
+```bash
+# Regular context maintenance commands
+./prism-context.sh status              # Check system health
+./prism-context.sh query "outdated"    # Find stale entries
+./prism-context.sh prune 30            # Remove context older than 30 days
+./prism-context.sh export              # Create team documentation
+```
+
+### PRISM Documentation Quality Checklist
 
 Before finalizing any AI-generated code:
 
-- [ ] Complex logic is properly commented
-- [ ] Function/method documentation is complete
-- [ ] API endpoints are fully documented
-- [ ] Commit messages follow standard format
-- [ ] AI assistance is properly attributed
-- [ ] Security reviews are documented
-- [ ] Test coverage is noted
-- [ ] Alternative approaches are mentioned
-- [ ] Assumptions and limitations are clear
-- [ ] Documentation is up-to-date with code changes
+- [ ] Complex logic is properly commented with PRISM context references
+- [ ] Function/method documentation is complete with AI attribution
+- [ ] API endpoints are documented in `.prism/references/api-contracts.yaml`
+- [ ] Commit messages follow PRISM format with context references
+- [ ] AI assistance properly attributed with session tracking
+- [ ] Security reviews documented in `.prism/references/security-rules.md`
+- [ ] Test coverage noted and logged in session
+- [ ] Alternative approaches mentioned and logged in context
+- [ ] Assumptions and limitations clear with PRISM context
+- [ ] PRISM context files updated: decisions.md, patterns.md, architecture.md
+- [ ] Session archived: `./prism-context.sh archive` when complete
+- [ ] Setup documentation includes PRISM framework instructions
+- [ ] Time synchronization working (check `.prism/.time_sync`)

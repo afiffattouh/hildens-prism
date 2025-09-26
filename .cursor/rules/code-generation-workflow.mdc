@@ -1,10 +1,34 @@
 ---
-description: AI-assisted code generation workflow with structured development process and quality gates
-globs: ["**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.py", "**/*.java", "**/*.go", "**/*.php", "**/*.rb", "**/*.cs"]
+description: PRISM AI-assisted code generation workflow with structured development process and context management
+globs: ["**/*.js", "**/*.ts", "**/*.jsx", "**/*.tsx", "**/*.py", "**/*.java", "**/*.go", "**/*.php", "**/*.rb", "**/*.cs", "**/.prism/**/*", "**/prism-context.sh", "**/setup-new-project.sh"]
 alwaysApply: true
 ---
 
-# AI-Assisted Code Generation Workflow
+# PRISM AI-Assisted Code Generation Workflow
+
+## PRISM Initialization Protocol
+
+### Session Startup (Automatic)
+```yaml
+initialization_sequence:
+  1_time_sync:
+    action: WebSearch "current UTC time"
+    validate: Compare with system time
+    alert: If drift >5 minutes
+    log: .prism/.time_sync
+  
+  2_context_load:
+    check: .prism/index.yaml exists
+    load: CRITICAL priority items from .prism/context/
+    restore: .prism/sessions/current.md
+    verify: Dependencies in .prism/context/dependencies.md
+  
+  3_session_start:
+    timestamp: Use synchronized time
+    context: Load relevant patterns from .prism/context/patterns.md
+    history: Archive previous session if exists
+    ready: Signal initialization complete
+```
 
 ## Development Workflow Standards
 
@@ -218,21 +242,41 @@ async function registerUser(email, password, req) {
 - User experience considerations
 - Long-term maintainability evaluation
 
-## Context Management Best Practices
+## PRISM Context Management Best Practices
 
-### Managing AI Context Effectively
+### Managing AI Context with PRISM
 
 #### Session Management
-- **CLEAR CONTEXT**: Use `/clear` command frequently to manage context
-- **FRESH STARTS**: Begin new sessions for unrelated tasks
-- **CONTEXT SIZE**: Monitor context size and restart when approaching limits
-- **FOCUSED SESSIONS**: Keep each session focused on a specific area
+- **PRISM INITIALIZATION**: Every session starts with time sync and context load
+- **CONTEXT PERSISTENCE**: Use `.prism/sessions/current.md` for session continuity
+- **FRESH STARTS**: Use `./prism-context.sh archive` before switching major tasks
+- **FOCUSED SESSIONS**: Limit each session to single feature/component (3-5 entities max)
 
-#### Context Corruption Prevention
-- **SAVE FREQUENTLY**: Save work frequently to prevent loss
-- **INCREMENTAL APPROACH**: Make small, focused changes
-- **VALIDATION**: Regularly validate generated code
-- **DOCUMENTATION**: Document context decisions for future reference
+#### PRISM Context Corruption Prevention
+- **ARCHIVE FREQUENTLY**: Use `./prism-context.sh archive` every 5-10 operations
+- **INCREMENTAL UPDATES**: Update `.prism/context/` files incrementally
+- **VALIDATION LOGGING**: Log validation results in `.prism/sessions/current.md`
+- **PERSISTENT DOCUMENTATION**: All decisions logged in `.prism/context/decisions.md`
+
+### PRISM Shell Commands Integration
+
+#### Essential Commands During Development
+```bash
+# Check PRISM system status
+./prism-context.sh status
+
+# Add important decisions
+./prism-context.sh add decisions.md CRITICAL "auth,security" "Chose JWT for stateless auth"
+
+# Query existing context
+./prism-context.sh query "authentication"
+
+# Archive current session
+./prism-context.sh archive
+
+# Export context for team sharing
+./prism-context.sh export
+```
 
 #### Effective Prompt Engineering
 
@@ -273,37 +317,37 @@ Please implement the solution using chain-of-thought reasoning:
 
 ## Workflow Implementation Guidelines
 
-### qnew-qplan-qcode-qcheck-qgit Workflow
+### PRISM Integrated Workflow: qnew-qplan-qcode-qcheck-qgit
 
 #### qnew: New Task Initialization
-- Clear context and start fresh session
-- Define clear requirements and constraints
-- Set up development environment
-- Create task breakdown structure
+- **TIME SYNC**: WebSearch "current UTC time" and log to `.prism/.time_sync`
+- **LOAD CONTEXT**: Execute `./prism-context.sh status` to verify system
+- **CHECK SESSION**: Review `.prism/sessions/current.md` for continuity
+- **DEFINE TASK**: Update `.prism/sessions/current.md` with new task details
 
 #### qplan: Planning Phase
-- Create detailed implementation plan
-- Identify dependencies and integration points
-- Plan testing strategy
-- Define success criteria and quality gates
+- **ARCHITECTURE REVIEW**: Load `.prism/context/architecture.md` for system understanding
+- **PATTERN CHECK**: Reference `.prism/context/patterns.md` for established patterns
+- **DECISION QUERY**: Use `./prism-context.sh query "[technology]"` to find related decisions
+- **PLAN DOCUMENTATION**: Update `.prism/sessions/current.md` with implementation plan
 
 #### qcode: Implementation Phase
-- Follow progressive enhancement pattern
-- Implement with continuous validation
-- Maintain focus on current context
-- Document decisions and assumptions
+- **PROGRESSIVE ENHANCEMENT**: Follow 6-phase pattern (Basic → Secure → Optimize → Test → Refactor)
+- **CONTEXT TRACKING**: Log important decisions with `./prism-context.sh add decisions.md HIGH "tag1,tag2" "[decision]"`
+- **PATTERN UPDATES**: Update `.prism/context/patterns.md` when new patterns emerge
+- **SESSION LOGGING**: Continuously update `.prism/sessions/current.md`
 
 #### qcheck: Quality Validation
-- Run comprehensive test suite
-- Perform security validation
-- Check performance benchmarks
-- Validate architecture alignment
+- **SECURITY SCAN**: Log findings in `.prism/references/security-rules.md`
+- **PERFORMANCE VALIDATION**: Document benchmarks in `.prism/sessions/current.md`
+- **ARCHITECTURE ALIGNMENT**: Verify against `.prism/context/architecture.md`
+- **DEPENDENCY CHECK**: Validate against `.prism/context/dependencies.md`
 
-#### qgit: Version Control
-- Create descriptive commit messages
-- Include AI assistance attribution
-- Document review completion
-- Tag releases appropriately
+#### qgit: Version Control & Session Archive
+- **COMMIT WITH ATTRIBUTION**: Include PRISM context references in commit messages
+- **SESSION ARCHIVE**: Execute `./prism-context.sh archive` to save session history
+- **CONTEXT UPDATE**: Update `.prism/context/` files with new knowledge
+- **TIME STAMP**: All logs use synchronized PRISM time
 
 ### Continuous Quality Monitoring
 

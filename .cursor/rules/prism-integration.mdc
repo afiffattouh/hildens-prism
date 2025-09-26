@@ -1,0 +1,307 @@
+---
+description: PRISM framework integration rules for persistent context management and time synchronization
+globs: ["**/.prism/**/*", "**/prism-context.sh", "**/setup-new-project.sh", "**/PRISM.md", "**/*.md"]
+alwaysApply: true
+---
+
+# PRISM Framework Integration
+
+## Overview
+
+The PRISM (Persistent Real-time Intelligent Security Management) framework provides persistent context management, time synchronization, and intelligent session handling for AI-assisted development.
+
+## Initialization Protocol
+
+### Session Startup Requirements
+
+**AUTOMATIC EXECUTION** on every session start:
+
+```yaml
+prism_initialization:
+  1_time_sync:
+    action: WebSearch "current UTC time"
+    validate: Compare with system time
+    alert: If drift >5 minutes
+    log: .prism/.time_sync
+    fallback: Use system time with warning
+  
+  2_context_load:
+    check: .prism/index.yaml exists
+    load: CRITICAL priority items
+    restore: .prism/sessions/current.md
+    validate: All context files readable
+  
+  3_environment_check:
+    project: Detect language/framework
+    git: Check repository status
+    dependencies: Verify .prism/context/dependencies.md
+    permissions: Validate file system access
+  
+  4_session_ready:
+    timestamp: Use synchronized time
+    context: Load patterns from .prism/context/patterns.md
+    ready: Signal initialization complete
+```
+
+## Context Management Commands
+
+### Essential PRISM Commands
+
+**INTEGRATE** these commands into development workflow:
+
+```bash
+# System status and health check
+./prism-context.sh status
+
+# Add critical decisions
+./prism-context.sh add decisions.md CRITICAL "architecture,database" "Chose PostgreSQL for ACID compliance"
+
+# Add patterns discovered during development
+./prism-context.sh add patterns.md HIGH "auth,jwt" "JWT tokens expire after 24h with refresh rotation"
+
+# Query existing context for related work
+./prism-context.sh query "authentication"
+./prism-context.sh query "database"
+./prism-context.sh query "security"
+
+# Archive completed sessions
+./prism-context.sh archive
+
+# Clean old context (30+ days)
+./prism-context.sh prune
+
+# Export for team sharing
+./prism-context.sh export
+```
+
+## File Structure Integration
+
+### PRISM Directory Structure
+```
+project/
+├── PRISM.md                    # Framework configuration
+├── prism-context.sh            # Context management script
+├── setup-new-project.sh       # New project setup automation
+└── .prism/                     # Persistent context system
+    ├── context/
+    │   ├── architecture.md     # System design decisions
+    │   ├── patterns.md         # Code patterns & conventions  
+    │   ├── decisions.md        # Technical decisions log
+    │   ├── dependencies.md     # External libraries & versions
+    │   └── domain.md          # Business logic & rules
+    ├── sessions/
+    │   ├── current.md         # Active session context
+    │   └── history/           # Archived sessions
+    ├── references/
+    │   ├── api-contracts.yaml # API specifications
+    │   ├── data-models.json   # Schema definitions
+    │   └── security-rules.md  # Security requirements
+    ├── .time_sync             # Time synchronization log
+    └── index.yaml             # Context retrieval index
+```
+
+### File Update Protocols
+
+**MAINTAIN** context files throughout development:
+
+#### During Architecture Decisions
+```bash
+# Log architectural choices
+./prism-context.sh add architecture.md CRITICAL "microservices,api" "Implementing microservices with REST API gateway"
+```
+
+#### During Pattern Development
+```bash
+# Document new patterns
+./prism-context.sh add patterns.md HIGH "react,hooks" "Custom hooks pattern: useApiCall for data fetching"
+```
+
+#### During Dependency Changes
+```bash
+# Track dependency decisions
+./prism-context.sh add dependencies.md MEDIUM "security,auth" "Added bcrypt v5.1.0 for password hashing"
+```
+
+#### During Security Implementation
+```bash
+# Critical security decisions
+./prism-context.sh add security-rules.md CRITICAL "owasp,validation" "All API endpoints require input validation middleware"
+```
+
+## Context-Aware Development
+
+### Pre-Implementation Context Loading
+
+**BEFORE** generating any code:
+
+1. **LOAD ARCHITECTURE**: Review `.prism/context/architecture.md`
+2. **CHECK PATTERNS**: Reference `.prism/context/patterns.md`  
+3. **REVIEW DECISIONS**: Query `.prism/context/decisions.md`
+4. **VALIDATE DEPENDENCIES**: Check `.prism/context/dependencies.md`
+5. **DOMAIN KNOWLEDGE**: Read `.prism/context/domain.md` for business rules
+
+### During Implementation Context Updates
+
+**WHILE** implementing features:
+
+1. **LOG DECISIONS**: Add significant choices to appropriate context files
+2. **UPDATE PATTERNS**: Document new patterns as they emerge
+3. **TRACK SESSION**: Update `.prism/sessions/current.md` with progress
+4. **SECURITY NOTES**: Add security considerations to `.prism/references/security-rules.md`
+
+### Post-Implementation Context Archival
+
+**AFTER** completing features:
+
+1. **ARCHIVE SESSION**: Execute `./prism-context.sh archive`
+2. **UPDATE INDEX**: Ensure `.prism/index.yaml` reflects new content
+3. **PRUNE IF NEEDED**: Clean old context with `./prism-context.sh prune`
+4. **EXPORT FOR TEAM**: Share context with `./prism-context.sh export`
+
+## Time Synchronization Integration
+
+### Time-Critical Operations
+
+**USE PRISM TIME SYNC** for:
+
+- **SESSION TIMESTAMPS**: All session logs use web-synchronized time
+- **DECISION LOGGING**: Architecture and security decisions time-stamped accurately
+- **AUDIT TRAILS**: Compliance and security event logging
+- **SESSION ARCHIVAL**: Historical context with accurate timestamps
+
+### Time Sync Error Handling
+
+**WHEN TIME SYNC FAILS**:
+
+```bash
+# Emergency time sync procedure
+echo "Emergency: WebSearch time sync failed" >> .prism/.time_sync
+echo "Using system time: $(date -u)" >> .prism/.time_sync
+echo "Verify time accuracy manually" >> .prism/.time_sync
+```
+
+## Setup Script Integration
+
+### New Project Initialization
+
+**USE** automated setup for new projects:
+
+```bash
+# Automated PRISM setup for new projects
+./setup-new-project.sh /path/to/new/project
+
+# Manual setup steps:
+1. Copy PRISM.md to project root
+2. Copy prism-context.sh and make executable  
+3. Copy .prism/ directory structure
+4. Run ./prism-context.sh init
+5. Customize .prism/context/ files for project
+```
+
+### Project Type Customization
+
+**FRAMEWORK-SPECIFIC** setups supported:
+
+- **React**: Component patterns, hooks, state management
+- **Node.js/Express**: API patterns, middleware, authentication
+- **Python**: PEP 8, type hints, pytest patterns
+- **Generic**: Universal patterns and best practices
+
+## Multi-Agent Workflow Integration
+
+### PRISM-Aware Agent Coordination
+
+**LEVERAGE** PRISM context for multi-agent workflows:
+
+1. **Requirements Agent**: Loads domain knowledge from `.prism/context/domain.md`
+2. **Architecture Agent**: References `.prism/context/architecture.md`
+3. **Security Agent**: Applies rules from `.prism/references/security-rules.md`
+4. **Implementation Agent**: Follows patterns in `.prism/context/patterns.md`
+5. **Testing Agent**: Uses test patterns and coverage requirements
+
+### Context Sharing Between Agents
+
+**ENSURE** all agents access shared PRISM context:
+
+- **READ PERMISSIONS**: All agents read from `.prism/context/`
+- **WRITE COORDINATION**: Agents update context through `prism-context.sh`
+- **TIME CONSISTENCY**: All agents use synchronized PRISM time
+- **SESSION TRACKING**: Agent activities logged in `.prism/sessions/current.md`
+
+## Quality Gates Integration
+
+### PRISM-Enhanced Quality Checks
+
+**VALIDATE** against PRISM context:
+
+- **ARCHITECTURE ALIGNMENT**: Code matches `.prism/context/architecture.md`
+- **PATTERN CONSISTENCY**: Follows `.prism/context/patterns.md`
+- **SECURITY COMPLIANCE**: Meets `.prism/references/security-rules.md`
+- **DEPENDENCY COMPATIBILITY**: Aligns with `.prism/context/dependencies.md`
+
+### Quality Metrics with PRISM
+
+**TRACK** enhanced metrics:
+
+- **CONTEXT ACCURACY**: How well context reflects reality
+- **DECISION TRACEABILITY**: Ability to trace decisions through context
+- **SESSION CONTINUITY**: Effectiveness of session archival/restoration
+- **TIME ACCURACY**: Precision of synchronized timestamps
+
+## Troubleshooting PRISM Integration
+
+### Common Issues
+
+#### Context File Corruption
+```bash
+# Backup and reinitialize
+cp -r .prism .prism_backup_$(date +%Y%m%d)
+./prism-context.sh init
+```
+
+#### Shell Script Permissions
+```bash
+# Fix executable permissions
+chmod +x prism-context.sh
+chmod +x setup-new-project.sh
+```
+
+#### Time Sync Failures
+```bash
+# Manual time sync with warning
+echo "Manual sync: $(date -u)" >> .prism/.time_sync
+echo "Warning: Web time sync failed" >> .prism/sessions/current.md
+```
+
+#### Context Query Issues
+```bash
+# Rebuild context index
+./prism-context.sh prune 0  # Emergency: removes all history
+./prism-context.sh init     # Reinitialize
+```
+
+## Framework Compliance
+
+### PRISM Rule Adherence
+
+**ENSURE** all AI-assisted development:
+
+- **STARTS** with time synchronization via WebSearch
+- **LOADS** relevant context from `.prism/context/`
+- **UPDATES** context during development
+- **ARCHIVES** sessions upon completion
+- **MAINTAINS** accurate timestamps throughout
+
+### Integration Validation
+
+**VERIFY** PRISM integration:
+
+- [ ] `./prism-context.sh status` shows healthy system
+- [ ] Time sync working (check `.prism/.time_sync`)
+- [ ] Context files populated and current
+- [ ] Session tracking active in `.prism/sessions/current.md`
+- [ ] Shell scripts executable and functional
+
+---
+
+**Remember**: PRISM augments the development process with persistent, time-synchronized context management. All AI-assisted development should leverage this framework for consistent, traceable, and high-quality results.

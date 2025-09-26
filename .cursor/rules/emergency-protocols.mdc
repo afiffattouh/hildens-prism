@@ -1,12 +1,50 @@
 ---
-description: Emergency protocols for handling context corruption, quality degradation, and security incidents in AI-assisted development
-globs: ["**/*"]
+description: PRISM emergency protocols for handling context corruption, time sync issues, quality degradation, and security incidents
+globs: ["**/*", "**/.prism/**/*", "**/prism-context.sh", "**/setup-new-project.sh"]
 alwaysApply: true
 ---
 
-# Emergency Protocols for AI-Assisted Development
+# PRISM Emergency Protocols for AI-Assisted Development
 
-## Context Corruption Response
+## Time Synchronization Issues
+
+### Detection Signs
+**IMMEDIATE ATTENTION** required when you observe:
+
+- **TIME DRIFT**: System time vs web time difference >5 minutes
+- **SYNC FAILURES**: Unable to WebSearch "current UTC time"
+- **TIMESTAMP INCONSISTENCIES**: Logs showing incorrect timestamps
+- **CONTEXT DATE MISMATCHES**: `.prism/sessions/` files with wrong dates
+
+### Time Sync Recovery Protocol
+
+#### 1. Immediate Response
+```
+⚠️ TIME SYNC FAILURE DETECTED
+- Stop current session
+- Execute: ./prism-context.sh init (forces time resync)
+- Verify: Check .prism/.time_sync for accurate web time
+- Validate: Compare with system time
+```
+
+#### 2. Manual Time Sync (If WebSearch Fails)
+```bash
+# Emergency time sync procedure
+echo "Manual time sync required" >> .prism/.time_sync
+date -u >> .prism/.time_sync
+echo "WebSearch failed - using system time" >> .prism/.time_sync
+
+# Update session with warning
+echo "## TIME SYNC WARNING" >> .prism/sessions/current.md
+echo "WebSearch for time failed - using system time" >> .prism/sessions/current.md
+```
+
+#### 3. Context Validation After Time Sync
+- **VERIFY**: All timestamps in `.prism/sessions/current.md` are accurate
+- **UPDATE**: Session files with correct synchronized time
+- **LOG**: Time sync recovery in `.prism/.time_sync`
+
+## PRISM Context Corruption Response
 
 ### Detection Signs
 **IMMEDIATE ATTENTION** required when you observe:
@@ -29,39 +67,49 @@ alwaysApply: true
 - Document corruption symptoms
 ```
 
-#### 2. Context Recovery Process
+#### 2. PRISM Context Recovery Process
 **EXECUTE** this recovery sequence:
 
-1. **SAVE WORK**: Preserve any valid code from current session
+1. **SAVE WORK**: Preserve any valid code and PRISM context
    ```bash
    # Create backup of current work
-   git stash push -m "WIP: Before context reset - $(date)"
+   git stash push -m "WIP: Before PRISM context reset - $(date)"
+   
+   # Backup PRISM context
+   cp -r .prism .prism_backup_$(date +%Y%m%d_%H%M%S)
    ```
 
-2. **CLEAR CONTEXT**: Restart session with clean context
-   - Use `/clear` command or restart IDE
-   - Close all unnecessary files and tabs
-   - Clear conversation history if using chat interface
-
-3. **ASSESS DAMAGE**: Review recent generations for issues
-   - Check last 5-10 code generations
-   - Identify when corruption began
-   - Document problematic patterns observed
-
-4. **RESET WITH CONSTRAINTS**: Restart with explicit constraints
-   ```
-   Fresh start required. Context: Senior developer working on [PROJECT].
-   Architecture: [SPECIFIC STACK]
-   Constraints: [EXPLICIT REQUIREMENTS]
-   Quality: Production-ready code with comprehensive error handling
+2. **PRISM CONTEXT RESET**: Clean and reinitialize PRISM system
+   ```bash
+   # Archive corrupted session
+   ./prism-context.sh archive
+   
+   # Prune corrupted context (emergency)
+   ./prism-context.sh prune 0
+   
+   # Reinitialize PRISM
+   ./prism-context.sh init
    ```
 
-#### 3. Prevention Measures
-**IMPLEMENT** to prevent future corruption:
-- **FREQUENT RESETS**: Clear context every 30-45 minutes
-- **FOCUSED SESSIONS**: Limit session scope to single feature/component
-- **EXPLICIT CONSTRAINTS**: Always specify architecture and requirements
-- **REGULAR VALIDATION**: Validate output against established patterns
+3. **ASSESS PRISM DAMAGE**: Review context files for corruption
+   - Check `.prism/context/` files for nonsensical entries
+   - Verify `.prism/sessions/history/` for pattern analysis
+   - Document corruption patterns in `.prism/context/decisions.md`
+
+4. **RESTORE CLEAN CONTEXT**: Rebuild from backup if necessary
+   ```bash
+   # If corruption is severe, restore from backup
+   rm -rf .prism
+   cp -r .prism_backup_[timestamp] .prism
+   ./prism-context.sh init
+   ```
+
+#### 3. PRISM Prevention Measures
+**IMPLEMENT** to prevent future PRISM corruption:
+- **FREQUENT ARCHIVES**: Use `./prism-context.sh archive` every 30-45 minutes
+- **FOCUSED SESSIONS**: Limit each session to single feature/component (tracked in `.prism/sessions/current.md`)
+- **CONTEXT VALIDATION**: Regularly check `.prism/context/` files for accuracy
+- **BACKUP AUTOMATION**: Create daily backups of `.prism/` directory
 
 ## Quality Degradation Response
 
@@ -120,9 +168,14 @@ alwaysApply: true
    git checkout <last-good-commit-hash>
    ```
 
-2. **RESTART GENERATION**: Begin with fresh context and explicit requirements
+2. **PRISM CONTEXT RESET**: Reinitialize PRISM system
+   ```bash
+   ./prism-context.sh archive  # Save current session
+   ./prism-context.sh init     # Fresh initialization
+   ```
+
 3. **ENHANCED REVIEW**: Implement additional quality gates
-4. **DOCUMENTATION**: Record lessons learned and prevention measures
+4. **DOCUMENTATION**: Record in `.prism/context/decisions.md` with lessons learned
 
 **FOR MEDIUM SEVERITY ISSUES**:
 1. **REFACTOR IN PLACE**: Fix issues without rolling back
