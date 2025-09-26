@@ -28,6 +28,13 @@ PRISM_TEMPLATE_FILES=(
     ".prism/time-sync.md"  # Time sync documentation only
 )
 
+# Cursor IDE integration files (optional)
+CURSOR_FILES=(
+    ".cursor/chat.mdc"
+    ".cursor/context.mdc"
+    ".cursor/prompts.mdc"
+)
+
 # Files that should NEVER be updated (user's persistent context)
 PROTECTED_FILES=(
     ".prism/context/architecture.md"
@@ -66,6 +73,7 @@ echo -e "${BLUE}This updater only updates:${NC}"
 echo -e "  • PRISM.md (framework rules)"
 echo -e "  • prism-context.sh (management script)"
 echo -e "  • Documentation files"
+echo -e "  • .cursor/ IDE rules (if using Cursor)"
 echo ""
 
 # Function to get current version
@@ -102,6 +110,17 @@ backup_files() {
             echo -e "  Backed up: $file"
         fi
     done
+
+    # Backup Cursor files if they exist
+    if [ -d ".cursor" ]; then
+        mkdir -p "$backup_dir/.cursor"
+        for file in "${CURSOR_FILES[@]}"; do
+            if [ -f "$file" ]; then
+                cp "$file" "$backup_dir/.cursor/"
+                echo -e "  Backed up: $file"
+            fi
+        done
+    fi
 
     echo -e "${GREEN}✓ Backup complete${NC}"
     echo ""
@@ -220,6 +239,74 @@ update_templates() {
     fi
 }
 
+# Function to update Cursor IDE files (optional)
+update_cursor_files() {
+    # Only ask if .cursor directory exists or user might want it
+    if [ -d ".cursor" ]; then
+        echo ""
+        echo -e "${BLUE}Cursor IDE integration detected${NC}"
+        read -p "Do you want to update Cursor IDE rules? (y/n) " -n 1 -r
+        echo
+
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            echo -e "${BLUE}Updating Cursor IDE rules...${NC}"
+
+            local updated=0
+            local failed=0
+
+            # Create .cursor directory if it doesn't exist
+            mkdir -p .cursor
+
+            for file in "${CURSOR_FILES[@]}"; do
+                download_file "$file"
+                case $? in
+                    0) ((updated++)) ;;
+                    2) ((failed++)) ;;
+                esac
+            done
+
+            if [ $updated -gt 0 ]; then
+                echo -e "${GREEN}✓ Updated $updated Cursor file(s)${NC}"
+            fi
+
+            if [ $failed -gt 0 ]; then
+                echo -e "${YELLOW}⚠️ Failed to update $failed Cursor file(s)${NC}"
+            fi
+        fi
+    else
+        # Ask if user wants to add Cursor support even if not present
+        echo ""
+        read -p "Do you want to add Cursor IDE integration to your project? (y/n) " -n 1 -r
+        echo
+
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            echo -e "${BLUE}Adding Cursor IDE integration...${NC}"
+
+            local updated=0
+            local failed=0
+
+            # Create .cursor directory
+            mkdir -p .cursor
+
+            for file in "${CURSOR_FILES[@]}"; do
+                download_file "$file"
+                case $? in
+                    0) ((updated++)) ;;
+                    2) ((failed++)) ;;
+                esac
+            done
+
+            if [ $updated -gt 0 ]; then
+                echo -e "${GREEN}✓ Added $updated Cursor file(s)${NC}"
+            fi
+
+            if [ $failed -gt 0 ]; then
+                echo -e "${RED}✗ Failed to add $failed Cursor file(s)${NC}"
+            fi
+        fi
+    fi
+}
+
 # Function to save version
 save_version() {
     local latest_version=$(get_latest_version)
@@ -297,6 +384,9 @@ main() {
 
     # Ask about template updates
     update_templates
+
+    # Ask about Cursor IDE updates
+    update_cursor_files
 
     # Save version info
     save_version

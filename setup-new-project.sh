@@ -66,6 +66,17 @@ else
     echo -e "  ${RED}❌ Failed to copy .prism directory${NC}"
 fi
 
+# Copy .cursor directory if user wants Cursor IDE integration
+read -p "Do you use Cursor IDE? (y/n) " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    if cp -r "$FRAMEWORK_DIR/.cursor" .; then
+        echo -e "  ✅ .cursor/ rules copied for Cursor IDE integration"
+    else
+        echo -e "  ${YELLOW}⚠️  .cursor rules not found (optional)${NC}"
+    fi
+fi
+
 # Copy update script
 if cp "$FRAMEWORK_DIR/prism-update.sh" .; then
     chmod +x prism-update.sh
