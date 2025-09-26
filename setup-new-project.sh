@@ -66,10 +66,7 @@ else
     echo -e "  ${RED}❌ Failed to copy .prism directory${NC}"
 fi
 
-# Copy README for reference
-if cp "$FRAMEWORK_DIR/README.md" "PRISM_FRAMEWORK_README.md"; then
-    echo -e "  ✅ Framework README copied as PRISM_FRAMEWORK_README.md"
-fi
+# Don't copy setup files or README - they're not needed in the new project
 
 echo ""
 
@@ -271,7 +268,7 @@ echo ""
 echo -e "${BLUE}Step 7: Creating quick reference...${NC}"
 
 cat > PRISM_QUICK_REFERENCE.md << 'EOF'
-# PRISM Framework Quick Reference
+# PRISM Quick Reference
 
 ## Essential Commands
 
@@ -332,7 +329,7 @@ echo -e "${GREEN}Project configured at: $(pwd)${NC}"
 echo -e "${GREEN}Project type: $PROJECT_TYPE${NC}"
 echo ""
 echo -e "${BOLD}Next Steps:${NC}"
-echo -e "  1. Review ${BLUE}PRISM_QUICK_REFERENCE.md${NC} for commands"
+echo -e "  1. Review ${BLUE}PRISM.md${NC} for framework guidelines"
 echo -e "  2. Customize ${BLUE}.prism/context/architecture.md${NC}"
 echo -e "  3. Update ${BLUE}.prism/context/dependencies.md${NC}"
 echo -e "  4. Start coding with PRISM!"
