@@ -66,6 +66,20 @@ else
     echo -e "  ${RED}❌ Failed to copy .prism directory${NC}"
 fi
 
+# Copy update script
+if cp "$FRAMEWORK_DIR/prism-update.sh" .; then
+    chmod +x prism-update.sh
+    echo -e "  ✅ prism-update.sh copied and made executable"
+else
+    echo -e "  ${YELLOW}⚠️  Update script not found (optional)${NC}"
+fi
+
+# Track version
+if [ -f "$FRAMEWORK_DIR/VERSION" ]; then
+    cp "$FRAMEWORK_DIR/VERSION" .prism/.version
+    echo -e "  ✅ Version tracking initialized"
+fi
+
 # Don't copy setup files or README - they're not needed in the new project
 
 echo ""

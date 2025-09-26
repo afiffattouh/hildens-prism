@@ -156,6 +156,34 @@ performance:
   bundle_size: <500KB
 ```
 
+## 🔄 Updating PRISM Framework
+
+Keep your PRISM framework up-to-date with the latest improvements from GitHub:
+
+```bash
+# Check for updates
+./prism-update.sh --check
+
+# Install updates (your context is SAFE)
+./prism-update.sh
+
+# Force update even if on latest version
+./prism-update.sh --force
+```
+
+### What Gets Updated
+✅ **Updated:**
+- `PRISM.md` - Framework rules and guidelines
+- `prism-context.sh` - Management script improvements
+- Framework documentation
+
+🛡️ **Protected (Never Modified):**
+- `.prism/context/` - Your architecture, patterns, decisions
+- `.prism/sessions/` - Your session history
+- `.prism/references/` - Your API specs and security rules
+
+Your persistent context and project-specific configurations are **always preserved**.
+
 ## 🧠 Context Management Commands
 
 ```bash
