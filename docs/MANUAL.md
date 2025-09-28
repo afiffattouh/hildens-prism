@@ -28,13 +28,29 @@ PRISM (Persistent Real-time Intelligent System Management) enhances Claude Code 
 
 ### First-Time Setup
 
-1. Install PRISM (see [INSTALL.md](INSTALL.md))
-2. Initialize your first project:
+1. **Install PRISM** (see [INSTALL.md](INSTALL.md))
+
+2. **Enable the `prism` command** (IMPORTANT!)
+   ```bash
+   # Option A: Open a new terminal window
+   # OR
+   # Option B: Reload your shell:
+   source ~/.zshrc  # macOS
+   source ~/.bashrc # Linux
+
+   # Verify it works:
+   prism --help
+   ```
+
+   If you get "command not found", see [Troubleshooting](INSTALL.md#troubleshooting).
+
+3. **Initialize your first project:**
    ```bash
    cd your-project
    prism init
    ```
-3. Claude Code now has persistent context!
+
+4. **Claude Code now has persistent context!**
 
 ### Basic Workflow
 
@@ -428,6 +444,18 @@ When using PRISM interactively:
 - `↑/↓` - Navigate command history
 
 ## FAQ
+
+**Q: Why does `prism` show "command not found" after installation?**
+A: The `~/bin` directory needs to be in your PATH. Either:
+- Open a new terminal window (easiest)
+- Run `source ~/.zshrc` (macOS) or `source ~/.bashrc` (Linux)
+- Use the full path: `~/bin/prism --help`
+
+**Q: How do I know which shell I'm using?**
+A: Run `echo $SHELL`. It will show `/bin/zsh` (macOS) or `/bin/bash` (Linux).
+
+**Q: Can I use PRISM immediately after installation?**
+A: Yes, but you need to enable the command first. Use `~/bin/prism` for immediate access.
 
 **Q: How much disk space does PRISM use?**
 A: Typically 1-10MB per project, depending on context size.

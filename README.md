@@ -18,6 +18,31 @@ cat install.sh  # Review the script
 bash install.sh
 ```
 
+### ⚠️ Important: Enable the `prism` command
+
+After installation, you **MUST** do one of the following:
+
+**Option 1: Open a new terminal** (easiest)
+
+**Option 2: Reload your shell configuration:**
+```bash
+# For macOS/zsh:
+source ~/.zshrc
+
+# For Linux/bash:
+source ~/.bashrc
+```
+
+**Option 3: Use full path** (temporary):
+```bash
+~/bin/prism --help
+```
+
+Then verify installation:
+```bash
+prism --help  # Should display help information
+```
+
 ## 🎯 What is PRISM?
 
 PRISM (Persistent Real-time Intelligent System Management) enhances Claude Code with:

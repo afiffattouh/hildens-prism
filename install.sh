@@ -156,12 +156,27 @@ if [[ -x "$BIN_DIR/prism" ]] && [[ -d "$PRISM_HOME/lib" ]]; then
     echo -e "  Binary: $BIN_DIR/prism"
     echo -e "  Claude Config: $CLAUDE_DIR/PRISM.md"
     echo
-    echo -e "${BOLD}Next Steps:${NC}"
-    echo -e "  1. Run: ${BOLD}source ~/.bashrc${NC} (or restart shell)"
-    echo -e "  2. Test: ${BOLD}prism --help${NC}"
-    echo -e "  3. Initialize project: ${BOLD}prism init${NC}"
+    echo -e "${BOLD}${YELLOW}⚠️  IMPORTANT - Enable the prism command:${NC}"
     echo
-    echo -e "${GREEN}🎉 PRISM is ready to use!${NC}"
+    echo -e "  ${BOLD}Option 1:${NC} Open a new terminal window (easiest)"
+    echo
+    echo -e "  ${BOLD}Option 2:${NC} Run this command based on your shell:"
+    if [[ -n "${ZSH_VERSION:-}" ]] || [[ "$SHELL" == *"zsh"* ]]; then
+        echo -e "    ${GREEN}source ~/.zshrc${NC}"
+    elif [[ -n "${BASH_VERSION:-}" ]] || [[ "$SHELL" == *"bash"* ]]; then
+        echo -e "    ${GREEN}source ~/.bashrc${NC}"
+    else
+        echo -e "    ${GREEN}source ~/.bashrc${NC} or ${GREEN}source ~/.zshrc${NC}"
+    fi
+    echo
+    echo -e "  ${BOLD}Option 3:${NC} Use full path (works immediately):"
+    echo -e "    ${GREEN}~/bin/prism --help${NC}"
+    echo
+    echo -e "${BOLD}After enabling, verify with:${NC}"
+    echo -e "  ${GREEN}prism --help${NC} - Should display help"
+    echo -e "  ${GREEN}prism init${NC} - Initialize in your project"
+    echo
+    echo -e "${GREEN}🎉 Installation complete!${NC}"
 else
     echo -e "${RED}Installation verification failed${NC}"
     echo -e "Please check the installation manually or report an issue"

@@ -83,18 +83,47 @@ The installer will:
 
 ## Post-Installation
 
+### ⚠️ CRITICAL: Enable the `prism` Command
+
+The installer adds `prism` to `~/bin/`, but you **MUST** enable it first:
+
+#### Option 1: Open a New Terminal (Easiest)
+Simply close your current terminal and open a new one.
+
+#### Option 2: Reload Your Shell Configuration
+```bash
+# For macOS (default shell is zsh):
+source ~/.zshrc
+
+# For Linux (usually bash):
+source ~/.bashrc
+
+# Not sure which shell? Check with:
+echo $SHELL
+```
+
+#### Option 3: Use Full Path (Temporary)
+```bash
+# Works immediately without reloading:
+~/bin/prism --help
+```
+
 ### Verify Installation
 
-```bash
-# Check installation
-prism doctor
+After enabling the command, verify everything works:
 
-# View version
+```bash
+# Should display help information
+prism --help
+
+# Check version
 prism version
 
-# Get help
-prism help
+# Run diagnostics
+prism doctor
 ```
+
+If `prism` is still not found, see [Troubleshooting](#troubleshooting).
 
 ### Configure Claude Code
 
@@ -163,15 +192,51 @@ chmod +x install.sh
 chmod +x ~/bin/prism
 ```
 
-#### Command Not Found
-```bash
-# Add to PATH for bash
-echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
+#### Command Not Found (Most Common Issue)
 
-# Add to PATH for zsh
+This happens when `~/bin` is not in your PATH. Follow these steps:
+
+**Step 1: Check if prism is installed**
+```bash
+ls -la ~/bin/prism
+# Should show the file exists
+```
+
+**Step 2: Check your current PATH**
+```bash
+echo $PATH | grep -q "$HOME/bin" && echo "PATH is OK" || echo "PATH needs updating"
+```
+
+**Step 3: Identify your shell**
+```bash
+echo $SHELL
+# Usually shows /bin/zsh (macOS) or /bin/bash (Linux)
+```
+
+**Step 4: Update PATH based on your shell**
+```bash
+# For zsh (macOS default):
 echo 'export PATH="$HOME/bin:$PATH"' >> ~/.zshrc
 source ~/.zshrc
+
+# For bash (Linux default):
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+**Step 5: Verify it works**
+```bash
+which prism
+# Should show: /Users/YOUR_NAME/bin/prism
+
+prism --help
+# Should display help
+```
+
+**Quick workaround if still having issues:**
+```bash
+# Use the full path instead
+~/bin/prism --help
 ```
 
 #### Installation Fails
