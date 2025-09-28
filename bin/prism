@@ -1,0 +1,399 @@
+#!/bin/bash
+# PRISM Framework CLI - Main command-line interface
+# Version: 2.0.0
+
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PRISM_ROOT="$(dirname "$SCRIPT_DIR")"
+
+# Source libraries
+source "${PRISM_ROOT}/lib/prism-core.sh"
+source "${PRISM_ROOT}/lib/prism-log.sh"
+source "${PRISM_ROOT}/lib/prism-security.sh"
+
+# Version and help information
+readonly PRISM_CLI_VERSION="2.0.0"
+
+# Show help message
+show_help() {
+    cat << EOF
+${BOLD}PRISM Framework v${PRISM_CLI_VERSION}${NC}
+Persistent Real-time Intelligent System Management
+
+${BOLD}Usage:${NC} prism <command> [options]
+
+${BOLD}Commands:${NC}
+  init [options]       Initialize PRISM in current directory
+  context <action>     Manage context files
+  session <action>     Manage sessions
+  config <action>      Configure PRISM settings
+  update [options]     Update PRISM framework
+  doctor              Diagnose and fix issues
+  version             Show version information
+  help                Show this help message
+
+${BOLD}Init Options:${NC}
+  --template <name>    Use specific template (default, nodejs, python)
+  --force             Overwrite existing configuration
+  --minimal           Create minimal setup
+
+${BOLD}Context Actions:${NC}
+  show <file>         Display context file
+  add <file> <text>   Add to context file
+  update <file>       Update context file
+  list               List all context files
+  search <query>     Search in context files
+
+${BOLD}Session Actions:${NC}
+  start              Start new session
+  end                End current session
+  status             Show session status
+  archive            Archive current session
+  restore <id>       Restore archived session
+
+${BOLD}Config Actions:${NC}
+  get <key>          Get configuration value
+  set <key> <value>  Set configuration value
+  list              List all configuration
+  reset             Reset to defaults
+
+${BOLD}Update Options:${NC}
+  --check            Check for updates only
+  --force            Force update even if current
+  --beta             Include beta versions
+
+${BOLD}Global Options:${NC}
+  -v, --verbose      Enable verbose output
+  -q, --quiet        Suppress non-error output
+  --no-color        Disable colored output
+  --log-level <lvl>  Set log level (TRACE,DEBUG,INFO,WARN,ERROR)
+
+${BOLD}Examples:${NC}
+  prism init                    Initialize in current directory
+  prism init --template nodejs  Initialize with Node.js template
+  prism context show patterns   View patterns.md
+  prism session start          Start new session
+  prism update --check         Check for updates
+  prism doctor                 Diagnose issues
+
+${BOLD}Documentation:${NC}
+  https://github.com/afiffattouh/hildens-prism
+
+${BOLD}Report Issues:${NC}
+  https://github.com/afiffattouh/hildens-prism/issues
+
+EOF
+}
+
+# Parse global options
+parse_global_options() {
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            -v|--verbose)
+                set_log_level "DEBUG"
+                shift
+                ;;
+            -q|--quiet)
+                set_log_level "ERROR"
+                shift
+                ;;
+            --no-color)
+                export NO_COLOR=1
+                shift
+                ;;
+            --log-level)
+                set_log_level "$2"
+                shift 2
+                ;;
+            *)
+                break
+                ;;
+        esac
+    done
+
+    # Return remaining arguments
+    echo "$@"
+}
+
+# Initialize PRISM in current directory
+cmd_init() {
+    local template="default"
+    local force=false
+    local minimal=false
+
+    # Parse options
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --template)
+                template="$2"
+                shift 2
+                ;;
+            --force)
+                force=true
+                shift
+                ;;
+            --minimal)
+                minimal=true
+                shift
+                ;;
+            *)
+                log_error "Unknown option: $1"
+                return 1
+                ;;
+        esac
+    done
+
+    # Check if already initialized
+    if [[ -d .prism ]] && [[ "$force" != "true" ]]; then
+        log_warn "PRISM is already initialized in this directory"
+        log_info "Use --force to reinitialize"
+        return 1
+    fi
+
+    log_header "Initializing PRISM Framework"
+
+    # Source initialization script
+    source "${PRISM_ROOT}/lib/prism-init.sh"
+
+    # Run initialization
+    if prism_init "$template" "$minimal"; then
+        log_info "✅ PRISM initialized successfully!"
+        log_info "Next steps:"
+        log_info "  1. Review .prism/context/architecture.md"
+        log_info "  2. Update CLAUDE.md with project specifics"
+        log_info "  3. Run 'prism doctor' to verify setup"
+    else
+        log_error "Failed to initialize PRISM"
+        return 1
+    fi
+}
+
+# Manage context files
+cmd_context() {
+    local action=$1
+    shift
+
+    case "$action" in
+        show)
+            local file=$1
+            if [[ -z "$file" ]]; then
+                log_error "Please specify a context file"
+                return 1
+            fi
+            source "${PRISM_ROOT}/lib/prism-context.sh"
+            prism_context_show "$file"
+            ;;
+        add)
+            local file=$1
+            local content=$2
+            if [[ -z "$file" ]] || [[ -z "$content" ]]; then
+                log_error "Usage: prism context add <file> <content>"
+                return 1
+            fi
+            source "${PRISM_ROOT}/lib/prism-context.sh"
+            prism_context_add "$file" "$content"
+            ;;
+        update)
+            local file=$1
+            if [[ -z "$file" ]]; then
+                log_error "Please specify a context file"
+                return 1
+            fi
+            source "${PRISM_ROOT}/lib/prism-context.sh"
+            prism_context_update "$file"
+            ;;
+        list)
+            source "${PRISM_ROOT}/lib/prism-context.sh"
+            prism_context_list
+            ;;
+        search)
+            local query=$1
+            if [[ -z "$query" ]]; then
+                log_error "Please specify a search query"
+                return 1
+            fi
+            source "${PRISM_ROOT}/lib/prism-context.sh"
+            prism_context_search "$query"
+            ;;
+        *)
+            log_error "Unknown context action: $action"
+            log_info "Valid actions: show, add, update, list, search"
+            return 1
+            ;;
+    esac
+}
+
+# Manage sessions
+cmd_session() {
+    local action=$1
+    shift
+
+    source "${PRISM_ROOT}/lib/prism-session.sh"
+
+    case "$action" in
+        start)
+            prism_session_start
+            ;;
+        end)
+            prism_session_end
+            ;;
+        status)
+            prism_session_status
+            ;;
+        archive)
+            prism_session_archive
+            ;;
+        restore)
+            local session_id=$1
+            if [[ -z "$session_id" ]]; then
+                log_error "Please specify a session ID"
+                return 1
+            fi
+            prism_session_restore "$session_id"
+            ;;
+        *)
+            log_error "Unknown session action: $action"
+            log_info "Valid actions: start, end, status, archive, restore"
+            return 1
+            ;;
+    esac
+}
+
+# Manage configuration
+cmd_config() {
+    local action=$1
+    shift
+
+    source "${PRISM_ROOT}/lib/prism-config.sh"
+
+    case "$action" in
+        get)
+            local key=$1
+            if [[ -z "$key" ]]; then
+                log_error "Please specify a configuration key"
+                return 1
+            fi
+            prism_config_get "$key"
+            ;;
+        set)
+            local key=$1
+            local value=$2
+            if [[ -z "$key" ]] || [[ -z "$value" ]]; then
+                log_error "Usage: prism config set <key> <value>"
+                return 1
+            fi
+            prism_config_set "$key" "$value"
+            ;;
+        list)
+            prism_config_list
+            ;;
+        reset)
+            prism_config_reset
+            ;;
+        *)
+            log_error "Unknown config action: $action"
+            log_info "Valid actions: get, set, list, reset"
+            return 1
+            ;;
+    esac
+}
+
+# Update PRISM
+cmd_update() {
+    local check_only=false
+    local force=false
+    local beta=false
+
+    # Parse options
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --check)
+                check_only=true
+                shift
+                ;;
+            --force)
+                force=true
+                shift
+                ;;
+            --beta)
+                beta=true
+                shift
+                ;;
+            *)
+                log_error "Unknown option: $1"
+                return 1
+                ;;
+        esac
+    done
+
+    source "${PRISM_ROOT}/lib/prism-update.sh"
+    prism_update "$check_only" "$force" "$beta"
+}
+
+# Run diagnostics
+cmd_doctor() {
+    log_header "PRISM Doctor - System Diagnostics"
+
+    source "${PRISM_ROOT}/lib/prism-doctor.sh"
+    prism_doctor
+}
+
+# Show version
+cmd_version() {
+    echo "PRISM Framework v${PRISM_CLI_VERSION}"
+    echo "Copyright (c) 2024 PRISM Contributors"
+    echo "License: MIT"
+    echo ""
+    echo "Components:"
+    echo "  Core Library: v$(grep 'Version:' "${PRISM_ROOT}/lib/prism-core.sh" | head -1 | cut -d' ' -f3)"
+    echo "  Security Library: v$(grep 'Version:' "${PRISM_ROOT}/lib/prism-security.sh" | head -1 | cut -d' ' -f3)"
+    echo "  Log Library: v$(grep 'Version:' "${PRISM_ROOT}/lib/prism-log.sh" | head -1 | cut -d' ' -f3)"
+}
+
+# Main command dispatcher
+main() {
+    # Parse global options
+    args=$(parse_global_options "$@")
+    set -- $args
+
+    # Get command
+    local command=${1:-help}
+    shift
+
+    # Dispatch command
+    case "$command" in
+        init)
+            cmd_init "$@"
+            ;;
+        context)
+            cmd_context "$@"
+            ;;
+        session)
+            cmd_session "$@"
+            ;;
+        config)
+            cmd_config "$@"
+            ;;
+        update)
+            cmd_update "$@"
+            ;;
+        doctor)
+            cmd_doctor "$@"
+            ;;
+        version|--version|-v)
+            cmd_version
+            ;;
+        help|--help|-h)
+            show_help
+            ;;
+        *)
+            log_error "Unknown command: $command"
+            echo ""
+            show_help
+            exit 1
+            ;;
+    esac
+}
+
+# Run main function
+main "$@"
