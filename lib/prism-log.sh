@@ -14,8 +14,8 @@ readonly LOG_DATE_FORMAT="${PRISM_LOG_DATE_FORMAT:-%Y-%m-%d %H:%M:%S}"
 
 # Get numeric value for log level
 get_log_level_num() {
-    local level=$1
-    case "${level^^}" in
+    local level=$(echo "$1" | tr '[:lower:]' '[:upper:]')
+    case "$level" in
         TRACE) echo 0 ;;
         DEBUG) echo 1 ;;
         INFO)  echo 2 ;;
@@ -90,7 +90,8 @@ log() {
     # Add color for terminal output
     local colored_msg="$log_msg"
     if [[ "$LOG_TO_STDOUT" == "true" ]] && [[ -t 1 ]] && [[ "${NO_COLOR:-}" != "1" ]]; then
-        case "${level^^}" in
+        local level_upper=$(echo "$level" | tr '[:lower:]' '[:upper:]')
+        case "$level_upper" in
             TRACE) colored_msg="${GRAY}${log_msg}${NC}" ;;
             DEBUG) colored_msg="${BLUE}${log_msg}${NC}" ;;
             INFO)  colored_msg="${GREEN}${log_msg}${NC}" ;;
@@ -118,7 +119,8 @@ log() {
     fi
 
     # Exit on FATAL
-    if [[ "${level^^}" == "FATAL" ]]; then
+    local level_upper=$(echo "$level" | tr '[:lower:]' '[:upper:]')
+    if [[ "$level_upper" == "FATAL" ]]; then
         exit 1
     fi
 }

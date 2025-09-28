@@ -2,9 +2,12 @@
 # PRISM Security Library - Security functions for PRISM framework
 # Version: 2.0.0
 
-# Source dependencies
-source "$(dirname "${BASH_SOURCE[0]}")/prism-core.sh"
-source "$(dirname "${BASH_SOURCE[0]}")/prism-log.sh"
+# Dependencies are loaded by the main script
+# If running standalone, source them
+if [[ -z "${PRISM_VERSION:-}" ]]; then
+    source "$(dirname "${BASH_SOURCE[0]}")/prism-core.sh"
+    source "$(dirname "${BASH_SOURCE[0]}")/prism-log.sh"
+fi
 
 # Security configuration
 readonly PRISM_VERIFY_DOWNLOADS="${PRISM_VERIFY_DOWNLOADS:-true}"

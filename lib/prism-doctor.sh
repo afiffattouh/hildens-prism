@@ -2,13 +2,18 @@
 # PRISM Doctor - Diagnostic and repair functions
 # Version: 2.0.0
 
-# Source dependencies
-source "$(dirname "${BASH_SOURCE[0]}")/prism-core.sh"
-source "$(dirname "${BASH_SOURCE[0]}")/prism-log.sh"
-source "$(dirname "${BASH_SOURCE[0]}")/prism-security.sh"
+# Dependencies are loaded by the main script
+# If running standalone, source them
+if [[ -z "${PRISM_VERSION:-}" ]]; then
+    source "$(dirname "${BASH_SOURCE[0]}")/prism-core.sh"
+    source "$(dirname "${BASH_SOURCE[0]}")/prism-log.sh"
+    source "$(dirname "${BASH_SOURCE[0]}")/prism-security.sh"
+fi
 
 # Diagnostic results
-declare -A DIAGNOSTICS
+# Use regular arrays for compatibility with bash 3.x
+declare -a DIAGNOSTIC_KEYS
+declare -a DIAGNOSTIC_VALUES
 declare -a ISSUES
 declare -a FIXES
 
@@ -19,7 +24,9 @@ add_diagnostic() {
     local status=$3
     local message=$4
 
-    DIAGNOSTICS["${category}:${test}"]="$status"
+    # Store in parallel arrays for bash 3.x compatibility
+    DIAGNOSTIC_KEYS+=("${category}:${test}")
+    DIAGNOSTIC_VALUES+=("$status")
 
     if [[ "$status" != "OK" ]]; then
         ISSUES+=("[$category] $test: $message")
