@@ -24,8 +24,8 @@ Usage: prism <command> [options]
 
 Commands:
   init [options]       Initialize PRISM in current directory
-  context <action>     Manage context files
-  session <action>     Manage sessions
+  context <action>     Manage project context
+  session <action>     Manage development sessions
   config <action>      Configure PRISM settings
   update [options]     Update PRISM framework
   doctor              Diagnose and fix issues
@@ -38,18 +38,20 @@ Init Options:
   --minimal           Create minimal setup
 
 Context Actions:
-  show <file>         Display context file
-  add <file> <text>   Add to context file
-  update <file>       Update context file
-  list               List all context files
-  search <query>     Search in context files
+  add [priority] [tags] [name]  Add new context entry
+  query <search-term>            Search context files
+  export [format] [output]       Export context (markdown/json/yaml)
+  update-templates               Update context templates
+  load-critical                  Load critical context items
 
 Session Actions:
-  start              Start new session
-  end                End current session
-  status             Show session status
-  archive            Archive current session
-  restore <id>       Restore archived session
+  start [description]            Start new development session
+  status                         Show current session status
+  archive                        Archive current session
+  restore <session-id>           Restore previous session
+  export [format] [session-id]   Export session report
+  refresh                        Refresh session context
+  clean [days]                   Clean old sessions
 
 Config Actions:
   get <key>          Get configuration value
@@ -69,12 +71,14 @@ Global Options:
   --log-level <lvl>  Set log level (TRACE,DEBUG,INFO,WARN,ERROR)
 
 Examples:
-  prism init                    Initialize in current directory
-  prism init --template nodejs  Initialize with Node.js template
-  prism context show patterns   View patterns.md
-  prism session start          Start new session
-  prism update --check         Check for updates
-  prism doctor                 Diagnose issues
+  prism init                       Initialize in current directory
+  prism init --template nodejs     Initialize with Node.js template
+  prism context add HIGH security  Add high-priority security context
+  prism context query "auth"       Search for authentication context
+  prism session start "new feature" Start session for new feature
+  prism session status             Check current session status
+  prism update --check             Check for updates
+  prism doctor                     Diagnose issues
 
 Documentation:
   https://github.com/afiffattouh/hildens-prism
@@ -172,51 +176,37 @@ cmd_context() {
     local action=$1
     shift
 
+    source "${PRISM_ROOT}/lib/prism-context.sh"
+
     case "$action" in
-        show)
-            local file=$1
-            if [[ -z "$file" ]]; then
-                log_error "Please specify a context file"
-                return 1
-            fi
-            source "${PRISM_ROOT}/lib/prism-context.sh"
-            prism_context_show "$file"
-            ;;
         add)
-            local file=$1
-            local content=$2
-            if [[ -z "$file" ]] || [[ -z "$content" ]]; then
-                log_error "Usage: prism context add <file> <content>"
-                return 1
-            fi
-            source "${PRISM_ROOT}/lib/prism-context.sh"
-            prism_context_add "$file" "$content"
+            local priority=${1:-MEDIUM}
+            local tags=${2:-general}
+            local component=${3:-"New Component"}
+            prism_context_add "$priority" "$tags" "$component"
             ;;
-        update)
-            local file=$1
-            if [[ -z "$file" ]]; then
-                log_error "Please specify a context file"
-                return 1
-            fi
-            source "${PRISM_ROOT}/lib/prism-context.sh"
-            prism_context_update "$file"
-            ;;
-        list)
-            source "${PRISM_ROOT}/lib/prism-context.sh"
-            prism_context_list
-            ;;
-        search)
+        query)
             local query=$1
             if [[ -z "$query" ]]; then
                 log_error "Please specify a search query"
                 return 1
             fi
-            source "${PRISM_ROOT}/lib/prism-context.sh"
-            prism_context_search "$query"
+            prism_context_query "$query"
+            ;;
+        export)
+            local format=${1:-markdown}
+            local output=${2:-"prism-context-export"}
+            prism_context_export "$format" "$output"
+            ;;
+        update-templates)
+            prism_context_update_templates
+            ;;
+        load-critical)
+            prism_context_load_critical
             ;;
         *)
             log_error "Unknown context action: $action"
-            log_info "Valid actions: show, add, update, list, search"
+            log_info "Valid actions: add, query, export, update-templates, load-critical"
             return 1
             ;;
     esac
@@ -231,10 +221,8 @@ cmd_session() {
 
     case "$action" in
         start)
-            prism_session_start
-            ;;
-        end)
-            prism_session_end
+            local description=${1:-"Development session"}
+            prism_session_start "$description"
             ;;
         status)
             prism_session_status
@@ -246,13 +234,27 @@ cmd_session() {
             local session_id=$1
             if [[ -z "$session_id" ]]; then
                 log_error "Please specify a session ID"
+                log_info "Available sessions:"
+                ls -1 .prism/sessions/archive/*.md 2>/dev/null | xargs -n1 basename | sed 's/.md$//' || echo "  (no archived sessions)"
                 return 1
             fi
             prism_session_restore "$session_id"
             ;;
+        export)
+            local format=${1:-markdown}
+            local session_id=${2:-current}
+            prism_session_export "$format" "$session_id"
+            ;;
+        refresh)
+            prism_session_refresh
+            ;;
+        clean)
+            local days=${1:-30}
+            prism_session_clean "$days"
+            ;;
         *)
             log_error "Unknown session action: $action"
-            log_info "Valid actions: start, end, status, archive, restore"
+            log_info "Valid actions: start, status, archive, restore, export, refresh, clean"
             return 1
             ;;
     esac
