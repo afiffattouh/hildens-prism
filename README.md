@@ -9,8 +9,12 @@
 ## 🚀 Quick Install
 
 ```bash
-# Secure installation (recommended)
-curl -fsSL https://raw.githubusercontent.com/afiffattouh/hildens-prism/main/install-secure.sh -o install.sh
+# One-line installation
+curl -fsSL https://raw.githubusercontent.com/afiffattouh/hildens-prism/main/install.sh | bash
+
+# Or download and review first (recommended)
+curl -fsSL https://raw.githubusercontent.com/afiffattouh/hildens-prism/main/install.sh -o install.sh
+cat install.sh  # Review the script
 bash install.sh
 ```
 
