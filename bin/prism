@@ -16,13 +16,13 @@ readonly PRISM_CLI_VERSION="2.0.0"
 
 # Show help message
 show_help() {
-    cat << EOF
-${BOLD}PRISM Framework v${PRISM_CLI_VERSION}${NC}
+    cat << 'EOF'
+PRISM Framework v2.0.0
 Persistent Real-time Intelligent System Management
 
-${BOLD}Usage:${NC} prism <command> [options]
+Usage: prism <command> [options]
 
-${BOLD}Commands:${NC}
+Commands:
   init [options]       Initialize PRISM in current directory
   context <action>     Manage context files
   session <action>     Manage sessions
@@ -32,43 +32,43 @@ ${BOLD}Commands:${NC}
   version             Show version information
   help                Show this help message
 
-${BOLD}Init Options:${NC}
+Init Options:
   --template <name>    Use specific template (default, nodejs, python)
   --force             Overwrite existing configuration
   --minimal           Create minimal setup
 
-${BOLD}Context Actions:${NC}
+Context Actions:
   show <file>         Display context file
   add <file> <text>   Add to context file
   update <file>       Update context file
   list               List all context files
   search <query>     Search in context files
 
-${BOLD}Session Actions:${NC}
+Session Actions:
   start              Start new session
   end                End current session
   status             Show session status
   archive            Archive current session
   restore <id>       Restore archived session
 
-${BOLD}Config Actions:${NC}
+Config Actions:
   get <key>          Get configuration value
   set <key> <value>  Set configuration value
   list              List all configuration
   reset             Reset to defaults
 
-${BOLD}Update Options:${NC}
+Update Options:
   --check            Check for updates only
   --force            Force update even if current
   --beta             Include beta versions
 
-${BOLD}Global Options:${NC}
+Global Options:
   -v, --verbose      Enable verbose output
   -q, --quiet        Suppress non-error output
   --no-color        Disable colored output
   --log-level <lvl>  Set log level (TRACE,DEBUG,INFO,WARN,ERROR)
 
-${BOLD}Examples:${NC}
+Examples:
   prism init                    Initialize in current directory
   prism init --template nodejs  Initialize with Node.js template
   prism context show patterns   View patterns.md
@@ -76,12 +76,11 @@ ${BOLD}Examples:${NC}
   prism update --check         Check for updates
   prism doctor                 Diagnose issues
 
-${BOLD}Documentation:${NC}
+Documentation:
   https://github.com/afiffattouh/hildens-prism
 
-${BOLD}Report Issues:${NC}
+Report Issues:
   https://github.com/afiffattouh/hildens-prism/issues
-
 EOF
 }
 
