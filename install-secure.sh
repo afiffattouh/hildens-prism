@@ -1,6 +1,5 @@
 #!/bin/bash
 # PRISM Framework Secure Installer
-# Version: 2.0.1
 # DEPRECATED: This installer requires GitHub releases which are not yet available
 # Please use install.sh instead:
 # curl -fsSL https://raw.githubusercontent.com/afiffattouh/hildens-prism/main/install.sh | bash
@@ -9,7 +8,8 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # Configuration
-readonly INSTALLER_VERSION="2.0.1"
+# Try to get version from remote, fallback to default
+readonly INSTALLER_VERSION=$(curl -fsSL "https://raw.githubusercontent.com/afiffattouh/hildens-prism/main/VERSION" 2>/dev/null || echo "2.0.1")
 readonly PRISM_REPO="https://github.com/afiffattouh/hildens-prism"
 readonly PRISM_HOME="${PRISM_HOME:-$HOME/.claude}"
 readonly TEMP_DIR=$(mktemp -d)

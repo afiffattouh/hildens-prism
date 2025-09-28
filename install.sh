@@ -1,6 +1,5 @@
 #!/bin/bash
 # PRISM Framework Installer - Simple version for main branch
-# Version: 2.0.1
 
 set -euo pipefail
 
@@ -9,6 +8,9 @@ readonly PRISM_REPO="https://github.com/afiffattouh/hildens-prism"
 readonly PRISM_HOME="${PRISM_HOME:-$HOME/.prism}"
 readonly BIN_DIR="${HOME}/bin"
 readonly CLAUDE_DIR="${HOME}/.claude"
+
+# Try to get version from remote, fallback to default
+INSTALLER_VERSION=$(curl -fsSL "https://raw.githubusercontent.com/afiffattouh/hildens-prism/main/VERSION" 2>/dev/null || echo "2.0.1")
 
 # Colors
 if [[ -t 1 ]]; then
@@ -29,7 +31,7 @@ fi
 
 # Print header
 echo -e "${BOLD}${BLUE}╔═══════════════════════════════════════════════════════╗${NC}"
-echo -e "${BOLD}${BLUE}║      PRISM Framework Installer v2.0.1                 ║${NC}"
+echo -e "${BOLD}${BLUE}║      PRISM Framework Installer v${INSTALLER_VERSION}                 ║${NC}"
 echo -e "${BOLD}${BLUE}║   Persistent Real-time Intelligent System Management  ║${NC}"
 echo -e "${BOLD}${BLUE}╚═══════════════════════════════════════════════════════╝${NC}"
 echo

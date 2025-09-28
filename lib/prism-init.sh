@@ -1,6 +1,6 @@
 #!/bin/bash
 # PRISM Initialization Library
-# Version: 2.0.1
+
 
 # Initialize PRISM in current directory
 prism_init() {
@@ -109,9 +109,9 @@ This project tracks development sessions for continuity.
 EOF
 
     # Create index file
-    cat > .prism/index.yaml << 'EOF'
+    cat > .prism/index.yaml << EOF
 # PRISM Index
-version: 2.0.1
+version: ${PRISM_VERSION}
 created: $(date -u +%Y-%m-%dT%H:%M:%SZ)
 project:
   name: $(basename "$PWD")

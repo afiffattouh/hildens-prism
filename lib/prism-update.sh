@@ -1,6 +1,6 @@
 #!/bin/bash
 # PRISM Update Library - Auto-update functionality
-# Version: 2.0.1
+
 
 # Dependencies are loaded by the main script
 # If running standalone, source them

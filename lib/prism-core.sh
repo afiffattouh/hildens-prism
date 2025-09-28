@@ -1,14 +1,23 @@
 #!/bin/bash
 # PRISM Core Library - Foundation functions for PRISM framework
-# Version: 2.0.1
 
 # Strict error handling
 set -euo pipefail
 IFS=$'\n\t'
 
 # Core configuration
-readonly PRISM_VERSION="2.0.1"
 readonly PRISM_HOME="${PRISM_HOME:-$HOME/.prism}"
+
+# Read version from VERSION file
+if [[ -f "$PRISM_HOME/VERSION" ]]; then
+    readonly PRISM_VERSION="$(cat "$PRISM_HOME/VERSION" | tr -d '[:space:]')"
+elif [[ -f "$(dirname "${BASH_SOURCE[0]}")/../VERSION" ]]; then
+    # Fallback to local VERSION file during development
+    readonly PRISM_VERSION="$(cat "$(dirname "${BASH_SOURCE[0]}")/../VERSION" | tr -d '[:space:]')"
+else
+    # Ultimate fallback
+    readonly PRISM_VERSION="2.0.1"
+fi
 readonly PRISM_CONFIG="${PRISM_CONFIG:-$PRISM_HOME/config.yaml}"
 readonly PRISM_LIB="${PRISM_LIB:-$(dirname "${BASH_SOURCE[0]}")}"
 readonly PRISM_LOG="${PRISM_LOG:-$PRISM_HOME/prism.log}"
