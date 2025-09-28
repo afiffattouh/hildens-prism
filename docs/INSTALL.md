@@ -4,7 +4,7 @@
 
 ### System Requirements
 - **OS**: macOS, Linux, WSL2 (Windows)
-- **Shell**: Bash 4.0+
+- **Shell**: Bash 3.2+ (compatible with macOS default)
 - **Tools**: curl, git
 - **Permissions**: Write access to home directory
 
@@ -15,13 +15,22 @@
 
 ## Installation Methods
 
-### 1. Secure Installation (Recommended)
+### 1. Quick Installation (One-Line)
 
-The secure installer verifies checksums and validates the download:
+The fastest way to install PRISM:
+
+```bash
+# One-line installation
+curl -fsSL https://raw.githubusercontent.com/afiffattouh/hildens-prism/main/install.sh | bash
+```
+
+### 2. Secure Installation (Recommended)
+
+Download and review the script before running:
 
 ```bash
 # Download installer
-curl -fsSL https://raw.githubusercontent.com/afiffattouh/hildens-prism/main/install-secure.sh -o install.sh
+curl -fsSL https://raw.githubusercontent.com/afiffattouh/hildens-prism/main/install.sh -o install.sh
 
 # Review the script (always recommended)
 cat install.sh
@@ -30,20 +39,21 @@ cat install.sh
 bash install.sh
 ```
 
-### 2. Manual Installation
+### 3. Manual Installation
 
-For maximum control, install manually:
+For maximum control, clone and install manually:
 
 ```bash
 # Clone repository
 git clone https://github.com/afiffattouh/hildens-prism.git
 cd hildens-prism
 
-# Run installer
-./install-secure.sh
+# Copy the installer and run
+cp install.sh /tmp/
+cd /tmp && bash install.sh
 ```
 
-### 3. Development Installation
+### 4. Development Installation
 
 For contributors and developers:
 
@@ -52,26 +62,24 @@ For contributors and developers:
 git clone https://github.com/YOUR-USERNAME/hildens-prism.git
 cd hildens-prism
 
-# Install with dev mode
-./install-secure.sh --dev
+# Make changes to the code
+# Test locally by copying files manually
+cp -r lib ~/.prism/
+cp bin/prism ~/bin/
 
-# Link for development
-./install-secure.sh --link
+# Or use the installer
+bash install.sh
 ```
 
-## Installation Options
+## What Gets Installed
 
-```bash
-./install-secure.sh [OPTIONS]
-
-Options:
-  --force         Overwrite existing installation
-  --dev           Install development dependencies
-  --link          Create symlinks instead of copying
-  --prefix PATH   Custom installation directory
-  --no-claude     Skip Claude Code integration
-  --help          Show help message
-```
+The installer will:
+1. Clone the PRISM repository to a temporary directory
+2. Install libraries to `~/.prism/lib/`
+3. Install the `prism` command to `~/bin/`
+4. Create Claude Code integration at `~/.claude/PRISM.md`
+5. Copy documentation to `~/.prism/docs/`
+6. Update your PATH if needed
 
 ## Post-Installation
 
@@ -118,7 +126,7 @@ prism update
 ```bash
 cd ~/hildens-prism
 git pull origin main
-./install-secure.sh --force
+bash install.sh
 ```
 
 ## Uninstallation
@@ -148,25 +156,46 @@ prism uninstall --keep-config
 
 #### Permission Denied
 ```bash
-# Fix permissions
-chmod +x install-secure.sh
-chmod +x bin/prism
+# Fix permissions on installer
+chmod +x install.sh
+
+# Fix permissions on binary
+chmod +x ~/bin/prism
 ```
 
 #### Command Not Found
 ```bash
-# Add to PATH
+# Add to PATH for bash
 echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
+
+# Add to PATH for zsh
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.zshrc
+source ~/.zshrc
 ```
 
 #### Installation Fails
 ```bash
-# Run diagnostics
-./install-secure.sh --debug
-
 # Check requirements
 which bash curl git
+
+# Try manual installation
+git clone https://github.com/afiffattouh/hildens-prism.git
+cd hildens-prism
+bash install.sh
+
+# Check for errors
+echo $?  # Should be 0 for success
+```
+
+#### Bash Version Issues
+```bash
+# Check bash version
+bash --version
+
+# If below 3.2, update bash:
+# macOS: brew install bash
+# Linux: use package manager to update
 ```
 
 ### Platform-Specific

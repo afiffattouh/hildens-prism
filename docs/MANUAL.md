@@ -384,7 +384,7 @@ git add .prism/context/patterns.md
 # GitHub Actions
 - name: Setup PRISM
   run: |
-    curl -fsSL $PRISM_INSTALLER | bash
+    curl -fsSL https://raw.githubusercontent.com/afiffattouh/hildens-prism/main/install.sh | bash
     prism init --minimal
 ```
 

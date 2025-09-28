@@ -1,7 +1,9 @@
 #!/bin/bash
 # PRISM Framework Secure Installer
 # Version: 2.0.0
-# This installer implements security best practices
+# DEPRECATED: This installer requires GitHub releases which are not yet available
+# Please use install.sh instead:
+# curl -fsSL https://raw.githubusercontent.com/afiffattouh/hildens-prism/main/install.sh | bash
 
 set -euo pipefail
 IFS=$'\n\t'

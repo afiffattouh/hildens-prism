@@ -70,9 +70,9 @@ chore: Update dependencies
    cd hildens-prism
    ```
 
-2. Install development dependencies:
+2. Install PRISM:
    ```bash
-   ./install-secure.sh --dev
+   bash install.sh
    ```
 
 3. Run tests:
