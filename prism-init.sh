@@ -335,6 +335,165 @@ EOF
     fi
 }
 
+# Function to create CLAUDE.md file for Claude Code instructions
+create_claude_md() {
+    echo -e "${BLUE}Creating CLAUDE.md for Claude Code instructions...${NC}"
+
+    # Get project name from current directory
+    PROJECT_NAME=$(basename "$PWD")
+
+    cat > CLAUDE.md << EOF
+# CLAUDE.md
+
+This file provides guidance to Claude Code when working with code in this repository.
+
+## 🎯 CRITICAL: PRISM Framework Integration
+
+**MANDATORY**: This project uses the PRISM (Persistent Real-time Intelligent System Management) framework. You MUST:
+
+### 1. Check PRISM Context First
+Before any operation, always check \`.prism/context/\` for:
+- \`architecture.md\` - System design decisions
+- \`patterns.md\` - Established code patterns
+- \`decisions.md\` - Technical decisions log
+- \`dependencies.md\` - Dependency management
+- \`domain.md\` - Business logic and rules
+
+### 2. Maintain Session Continuity
+- Read \`.prism/sessions/current.md\` at session start
+- Update session state during work
+- Archive sessions when appropriate
+
+### 3. Update Context in Real-Time
+- Document new patterns in \`.prism/context/patterns.md\`
+- Log decisions in \`.prism/context/decisions.md\`
+- Update architecture documentation when changes are made
+
+### 4. Use Context Management Tool
+- Run \`./prism-context.sh status\` to check framework health
+- Use \`./prism-context.sh show [file]\` to review context
+- Update context files as patterns emerge
+
+### 5. Reference Project Configuration
+- Always consult \`PRISM.md\` for project-specific settings
+- Follow quality gates and standards defined there
+- Maintain ≥90% context retention across operations
+
+## Project Overview
+
+**Project Name**: ${PROJECT_NAME}
+**Framework**: PRISM-enabled
+**Created**: $(date -Iseconds)
+
+This project is configured with PRISM for persistent context management. Update this section as the project architecture develops.
+
+## Development Commands
+
+\`\`\`bash
+# To be added as the project structure is defined
+# npm start
+# npm test
+# npm build
+\`\`\`
+
+## Architecture & Structure
+
+\`\`\`
+${PROJECT_NAME}/
+├── .prism/              # PRISM context management
+│   ├── context/         # Persistent project knowledge
+│   ├── sessions/        # Session tracking
+│   └── references/      # API specs and documentation
+├── src/                 # Source code (to be created)
+├── tests/               # Test files (to be created)
+└── docs/                # Documentation (to be created)
+\`\`\`
+
+## PRISM Framework Commands
+
+### Essential PRISM Operations
+\`\`\`bash
+# Check framework status
+./prism-context.sh status
+
+# View context files
+./prism-context.sh show architecture
+./prism-context.sh show patterns
+./prism-context.sh show decisions
+./prism-context.sh show dependencies
+./prism-context.sh show domain
+
+# Update context
+./prism-context.sh add [file] [priority] [tags] "[content]"
+
+# Query context
+./prism-context.sh query "[search term]"
+
+# Session management
+./prism-context.sh archive  # Archive current session
+\`\`\`
+
+## Important Reminders
+
+### On Every Session Start:
+1. ✅ Read \`.prism/sessions/current.md\` to understand session context
+2. ✅ Check \`.prism/context/decisions.md\` for recent technical decisions
+3. ✅ Review \`.prism/context/patterns.md\` for established patterns
+4. ✅ Verify PRISM status with \`./prism-context.sh status\`
+
+### During Development:
+1. 📝 Update \`.prism/context/patterns.md\` when new patterns emerge
+2. 📝 Log all technical decisions in \`.prism/context/decisions.md\`
+3. 📝 Keep \`.prism/context/architecture.md\` current with design changes
+4. 📝 Track dependencies in \`.prism/context/dependencies.md\`
+5. 📝 Document domain knowledge in \`.prism/context/domain.md\`
+
+### Before Session End:
+1. 💾 Update \`.prism/sessions/current.md\` with session summary
+2. 💾 Archive important sessions with \`./prism-context.sh archive\`
+3. 💾 Ensure all context files are updated with new learnings
+
+## Quality Gates
+
+\`\`\`yaml
+# PRISM enforces these standards
+coverage:
+  unit_tests: ≥85%
+  security_paths: 100%
+complexity:
+  cyclomatic: <10
+  cognitive: <15
+performance:
+  api_response: <200ms
+  page_load: <3s
+security:
+  owasp_scan: passed
+  vulnerabilities: 0 CRITICAL
+\`\`\`
+
+## Notes
+
+- ⚠️ This repository uses PRISM framework for persistent context management
+- ⚠️ ALL architectural decisions and patterns MUST be documented in PRISM
+- ⚠️ Context persistence is CRITICAL for project continuity
+- ⚠️ Never skip reading PRISM context at session start
+
+### Update this file when:
+- Build tools and dependencies are added
+- Core architecture decisions are made (also update PRISM context)
+- Development workflows are established
+- Testing frameworks are configured
+- New team members join the project
+
+---
+
+**PRISM Framework Active** - Context persistence enabled
+*Last Updated*: $(date -Iseconds)
+EOF
+
+    echo -e "${GREEN}✓ CLAUDE.md created${NC}"
+}
+
 # Function to create prism-context.sh if not exists
 create_context_script() {
     if [ ! -f "prism-context.sh" ]; then
@@ -435,6 +594,7 @@ initialize_prism() {
 
     create_index_file
     create_prism_md
+    create_claude_md
     create_context_script
     update_gitignore
     create_time_sync
