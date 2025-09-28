@@ -4,7 +4,8 @@
 
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PRISM_ROOT="$(dirname "$SCRIPT_DIR")"
+# PRISM is installed in ~/.prism
+PRISM_ROOT="$HOME/.prism"
 
 # Source libraries
 source "${PRISM_ROOT}/lib/prism-core.sh"
