@@ -351,9 +351,30 @@ cmd_version() {
 
 # Main command dispatcher
 main() {
-    # Parse global options
-    args=$(parse_global_options "$@")
-    set -- $args
+    # Parse global options - modifies $@ directly
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            -v|--verbose)
+                set_log_level "DEBUG"
+                shift
+                ;;
+            -q|--quiet)
+                set_log_level "ERROR"
+                shift
+                ;;
+            --no-color)
+                export NO_COLOR=1
+                shift
+                ;;
+            --log-level)
+                set_log_level "$2"
+                shift 2
+                ;;
+            *)
+                break
+                ;;
+        esac
+    done
 
     # Get command
     local command=${1:-help}

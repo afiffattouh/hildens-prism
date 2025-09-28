@@ -8,7 +8,7 @@ IFS=$'\n\t'
 
 # Core configuration
 readonly PRISM_VERSION="2.0.0"
-readonly PRISM_HOME="${PRISM_HOME:-$HOME/.claude}"
+readonly PRISM_HOME="${PRISM_HOME:-$HOME/.prism}"
 readonly PRISM_CONFIG="${PRISM_CONFIG:-$PRISM_HOME/config.yaml}"
 readonly PRISM_LIB="${PRISM_LIB:-$(dirname "${BASH_SOURCE[0]}")}"
 readonly PRISM_LOG="${PRISM_LOG:-$PRISM_HOME/prism.log}"
