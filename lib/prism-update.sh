@@ -1,6 +1,6 @@
 #!/bin/bash
 # PRISM Update Library - Auto-update functionality
-# Version: 2.0.0
+# Version: 2.0.1
 
 # Dependencies are loaded by the main script
 # If running standalone, source them
@@ -27,7 +27,7 @@ get_current_version() {
         fi
     fi
     # Fallback to constant
-    echo "${PRISM_VERSION:-2.0.0}"
+    echo "${PRISM_VERSION:-2.0.1}"
 }
 
 # Get remote version
@@ -174,7 +174,7 @@ prism_update() {
     if [[ -f "$PRISM_HOME/VERSION" ]]; then
         current_version=$(cat "$PRISM_HOME/VERSION" | tr -d '[:space:]')
     else
-        current_version="${PRISM_VERSION:-2.0.0}"
+        current_version="${PRISM_VERSION:-2.0.1}"
     fi
     log_info "Current version: $current_version"
 

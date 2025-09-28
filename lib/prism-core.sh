@@ -1,13 +1,13 @@
 #!/bin/bash
 # PRISM Core Library - Foundation functions for PRISM framework
-# Version: 2.0.0
+# Version: 2.0.1
 
 # Strict error handling
 set -euo pipefail
 IFS=$'\n\t'
 
 # Core configuration
-readonly PRISM_VERSION="2.0.0"
+readonly PRISM_VERSION="2.0.1"
 readonly PRISM_HOME="${PRISM_HOME:-$HOME/.prism}"
 readonly PRISM_CONFIG="${PRISM_CONFIG:-$PRISM_HOME/config.yaml}"
 readonly PRISM_LIB="${PRISM_LIB:-$(dirname "${BASH_SOURCE[0]}")}"

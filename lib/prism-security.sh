@@ -1,6 +1,6 @@
 #!/bin/bash
 # PRISM Security Library - Security functions for PRISM framework
-# Version: 2.0.0
+# Version: 2.0.1
 
 # Dependencies are loaded by the main script
 # If running standalone, source them

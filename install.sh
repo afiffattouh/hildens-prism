@@ -1,6 +1,6 @@
 #!/bin/bash
 # PRISM Framework Installer - Simple version for main branch
-# Version: 2.0.0
+# Version: 2.0.1
 
 set -euo pipefail
 
@@ -29,7 +29,7 @@ fi
 
 # Print header
 echo -e "${BOLD}${BLUE}╔═══════════════════════════════════════════════════════╗${NC}"
-echo -e "${BOLD}${BLUE}║      PRISM Framework Installer v2.0.0                 ║${NC}"
+echo -e "${BOLD}${BLUE}║      PRISM Framework Installer v2.0.1                 ║${NC}"
 echo -e "${BOLD}${BLUE}║   Persistent Real-time Intelligent System Management  ║${NC}"
 echo -e "${BOLD}${BLUE}╚═══════════════════════════════════════════════════════╝${NC}"
 echo

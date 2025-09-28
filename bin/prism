@@ -1,6 +1,6 @@
 #!/bin/bash
 # PRISM Framework CLI - Main command-line interface
-# Version: 2.0.0
+# Version: 2.0.1
 
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -13,12 +13,12 @@ source "${PRISM_ROOT}/lib/prism-log.sh"
 source "${PRISM_ROOT}/lib/prism-security.sh"
 
 # Version and help information
-readonly PRISM_CLI_VERSION="2.0.0"
+readonly PRISM_CLI_VERSION="2.0.1"
 
 # Show help message
 show_help() {
     cat << 'EOF'
-PRISM Framework v2.0.0
+PRISM Framework v2.0.1
 Persistent Real-time Intelligent System Management
 
 Usage: prism <command> [options]

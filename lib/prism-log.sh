@@ -1,6 +1,6 @@
 #!/bin/bash
 # PRISM Logging Library - Logging functions for PRISM framework
-# Version: 2.0.0
+# Version: 2.0.1
 
 # Logging configuration
 readonly LOG_LEVELS=(TRACE DEBUG INFO WARN ERROR FATAL)
