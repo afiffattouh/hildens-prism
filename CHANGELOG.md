@@ -2,6 +2,25 @@
 
 All notable changes to the PRISM Framework will be documented in this file.
 
+## [2.0.4] - 2025-09-29
+
+### Added
+- Enhanced PRISM initialization for automatic Claude Code awareness
+- PRISM activation markers (.prism_active and AUTO_LOAD files)
+- Documentation structure enforcement preventing rogue .md files
+- Troubleshooting guide (TROUBLESHOOTING_PRISM.md)
+- Diagnostic script (scripts/diagnose-prism.sh)
+
+### Improved
+- CLAUDE.md template with mandatory PRISM directives
+- Context files with automatic triggers and acknowledgment requirements
+- index.yaml with Claude-specific instructions
+- Comprehensive documentation location mapping
+
+### Fixed
+- PRISM.md location discrepancy (now correctly in .prism/ directory)
+- README project structure documentation accuracy
+
 ## [2.0.3] - 2025-09-29
 
 ### Added

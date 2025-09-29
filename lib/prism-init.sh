@@ -722,14 +722,14 @@ ONLY create files outside PRISM structure when:
 - ALWAYS use `.prism/references/` for PRDs and specifications
 - ALWAYS use `.prism/sessions/` for tasks and TODOs
 
-## PRISM Framework Version: 2.0.3
+## PRISM Framework Version: 2.0.4
 For PRISM documentation: `.prism/PRISM.md`
 EOF
 
     # Create PRISM activation marker
     cat > .prism_active << 'EOF'
 PRISM_FRAMEWORK_ACTIVE=true
-VERSION=2.0.3
+VERSION=2.0.4
 INITIALIZED=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
 This file indicates PRISM is active in this project.
@@ -743,7 +743,7 @@ EOF
 
 When you see this file, IMMEDIATELY:
 1. Load all files in .prism/context/
-2. State: "PRISM Framework v2.0.3 - Context Loaded"
+2. State: "PRISM Framework v2.0.4 - Context Loaded"
 3. Apply all patterns and conventions
 4. Check for active session in .prism/sessions/current.md
 5. ENFORCE: NO documentation files outside .prism/ structure

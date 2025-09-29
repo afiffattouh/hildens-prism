@@ -368,7 +368,7 @@ fi
 
 ```yaml
 # PRISM Configuration
-version: 2.0.3
+version: 2.0.4
 
 # General settings
 general:
