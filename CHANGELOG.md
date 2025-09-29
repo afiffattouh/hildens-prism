@@ -19,6 +19,11 @@ All notable changes to the PRISM Framework will be documented in this file.
 - AUTO_LOAD file includes documentation structure rules
 - CLAUDE.md explicitly forbids creating standalone documentation files
 
+### Fixed
+- Corrected PRISM.md location discrepancy in documentation
+- PRISM.md now correctly placed in .prism/ directory, not project root
+- Updated README to show accurate project structure
+
 ## [2.0.2] - 2025-09-29
 
 ### Changed

@@ -347,20 +347,31 @@ After initialization, PRISM creates:
 ```
 your-project/
 ├── .prism/
-│   ├── config.yaml          # Project configuration
+│   ├── PRISM.md            # PRISM framework documentation
+│   ├── config.yaml         # Project configuration
+│   ├── index.yaml          # Context index with priorities
+│   ├── AUTO_LOAD           # Auto-load instructions for Claude
 │   ├── context/            # Persistent knowledge base
 │   │   ├── patterns.md     # Code patterns
 │   │   ├── architecture.md # System architecture
 │   │   ├── decisions.md    # Technical decisions
-│   │   └── custom/         # Custom context files
+│   │   ├── security.md     # Security policies
+│   │   ├── performance.md  # Performance requirements
+│   │   └── domain.md       # Business domain logic
 │   ├── sessions/           # Session management
 │   │   ├── current.md      # Active session
-│   │   └── history/        # Archived sessions
-│   ├── references/         # Documentation & guides
-│   │   └── commands.md     # Command reference
+│   │   └── archive/        # Archived sessions
+│   ├── references/         # Documentation & specifications
+│   │   ├── api-contracts.yaml  # API documentation
+│   │   ├── data-models.json    # Data structures
+│   │   └── prd.md              # Product requirements
+│   ├── workflows/          # Process documentation
+│   │   ├── development.md  # Development workflow
+│   │   ├── review.md       # Review process
+│   │   └── deployment.md   # Deployment process
 │   └── templates/          # Project templates
-├── CLAUDE.md              # Claude Code instructions
-└── PRISM.md              # PRISM configuration doc
+├── .prism_active          # PRISM activation marker
+└── CLAUDE.md              # Claude Code instructions (entry point)
 ```
 
 ## ⚙️ Configuration

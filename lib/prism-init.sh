@@ -603,7 +603,7 @@ metrics:
   test_coverage: 85
 EOF
 
-    # Copy PRISM.md to project root
+    # Copy PRISM.md to .prism directory
     if [[ -f "${PRISM_HOME}/PRISM.md" ]]; then
         cp "${PRISM_HOME}/PRISM.md" .prism/PRISM.md
     elif [[ -f "$(dirname "${BASH_SOURCE[0]}")/../PRISM.md" ]]; then
