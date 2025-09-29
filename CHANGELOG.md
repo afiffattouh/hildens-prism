@@ -2,6 +2,22 @@
 
 All notable changes to the PRISM Framework will be documented in this file.
 
+## [2.0.5] - 2025-09-29
+
+### Added
+- Selective overwrite feature for `prism init --force` command
+- User prompts for overwriting modified context files during force initialization
+- Protection for user-customized files in `.prism/context/` directory
+
+### Fixed
+- Force parameter not being passed correctly to prism_init function
+- Missing force mode handling in initialization process
+
+### Improved
+- Force initialization now intelligently preserves user modifications
+- Added file size detection to identify potentially modified files
+- Core PRISM files update automatically while user files prompt for confirmation
+
 ## [2.0.4] - 2025-09-29
 
 ### Added

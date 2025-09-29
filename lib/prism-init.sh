@@ -5,10 +5,17 @@
 prism_init() {
     local template=${1:-default}
     local minimal=${2:-false}
+    local force=${3:-false}
 
     log_info "============================================================"
     log_info "Initializing PRISM Framework"
     log_info "============================================================"
+
+    # Check for force mode
+    if [[ "$force" == "true" ]] && [[ -d ".prism" ]]; then
+        log_warn "Force mode: Updating existing PRISM installation"
+        log_info "User-modified files in .prism/context/ will be preserved unless you confirm overwrite"
+    fi
 
     log_info "Creating PRISM structure..."
 
@@ -19,7 +26,23 @@ prism_init() {
     log_info "Setting up context management system..."
 
     # Create architecture.md
-    cat > .prism/context/architecture.md << 'EOF'
+    # In force mode, check if file exists and is modified
+    local skip_architecture=false
+    if [[ "$force" == "true" ]] && [[ -f ".prism/context/architecture.md" ]]; then
+        local file_size=$(wc -c < ".prism/context/architecture.md")
+        if [[ $file_size -gt 500 ]]; then
+            log_warn "Found existing architecture.md (${file_size} bytes)"
+            echo -n "Overwrite architecture.md? (y/N): "
+            read -r response
+            if [[ ! "$response" =~ ^[yY] ]]; then
+                skip_architecture=true
+                log_info "Keeping existing architecture.md"
+            fi
+        fi
+    fi
+
+    if [[ "$skip_architecture" == "false" ]]; then
+        cat > .prism/context/architecture.md << 'EOF'
 # System Architecture
 **Last Updated**: $(date -u +%Y-%m-%dT%H:%M:%SZ)
 **Priority**: CRITICAL
@@ -64,6 +87,7 @@ System architecture and design decisions for this project.
 - Follow established patterns
 - Respect service boundaries
 EOF
+    fi
 
     # Create patterns.md
     cat > .prism/context/patterns.md << 'EOF'

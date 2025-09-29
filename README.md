@@ -2,7 +2,7 @@
 
 > **Secure, modular, and professional AI context management for Claude Code**
 
-[![Version](https://img.shields.io/badge/version-2.0.4-blue.svg)](https://github.com/afiffattouh/hildens-prism)
+[![Version](https://img.shields.io/badge/version-2.0.5-blue.svg)](https://github.com/afiffattouh/hildens-prism)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Security](https://img.shields.io/badge/security-hardened-orange.svg)](SECURITY.md)
 
@@ -56,6 +56,9 @@ PRISM (Persistent Real-time Intelligent System Management) is a comprehensive fr
 - 🔄 **Auto-Updates** - Keep framework current with built-in updater
 - 📊 **Session Management** - Track and restore development sessions
 - ⚙️ **Configuration System** - Flexible project and global settings
+- 🤖 **Agent Orchestration** - Multi-agent coordination for complex tasks
+- 🎯 **Task Decomposition** - Automatic task breakdown and routing
+- 🔀 **Swarm Topologies** - Parallel, pipeline, hierarchical, and mesh execution
 
 ## 📦 Features
 
@@ -68,6 +71,9 @@ PRISM (Persistent Real-time Intelligent System Management) is a comprehensive fr
 - ✅ **Health Diagnostics** - Built-in troubleshooting
 - ✅ **Security Hardening** - Input validation and secure operations
 - ✅ **Multi-Platform** - macOS, Linux, and WSL support
+- ✅ **Agent Orchestration** - Specialized agents for complex tasks
+- ✅ **Swarm Coordination** - Multiple execution topologies
+- ✅ **SPARC Methodology** - Systematic development workflow
 
 ### v2.0 Improvements
 - ✅ Secure installation with verification
@@ -251,6 +257,65 @@ prism config set log_level DEBUG
 
 # Reset to defaults
 prism config reset
+```
+
+### 🤖 Agent Orchestration
+
+Coordinate multiple specialized agents for complex tasks:
+
+```bash
+# Initialize agent system
+prism agent init
+
+# Create and execute agents
+prism agent create <type> [name] "task description"
+prism agent execute <agent_id>
+prism agent list
+prism agent result <agent_id>
+
+# Swarm coordination
+prism agent swarm create <name> <topology> "task"
+prism agent swarm add <swarm_id> <agent_type> "subtask"
+prism agent swarm execute <swarm_id>
+
+# Task decomposition
+prism agent decompose "complex task description"
+```
+
+**Agent Types:**
+- `architect` - System design and architecture
+- `coder` - Implementation and coding
+- `tester` - Testing and quality assurance
+- `reviewer` - Code review and analysis
+- `documenter` - Documentation writing
+- `security` - Security analysis
+- `performance` - Performance optimization
+- `refactorer` - Code refactoring
+- `debugger` - Bug detection and fixing
+- `planner` - Task planning and decomposition
+- `sparc` - SPARC methodology orchestration
+
+**Swarm Topologies:**
+- `parallel` - All agents execute simultaneously
+- `pipeline` - Sequential execution
+- `hierarchical` - Coordinator with workers
+- `mesh` - Inter-agent communication
+
+**Examples:**
+```bash
+# Create a simple agent
+prism agent create coder auth_impl "Implement user authentication"
+prism agent execute agent_auth_impl_1234
+
+# Create a SPARC development swarm
+SWARM_ID=$(prism agent swarm create dev_team pipeline "Build payment module")
+prism agent swarm add $SWARM_ID architect "Design payment system"
+prism agent swarm add $SWARM_ID coder "Implement payment logic"
+prism agent swarm add $SWARM_ID tester "Test payment flows"
+prism agent swarm execute $SWARM_ID
+
+# Decompose complex task
+prism agent decompose "Build complete e-commerce checkout with payment processing"
 ```
 
 ### 🔄 Update Command
