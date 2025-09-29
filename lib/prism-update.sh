@@ -27,7 +27,7 @@ get_current_version() {
         fi
     fi
     # Fallback to constant
-    echo "${PRISM_VERSION:-2.0.6}"
+    echo "${PRISM_VERSION:-2.0.7}"
 }
 
 # Get remote version
@@ -174,7 +174,7 @@ prism_update() {
     if [[ -f "$PRISM_HOME/VERSION" ]]; then
         current_version=$(cat "$PRISM_HOME/VERSION" | tr -d '[:space:]')
     else
-        current_version="${PRISM_VERSION:-2.0.6}"
+        current_version="${PRISM_VERSION:-2.0.7}"
     fi
     log_info "Current version: $current_version"
 

@@ -2,6 +2,11 @@
 
 All notable changes to the PRISM Framework will be documented in this file.
 
+## [2.0.7] - 2025-09-29
+
+### Changed
+- Updated version to 2.0.7
+
 ## [2.0.6] - 2025-09-29
 
 ### Added
