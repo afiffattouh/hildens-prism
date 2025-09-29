@@ -2,6 +2,32 @@
 
 All notable changes to the PRISM Framework will be documented in this file.
 
+## [2.0.6] - 2025-09-29
+
+### Added
+- **Complete Agent Orchestration System** - Multi-agent coordination for complex development tasks
+- Specialized agents: architect, coder, tester, reviewer, security-auditor, performance-optimizer, refactorer, debugger, documenter, devops, ui-designer, data-modeler
+- SPARC methodology integration (Specification, Pseudocode, Architecture, Refinement, Code)
+- Four swarm topologies: parallel, pipeline, hierarchical, and mesh execution patterns
+- Claude Code integration templates and context-aware agent instructions
+- Agent capability matrix and intelligent task routing
+- Comprehensive agent orchestration commands (`prism agent init/create/execute/list/cleanup`)
+- Swarm management commands for coordinated multi-agent workflows
+- Task decomposition engine for automatic agent assignment
+- Agent communication protocols and message passing
+- Examples and workflow patterns for agent orchestration
+
+### Improved
+- Enhanced PRISM binary with full agent command support
+- Bash 3.2 compatibility for macOS systems (removed associative arrays)
+- Agent system integration with existing PRISM context and configuration
+- Documentation with comprehensive agent orchestration examples
+
+### Fixed
+- Infinite recursion in agent command dispatcher
+- Missing agent library sourcing in main PRISM binary
+- Force parameter passing in initialization commands
+
 ## [2.0.5] - 2025-09-29
 
 ### Added

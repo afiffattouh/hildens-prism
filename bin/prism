@@ -28,6 +28,7 @@ Commands:
   session <action>     Manage development sessions
   config <action>      Configure PRISM settings
   update [options]     Update PRISM framework
+  agent <action>       Multi-agent orchestration and coordination
   doctor              Diagnose and fix issues
   version             Show version information
   help                Show this help message
@@ -58,6 +59,15 @@ Config Actions:
   set <key> <value>  Set configuration value
   list              List all configuration
   reset             Reset to defaults
+
+Agent Orchestration:
+  init                     Initialize agent system
+  create <type> [name]     Create a specialized agent
+  execute <id>             Execute agent task
+  list                     List active agents
+  swarm create <name>      Create agent swarm
+  swarm execute <id>       Execute swarm tasks
+  decompose <task>         Decompose complex task
 
 Update Options:
   --check            Check for updates only
@@ -331,6 +341,49 @@ cmd_update() {
     prism_update "$check_only" "$force" "$beta"
 }
 
+# Agent orchestration command
+cmd_agent() {
+    # Source agent libraries
+    source "${PRISM_ROOT}/lib/prism-agents.sh"
+    source "${PRISM_ROOT}/lib/prism-claude-agents.sh" 2>/dev/null || true
+
+    # Call the agent command handler from the library
+    local action="$1"
+    shift
+
+    case "$action" in
+        init)
+            init_agent_system "$@"
+            ;;
+        create)
+            create_agent "$@"
+            ;;
+        execute)
+            execute_agent_task "$@"
+            ;;
+        list)
+            list_active_agents
+            ;;
+        result)
+            get_agent_result "$@"
+            ;;
+        cleanup)
+            cleanup_agents
+            ;;
+        swarm)
+            cmd_swarm "$@"
+            ;;
+        decompose)
+            decompose_task "$@"
+            ;;
+        *)
+            log_error "Unknown agent command: $action"
+            echo "Usage: prism agent {init|create|execute|list|result|cleanup|swarm|decompose}"
+            return 1
+            ;;
+    esac
+}
+
 # Run diagnostics
 cmd_doctor() {
     log_header "PRISM Doctor - System Diagnostics"
@@ -398,6 +451,9 @@ main() {
             ;;
         update)
             cmd_update "$@"
+            ;;
+        agent)
+            cmd_agent "$@"
             ;;
         doctor)
             cmd_doctor "$@"
