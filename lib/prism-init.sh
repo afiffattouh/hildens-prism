@@ -113,10 +113,25 @@ Established patterns and conventions for this project.
 - security.md
 - domain.md
 
-## AI Instructions
-- Always follow established patterns
-- Maintain consistency across codebase
-- Use existing utilities and helpers
+## AI Instructions (MANDATORY FOR CLAUDE CODE)
+### 🚨 CRITICAL: You MUST follow these patterns
+- **ALWAYS** follow established patterns above
+- **NEVER** deviate from defined conventions
+- **ALWAYS** maintain consistency across codebase
+- **ALWAYS** use existing utilities and helpers
+- **CHECK** this file before writing ANY code
+- **REFERENCE** these patterns in your responses
+
+### AUTOMATIC TRIGGERS
+When you see these keywords, CHECK THIS FILE:
+- "write code", "implement", "create function"
+- "refactor", "update", "modify"
+- "new feature", "add functionality"
+- "fix bug", "solve issue"
+
+### ACKNOWLEDGMENT REQUIRED
+At conversation start, you MUST state:
+"✅ PRISM patterns loaded from .prism/context/patterns.md"
 EOF
 
     # Create decisions.md
@@ -532,25 +547,41 @@ EOF
 5. Update context
 EOF
 
-    # Create index.yaml
+    # Create enhanced index.yaml with Claude directives
     cat > .prism/index.yaml << EOF
-# PRISM Context Index
+# PRISM Context Index - CLAUDE CODE MUST READ THIS FIRST
 version: ${PRISM_VERSION}
 created: $(date -u +%Y-%m-%dT%H:%M:%SZ)
 project:
   name: $(basename "$PWD")
   type: $template
 
+# MANDATORY FOR CLAUDE CODE
+claude_instructions:
+  priority: CRITICAL
+  message: |
+    🚨 ATTENTION CLAUDE CODE:
+    This project uses PRISM Framework v${PRISM_VERSION}
+    You MUST load and follow ALL context files listed below.
+    State "PRISM Context Loaded" after reading this file.
+
+  required_actions:
+    - Read ALL files in contexts section
+    - Follow patterns in patterns.md
+    - Respect architecture in architecture.md
+    - Apply security rules from security.md
+    - Check for active session in sessions/current.md
+
 contexts:
   critical:
-    - architecture.md
-    - security.md
-    - domain.md
+    - architecture.md    # SYSTEM DESIGN - MUST READ
+    - security.md       # SECURITY RULES - MUST FOLLOW
+    - domain.md         # BUSINESS LOGIC - MUST UNDERSTAND
   high:
-    - patterns.md
-    - decisions.md
-    - dependencies.md
-    - performance.md
+    - patterns.md       # CODING STANDARDS - MUST APPLY
+    - decisions.md      # TECH DECISIONS - MUST RESPECT
+    - dependencies.md   # DEPENDENCIES - MUST USE
+    - performance.md    # PERFORMANCE TARGETS - MUST MEET
   medium:
     - workflows/development.md
     - workflows/review.md
@@ -579,25 +610,85 @@ EOF
         cp "$(dirname "${BASH_SOURCE[0]}")/../PRISM.md" .prism/PRISM.md
     fi
 
-    # Create CLAUDE.md in project root
+    # Create CLAUDE.md in project root with strong PRISM awareness
     cat > CLAUDE.md << 'EOF'
-# CLAUDE.md - Project Context for Claude Code
+# CLAUDE.md - CRITICAL: PRISM Framework Active
 
-This project uses the PRISM framework for AI-assisted development.
+## 🚨 MANDATORY: PRISM Context Loading Protocol
 
-## Quick Start
-When starting a session with this project:
-1. Check `.prism/index.yaml` for critical context
-2. Load `.prism/sessions/current.md` for session continuity
-3. Review `.prism/context/patterns.md` for coding standards
-4. Follow `.prism/context/security.md` for security requirements
+**IMPORTANT**: This project uses PRISM (Persistent Real-time Intelligent System Management).
+You MUST follow this protocol at the START of EVERY conversation:
 
-## Project-Specific Instructions
+### IMMEDIATE ACTIONS REQUIRED:
+1. **ACKNOWLEDGE PRISM**: State "PRISM Framework detected and loaded"
+2. **LOAD CONTEXT FILES**: Read ALL files in `.prism/context/` directory
+3. **CHECK SESSION**: Load `.prism/sessions/current.md` if it exists
+4. **APPLY PATTERNS**: Follow patterns defined in `.prism/context/patterns.md`
+
+### AUTOMATIC CONTEXT CHECK
+When ANY of these occur, IMMEDIATELY check PRISM context:
+- Starting a new conversation
+- User mentions files or code
+- Making architectural decisions
+- Writing new code
+- Reviewing existing code
+
+### PRISM Context Files (MUST READ):
+```
+.prism/
+├── context/
+│   ├── patterns.md     # ← CODING STANDARDS (MANDATORY)
+│   ├── architecture.md # ← SYSTEM DESIGN (CRITICAL)
+│   ├── decisions.md    # ← TECHNICAL DECISIONS (IMPORTANT)
+│   ├── security.md     # ← SECURITY POLICIES (CRITICAL)
+│   └── performance.md  # ← PERFORMANCE REQUIREMENTS
+├── sessions/
+│   └── current.md      # ← ACTIVE SESSION CONTEXT
+└── index.yaml          # ← CRITICAL CONTEXT INDEX
+```
+
+### VERIFICATION CHECKLIST:
+- [ ] I have read `.prism/context/patterns.md`
+- [ ] I have read `.prism/context/architecture.md`
+- [ ] I understand the project's technical decisions
+- [ ] I will follow the defined coding patterns
+- [ ] I will maintain session continuity
+
+### Project-Specific Instructions
 [Add your project-specific instructions here]
 
-## PRISM Framework
-See `.prism/PRISM.md` for complete development workflow and best practices.
+### REMEMBER:
+- ALWAYS check `.prism/context/` before making suggestions
+- NEVER ignore patterns defined in PRISM context
+- ALWAYS maintain consistency with existing architecture
+- CONTINUOUSLY reference PRISM context during the conversation
+
+## PRISM Framework Version: 2.0.3
+For PRISM documentation: `.prism/PRISM.md`
 EOF
+
+    # Create PRISM activation marker
+    cat > .prism_active << 'EOF'
+PRISM_FRAMEWORK_ACTIVE=true
+VERSION=2.0.3
+INITIALIZED=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+
+This file indicates PRISM is active in this project.
+Claude Code should automatically detect and load PRISM context.
+EOF
+    log_info "✅ Created PRISM activation marker"
+
+    # Create .prism/AUTO_LOAD file for Claude
+    cat > .prism/AUTO_LOAD << 'EOF'
+# AUTO-LOAD INSTRUCTION FOR CLAUDE CODE
+
+When you see this file, IMMEDIATELY:
+1. Load all files in .prism/context/
+2. State: "PRISM Framework v2.0.3 - Context Loaded"
+3. Apply all patterns and conventions
+4. Check for active session in .prism/sessions/current.md
+EOF
+    log_info "✅ Created auto-load instruction file"
 
     # Create .gitignore if it doesn't exist
     if [[ ! -f .gitignore ]]; then
