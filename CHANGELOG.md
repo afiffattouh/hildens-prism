@@ -2,6 +2,17 @@
 
 All notable changes to the PRISM Framework will be documented in this file.
 
+## [2.0.3] - 2025-09-29
+
+### Added
+- Comprehensive README documentation with complete command reference
+- Automated version update script (scripts/update-version.sh)
+- UPDATE_ROUTINE.md for version management process
+
+### Improved
+- Enhanced documentation coverage for all PRISM features
+- Better command examples and usage instructions
+
 ## [2.0.2] - 2025-09-29
 
 ### Changed

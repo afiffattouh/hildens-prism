@@ -10,7 +10,7 @@ readonly BIN_DIR="${HOME}/bin"
 readonly CLAUDE_DIR="${HOME}/.claude"
 
 # Try to get version from remote, fallback to default
-INSTALLER_VERSION=$(curl -fsSL "https://raw.githubusercontent.com/afiffattouh/hildens-prism/main/VERSION" 2>/dev/null || echo "2.0.1")
+INSTALLER_VERSION=$(curl -fsSL "https://raw.githubusercontent.com/afiffattouh/hildens-prism/main/VERSION" 2>/dev/null || echo "2.0.3")
 
 # Colors
 if [[ -t 1 ]]; then
