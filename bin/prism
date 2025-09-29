@@ -343,45 +343,58 @@ cmd_update() {
 
 # Agent orchestration command
 cmd_agent() {
-    # Source agent libraries
-    source "${PRISM_ROOT}/lib/prism-agents.sh"
-    source "${PRISM_ROOT}/lib/prism-claude-agents.sh" 2>/dev/null || true
+    # Create a temporary script to run agent commands without strict mode conflicts
+    local temp_script=$(mktemp)
+    cat > "$temp_script" << 'EOF'
+#!/bin/bash
+export PRISM_NO_STRICT=1
+source "$PRISM_ROOT/lib/prism-core.sh"
+source "$PRISM_ROOT/lib/prism-log.sh"
+source "$PRISM_ROOT/lib/prism-agents.sh"
+source "$PRISM_ROOT/lib/prism-claude-agents.sh" 2>/dev/null || true
 
-    # Call the agent command handler from the library
-    local action="$1"
-    shift
+# Call the agent command handler
+action="$1"
+shift
 
-    case "$action" in
-        init)
-            init_agent_system "$@"
-            ;;
-        create)
-            create_agent "$@"
-            ;;
-        execute)
-            execute_agent_task "$@"
-            ;;
-        list)
-            list_active_agents
-            ;;
-        result)
-            get_agent_result "$@"
-            ;;
-        cleanup)
-            cleanup_agents
-            ;;
-        swarm)
-            cmd_swarm "$@"
-            ;;
-        decompose)
-            decompose_task "$@"
-            ;;
-        *)
-            log_error "Unknown agent command: $action"
-            echo "Usage: prism agent {init|create|execute|list|result|cleanup|swarm|decompose}"
-            return 1
-            ;;
-    esac
+case "$action" in
+    init)
+        init_agent_system "$@"
+        ;;
+    create)
+        create_agent "$@"
+        ;;
+    execute)
+        execute_agent_task "$@"
+        ;;
+    list)
+        list_active_agents
+        ;;
+    result)
+        get_agent_result "$@"
+        ;;
+    cleanup)
+        cleanup_agents
+        ;;
+    swarm)
+        cmd_swarm "$@"
+        ;;
+    decompose)
+        decompose_task "$@"
+        ;;
+    *)
+        log_error "Unknown agent command: $action"
+        echo "Usage: prism agent {init|create|execute|list|result|cleanup|swarm|decompose}"
+        exit 1
+        ;;
+esac
+EOF
+
+    # Execute the script and clean up
+    PRISM_ROOT="$PRISM_ROOT" bash "$temp_script" "$@"
+    local result=$?
+    rm -f "$temp_script"
+    return $result
 }
 
 # Run diagnostics

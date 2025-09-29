@@ -369,11 +369,31 @@ add_agent_to_swarm() {
     local agent_type="$2"
     local task="$3"
 
-    local agent_id=$(create_agent "$agent_type" "${swarm_id}_${agent_type}" "$task")
+    # Capture only the agent ID (last line of output)
+    local agent_output=$(create_agent "$agent_type" "${swarm_id}_${agent_type}" "$task")
+    local agent_id=$(echo "$agent_output" | tail -n 1)
 
-    # Update swarm configuration
+    # Update swarm configuration with proper YAML format
     local swarm_dir=".prism/agents/swarms/$swarm_id"
-    echo "  - $agent_id" >> "$swarm_dir/config.yaml"
+
+    # Simple approach: just add to the agents list by inserting after last agent entry
+    if grep -q "^agents: \[\]$" "$swarm_dir/config.yaml"; then
+        # Replace empty array
+        sed -i '' "s/^agents: \[\]$/agents:\n  - $agent_id/" "$swarm_dir/config.yaml"
+    else
+        # Find the last line that starts with "  - " under agents section and add after it
+        # Or if no agents exist yet, add after "agents:" line
+        local last_agent_line=$(grep -n "^  - agent_" "$swarm_dir/config.yaml" | tail -n 1 | cut -d: -f1)
+        if [[ -n "$last_agent_line" ]]; then
+            # Add after last agent
+            sed -i '' "${last_agent_line}a\\
+  - $agent_id" "$swarm_dir/config.yaml"
+        else
+            # Add after agents: line
+            sed -i '' "/^agents:$/a\\
+  - $agent_id" "$swarm_dir/config.yaml"
+        fi
+    fi
 
     echo "$agent_id"
 }
@@ -537,20 +557,33 @@ decompose_task() {
 # Get agent result
 get_agent_result() {
     local agent_id="$1"
-    local result_file_path=".prism/agents/registry/${agent_id}.result"
 
+    # First check if agent has a registry entry (for active/working agents)
+    local result_file_path=".prism/agents/registry/${agent_id}.result"
     if [[ -f "$result_file_path" ]]; then
         local result_file=$(cat "$result_file_path")
         if [[ -f "$result_file" ]]; then
             cat "$result_file"
-        else
-            log_error "Result file not found: $result_file"
-            return 1
+            return 0
         fi
-    else
-        log_error "No results found for agent: $agent_id"
-        return 1
     fi
+
+    # If no registry entry, search directly in results directory
+    local results_dir=".prism/agents/results"
+    local result_files=("$results_dir"/${agent_id}_*.md)
+
+    if [[ ${#result_files[@]} -gt 0 ]] && [[ -f "${result_files[0]}" ]]; then
+        # Return the first matching result file
+        cat "${result_files[0]}"
+        return 0
+    fi
+
+    # No results found
+    log_error "No results found for agent: $agent_id"
+    log_info "Searched in:"
+    log_info "  - Registry: $result_file_path"
+    log_info "  - Results: $results_dir/${agent_id}_*.md"
+    return 1
 }
 
 # List active agents
@@ -589,8 +622,12 @@ cleanup_agents() {
                 if [[ "$state" == "$AGENT_STATE_COMPLETED" ]] || [[ "$state" == "$AGENT_STATE_FAILED" ]]; then
                     local agent_id=$(basename "$dir")
                     mv "$dir" ".prism/agents/completed/"
-                    # Clean up registry files
-                    rm -f ".prism/agents/registry/${agent_id}.result" 2>/dev/null
+
+                    # Move registry file to completed directory instead of deleting
+                    if [[ -f ".prism/agents/registry/${agent_id}.result" ]]; then
+                        mv ".prism/agents/registry/${agent_id}.result" ".prism/agents/completed/${agent_id}/" 2>/dev/null
+                    fi
+
                     log_info "Cleaned up agent: $agent_id"
                 fi
             fi

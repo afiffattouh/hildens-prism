@@ -1,9 +1,11 @@
 #!/bin/bash
 # PRISM Core Library - Foundation functions for PRISM framework
 
-# Strict error handling
-set -euo pipefail
-IFS=$'\n\t'
+# Strict error handling (can be disabled by setting PRISM_NO_STRICT=1)
+if [[ "${PRISM_NO_STRICT:-}" != "1" ]]; then
+    set -euo pipefail
+    IFS=$'\n\t'
+fi
 
 # Core configuration
 readonly PRISM_HOME="${PRISM_HOME:-$HOME/.prism}"
@@ -47,7 +49,7 @@ error_handler() {
     local last_command=$3
     local exit_code=$4
 
-    log_error "Error occurred in script: ${BASH_SOURCE[1]}"
+    log_error "Error occurred in script: ${BASH_SOURCE[1]:-"unknown"}"
     log_error "Line $line_no: Command '$last_command' exited with code $exit_code"
 
     # Cleanup on error
@@ -56,8 +58,10 @@ error_handler() {
     exit "$exit_code"
 }
 
-# Set up error trap
-trap 'error_handler $LINENO $BASH_LINENO "$BASH_COMMAND" $?' ERR
+# Set up error trap (only if strict mode is enabled)
+if [[ "${PRISM_NO_STRICT:-}" != "1" ]]; then
+    trap 'error_handler $LINENO $BASH_LINENO "$BASH_COMMAND" $?' ERR
+fi
 
 # Cleanup function (to be overridden by scripts)
 cleanup_on_error() {
