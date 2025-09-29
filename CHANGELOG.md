@@ -20,6 +20,9 @@ All notable changes to the PRISM Framework will be documented in this file.
 ### Fixed
 - PRISM.md location discrepancy (now correctly in .prism/ directory)
 - README project structure documentation accuracy
+- Timestamp tracking for Claude Code awareness
+- Added .prism/TIMESTAMP file for tracking initialization and updates
+- Fixed .prism_active to use actual timestamps instead of placeholder
 
 ## [2.0.3] - 2025-09-29
 

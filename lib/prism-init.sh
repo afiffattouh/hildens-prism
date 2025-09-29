@@ -620,10 +620,12 @@ EOF
 You MUST follow this protocol at the START of EVERY conversation:
 
 ### IMMEDIATE ACTIONS REQUIRED:
-1. **ACKNOWLEDGE PRISM**: State "PRISM Framework detected and loaded"
-2. **LOAD CONTEXT FILES**: Read ALL files in `.prism/context/` directory
-3. **CHECK SESSION**: Load `.prism/sessions/current.md` if it exists
-4. **APPLY PATTERNS**: Follow patterns defined in `.prism/context/patterns.md`
+1. **CHECK TIMESTAMP**: Read `.prism_active` file and note the INITIALIZED and LAST_UPDATED times
+2. **ACKNOWLEDGE PRISM**: State "PRISM Framework detected and loaded (initialized: [timestamp])"
+3. **LOAD CONTEXT FILES**: Read ALL files in `.prism/context/` directory
+4. **CHECK SESSION**: Load `.prism/sessions/current.md` if it exists
+5. **APPLY PATTERNS**: Follow patterns defined in `.prism/context/patterns.md`
+6. **VERIFY FRESHNESS**: Check if any context files are newer than your last interaction
 
 ### AUTOMATIC CONTEXT CHECK
 When ANY of these occur, IMMEDIATELY check PRISM context:
@@ -700,6 +702,8 @@ ONLY create files outside PRISM structure when:
 4. It's a configuration file required by tools
 
 ### VERIFICATION CHECKLIST:
+- [ ] I have checked `.prism_active` for initialization timestamp
+- [ ] I have checked `.prism/TIMESTAMP` for last update
 - [ ] I have read `.prism/context/patterns.md`
 - [ ] I have read `.prism/context/architecture.md`
 - [ ] I understand the project's technical decisions
@@ -708,6 +712,7 @@ ONLY create files outside PRISM structure when:
 - [ ] I will ONLY create documentation in PRISM structure
 - [ ] I will NEVER create rogue .md files in root
 - [ ] I understand the documentation structure rules
+- [ ] I am aware of when PRISM was last updated
 
 ### Project-Specific Instructions
 [Add your project-specific instructions here]
@@ -726,27 +731,50 @@ ONLY create files outside PRISM structure when:
 For PRISM documentation: `.prism/PRISM.md`
 EOF
 
-    # Create PRISM activation marker
-    cat > .prism_active << 'EOF'
+    # Create PRISM activation marker with actual timestamp
+    cat > .prism_active << EOF
 PRISM_FRAMEWORK_ACTIVE=true
 VERSION=2.0.4
 INITIALIZED=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+LAST_UPDATED=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
 This file indicates PRISM is active in this project.
 Claude Code should automatically detect and load PRISM context.
+
+IMPORTANT FOR CLAUDE CODE:
+Check the INITIALIZED and LAST_UPDATED timestamps above.
+These indicate when PRISM was set up and last modified.
 EOF
     log_info "✅ Created PRISM activation marker"
+
+    # Create timestamp tracker
+    cat > .prism/TIMESTAMP << EOF
+# PRISM Timestamp Tracker
+# This file tracks when PRISM was initialized and last updated
+
+INITIALIZED: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+LAST_UPDATED: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+VERSION: 2.0.4
+
+## For Claude Code
+ALWAYS check this file to understand when PRISM was set up.
+If LAST_UPDATED is recent, reload all context files.
+EOF
+    log_info "✅ Created timestamp tracker"
 
     # Create .prism/AUTO_LOAD file for Claude
     cat > .prism/AUTO_LOAD << 'EOF'
 # AUTO-LOAD INSTRUCTION FOR CLAUDE CODE
 
 When you see this file, IMMEDIATELY:
-1. Load all files in .prism/context/
-2. State: "PRISM Framework v2.0.4 - Context Loaded"
-3. Apply all patterns and conventions
-4. Check for active session in .prism/sessions/current.md
-5. ENFORCE: NO documentation files outside .prism/ structure
+1. Check .prism/TIMESTAMP file for initialization time
+2. Check .prism_active file for framework status
+3. Load all files in .prism/context/
+4. State: "PRISM Framework v2.0.4 - Context Loaded (initialized: [timestamp from file])"
+5. Apply all patterns and conventions
+6. Check for active session in .prism/sessions/current.md
+7. ENFORCE: NO documentation files outside .prism/ structure
+8. VERIFY: Compare timestamps to detect recent changes
 
 CRITICAL RULES:
 - NEVER create ROADMAP.md, PRD.md, PLAN.md, TODO.md in root
