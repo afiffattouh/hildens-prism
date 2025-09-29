@@ -647,12 +647,67 @@ When ANY of these occur, IMMEDIATELY check PRISM context:
 └── index.yaml          # ← CRITICAL CONTEXT INDEX
 ```
 
+## 📁 CRITICAL: Documentation Structure Rules
+
+### ⛔ FORBIDDEN: Creating Rogue Files
+**NEVER CREATE STANDALONE .md FILES IN THE PROJECT ROOT OR RANDOM LOCATIONS**
+
+You are STRICTLY FORBIDDEN from creating:
+- ❌ `README.md` in root (unless explicitly requested)
+- ❌ `ROADMAP.md` as a standalone file
+- ❌ `PRD.md` as a standalone file
+- ❌ `PLAN.md` as a standalone file
+- ❌ `TODO.md` as a standalone file
+- ❌ Any other documentation files outside PRISM structure
+
+### ✅ MANDATORY: Use PRISM Structure for ALL Documentation
+
+**ALL** planning, thinking, roadmaps, PRDs, and documentation MUST be placed in the PRISM structure:
+
+| Document Type | CORRECT Location | Purpose |
+|--------------|------------------|---------|
+| **Roadmap** | `.prism/context/roadmap.md` | Product roadmap and milestones |
+| **PRD** | `.prism/references/prd.md` | Product requirements document |
+| **Planning** | `.prism/workflows/planning.md` | Project planning and tasks |
+| **Architecture** | `.prism/context/architecture.md` | System design (EXISTS) |
+| **Decisions** | `.prism/context/decisions.md` | Technical decisions (EXISTS) |
+| **TODO/Tasks** | `.prism/sessions/current.md` | Active tasks and TODOs |
+| **API Docs** | `.prism/references/api-contracts.yaml` | API documentation |
+| **Data Models** | `.prism/references/data-models.json` | Data structures |
+| **Workflows** | `.prism/workflows/*.md` | Process documentation |
+
+### 📝 File Creation Protocol
+
+When user asks for documentation, planning, or any .md file:
+
+1. **CHECK** if it belongs in PRISM structure
+2. **NEVER** create it in project root
+3. **ALWAYS** use the correct PRISM location
+4. **UPDATE** existing PRISM files instead of creating new ones when possible
+
+Example responses:
+- User: "Create a roadmap" → Create/Update `.prism/context/roadmap.md`
+- User: "Write a PRD" → Create/Update `.prism/references/prd.md`
+- User: "Document the plan" → Update `.prism/workflows/planning.md`
+- User: "Make a TODO list" → Update `.prism/sessions/current.md`
+
+### 🚫 Exception Handling
+
+ONLY create files outside PRISM structure when:
+1. User EXPLICITLY specifies a different location
+2. User EXPLICITLY asks for "README.md in root"
+3. It's a code file (not documentation)
+4. It's a configuration file required by tools
+
 ### VERIFICATION CHECKLIST:
 - [ ] I have read `.prism/context/patterns.md`
 - [ ] I have read `.prism/context/architecture.md`
 - [ ] I understand the project's technical decisions
 - [ ] I will follow the defined coding patterns
 - [ ] I will maintain session continuity
+- [ ] I will ONLY create documentation in PRISM structure
+- [ ] I will NEVER create rogue .md files in root
+- [ ] I understand the documentation structure rules
 
 ### Project-Specific Instructions
 [Add your project-specific instructions here]
@@ -662,6 +717,10 @@ When ANY of these occur, IMMEDIATELY check PRISM context:
 - NEVER ignore patterns defined in PRISM context
 - ALWAYS maintain consistency with existing architecture
 - CONTINUOUSLY reference PRISM context during the conversation
+- NEVER create documentation files outside `.prism/` structure
+- ALWAYS use `.prism/context/` for roadmaps and planning
+- ALWAYS use `.prism/references/` for PRDs and specifications
+- ALWAYS use `.prism/sessions/` for tasks and TODOs
 
 ## PRISM Framework Version: 2.0.3
 For PRISM documentation: `.prism/PRISM.md`
@@ -687,6 +746,13 @@ When you see this file, IMMEDIATELY:
 2. State: "PRISM Framework v2.0.3 - Context Loaded"
 3. Apply all patterns and conventions
 4. Check for active session in .prism/sessions/current.md
+5. ENFORCE: NO documentation files outside .prism/ structure
+
+CRITICAL RULES:
+- NEVER create ROADMAP.md, PRD.md, PLAN.md, TODO.md in root
+- ALWAYS use .prism/context/ for planning documents
+- ALWAYS use .prism/references/ for specifications
+- ALWAYS use .prism/sessions/ for task tracking
 EOF
     log_info "✅ Created auto-load instruction file"
 

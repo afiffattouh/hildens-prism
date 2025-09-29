@@ -8,10 +8,16 @@ All notable changes to the PRISM Framework will be documented in this file.
 - Comprehensive README documentation with complete command reference
 - Automated version update script (scripts/update-version.sh)
 - UPDATE_ROUTINE.md for version management process
+- Documentation structure enforcement in CLAUDE.md
+- Strict rules preventing rogue .md files outside PRISM structure
+- Clear documentation location mapping for all file types
 
 ### Improved
 - Enhanced documentation coverage for all PRISM features
 - Better command examples and usage instructions
+- PRISM initialization now enforces documentation structure
+- AUTO_LOAD file includes documentation structure rules
+- CLAUDE.md explicitly forbids creating standalone documentation files
 
 ## [2.0.2] - 2025-09-29
 
