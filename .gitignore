@@ -32,3 +32,6 @@ __pycache__/
 # Local environment
 .env
 .env.local
+
+# Internal documentation
+UPDATE_ROUTINE.md
