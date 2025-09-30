@@ -387,7 +387,8 @@ add_agent_to_swarm() {
         if [[ -n "$last_agent_line" ]]; then
             # Add after last agent
             sed -i '' "${last_agent_line}a\\
-  - $agent_id" "$swarm_dir/config.yaml"
+  - $agent_id
+" "$swarm_dir/config.yaml"
         else
             # Add after agents: line
             sed -i '' "/^agents:$/a\\
