@@ -1,0 +1,11 @@
+PRISM_FRAMEWORK_ACTIVE=true
+VERSION=2.0.4
+INITIALIZED=2025-09-30T09:46:33Z
+LAST_UPDATED=2025-09-30T09:46:33Z
+
+This file indicates PRISM is active in this project.
+Claude Code should automatically detect and load PRISM context.
+
+IMPORTANT FOR CLAUDE CODE:
+Check the INITIALIZED and LAST_UPDATED timestamps above.
+These indicate when PRISM was set up and last modified.

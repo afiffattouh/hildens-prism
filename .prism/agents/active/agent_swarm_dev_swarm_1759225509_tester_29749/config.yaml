@@ -1,0 +1,8 @@
+id: agent_swarm_dev_swarm_1759225509_tester_29749
+name: swarm_dev_swarm_1759225509_tester
+type: tester
+description: Testing and quality assurance specialist
+task: api_tester
+state: idle
+created: 2025-09-30T09:45:17Z
+pid: 29749

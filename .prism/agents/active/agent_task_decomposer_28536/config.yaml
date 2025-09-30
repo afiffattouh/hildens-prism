@@ -1,0 +1,8 @@
+id: agent_task_decomposer_28536
+name: task_decomposer
+type: planner
+description: Task planning and decomposition specialist
+task: Build a comprehensive user management system with authentication, authorization, and audit logging
+state: idle
+created: 2025-09-30T09:44:59Z
+pid: 28536

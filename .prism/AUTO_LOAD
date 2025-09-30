@@ -1,0 +1,17 @@
+# AUTO-LOAD INSTRUCTION FOR CLAUDE CODE
+
+When you see this file, IMMEDIATELY:
+1. Check .prism/TIMESTAMP file for initialization time
+2. Check .prism_active file for framework status
+3. Load all files in .prism/context/
+4. State: "PRISM Framework v2.0.4 - Context Loaded (initialized: [timestamp from file])"
+5. Apply all patterns and conventions
+6. Check for active session in .prism/sessions/current.md
+7. ENFORCE: NO documentation files outside .prism/ structure
+8. VERIFY: Compare timestamps to detect recent changes
+
+CRITICAL RULES:
+- NEVER create ROADMAP.md, PRD.md, PLAN.md, TODO.md in root
+- ALWAYS use .prism/context/ for planning documents
+- ALWAYS use .prism/references/ for specifications
+- ALWAYS use .prism/sessions/ for task tracking

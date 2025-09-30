@@ -1,0 +1,52 @@
+# PRISM Context Index - CLAUDE CODE MUST READ THIS FIRST
+version: 2.0.8
+created: 2025-09-30T09:46:33Z
+project:
+  name: Coding FW
+  type: default
+
+# MANDATORY FOR CLAUDE CODE
+claude_instructions:
+  priority: CRITICAL
+  message: |
+    🚨 ATTENTION CLAUDE CODE:
+    This project uses PRISM Framework v2.0.8
+    You MUST load and follow ALL context files listed below.
+    State "PRISM Context Loaded" after reading this file.
+
+  required_actions:
+    - Read ALL files in contexts section
+    - Follow patterns in patterns.md
+    - Respect architecture in architecture.md
+    - Apply security rules from security.md
+    - Check for active session in sessions/current.md
+
+contexts:
+  critical:
+    - architecture.md    # SYSTEM DESIGN - MUST READ
+    - security.md       # SECURITY RULES - MUST FOLLOW
+    - domain.md         # BUSINESS LOGIC - MUST UNDERSTAND
+  high:
+    - patterns.md       # CODING STANDARDS - MUST APPLY
+    - decisions.md      # TECH DECISIONS - MUST RESPECT
+    - dependencies.md   # DEPENDENCIES - MUST USE
+    - performance.md    # PERFORMANCE TARGETS - MUST MEET
+  medium:
+    - workflows/development.md
+    - workflows/review.md
+    - workflows/deployment.md
+
+references:
+  - api-contracts.yaml
+  - data-models.json
+  - security-rules.md
+  - test-scenarios.md
+
+sessions:
+  current: current.md
+  archive_dir: archive/
+
+metrics:
+  quality_target: 85
+  security_scan: required
+  test_coverage: 85
