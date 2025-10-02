@@ -2,6 +2,43 @@
 
 All notable changes to the PRISM Framework will be documented in this file.
 
+## [2.2.0] - 2025-10-02
+
+### Added
+- **Enhanced Agent Prompt System** (`lib/prism-agent-prompts.sh`)
+  - **11 Specialized Agent Types** with comprehensive, context-aware prompts:
+    - 🏗️ **Architect Agent**: System architecture and design specialist
+    - 💻 **Coder Agent**: Clean code implementation expert
+    - 🧪 **Tester Agent**: Quality assurance and test strategy specialist
+    - 🔍 **Reviewer Agent**: Code review and quality analysis expert
+    - 📚 **Documenter Agent**: Technical documentation specialist
+    - 🛡️ **Security Agent**: Security analysis and OWASP Top 10 expert
+    - ⚡ **Performance Agent**: Performance optimization specialist
+    - 🔧 **Refactorer Agent**: Code refactoring and quality improvement expert
+    - 🐛 **Debugger Agent**: Bug fixing and root cause analysis specialist
+    - 📋 **Planner Agent**: Task decomposition and orchestration expert
+    - ⚡ **SPARC Agent**: Full SPARC methodology orchestrator
+
+  - **Each agent includes**:
+    - Detailed role description and expertise areas
+    - Comprehensive 4-phase workflow (Analysis → Design → Implementation → Validation)
+    - Quality standards and checklists
+    - Output format specifications
+    - Tool usage guidance
+    - PRISM context integration instructions
+
+- **Agent Prompt Integration**
+  - Enhanced `execute_agent_action()` to use specialized prompts
+  - Automatic context loading based on agent type
+  - Tool permissions mapped to agent capabilities
+  - Seamless integration with existing agent executor
+
+### Improved
+- **Agent System**: All 11 agent types now generate detailed, role-specific prompts
+- **Context Awareness**: Each agent type loads relevant PRISM context automatically
+- **Documentation**: README updated with comprehensive agent type table and capabilities
+- **User Experience**: Enhanced prompts provide clear guidance and better task execution
+
 ## [2.1.0] - 2025-10-02
 
 ### Added

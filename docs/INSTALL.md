@@ -310,7 +310,7 @@ Create `~/.prism/config.yaml`:
 
 ```yaml
 # PRISM Configuration
-version: 2.1.0
+version: 2.2.0
 
 # Paths
 paths:

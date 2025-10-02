@@ -1,13 +1,13 @@
 <div align="center">
   <img src="assets/logo/prism-logo.png" alt="PRISM Logo" width="200" height="200">
 
-  # PRISM Framework v2.1.0
+  # PRISM Framework v2.2.0
 
   **Persistent Real-time Intelligent System Management**
 
   *Enterprise-grade AI context management for Claude Code*
 
-  [![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/afiffattouh/hildens-prism)
+  [![Version](https://img.shields.io/badge/version-2.2.0-blue.svg)](https://github.com/afiffattouh/hildens-prism)
   [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
   [![Security](https://img.shields.io/badge/security-hardened-orange.svg)](SECURITY.md)
   [![Status](https://img.shields.io/badge/status-operational-success.svg)](README.md#testing-status)
@@ -97,7 +97,18 @@ PRISM (Persistent Real-time Intelligent System Management) is an enterprise-grad
 - ✅ **Security Hardening** - Path validation, input sanitization
 - ✅ **Cross-Platform** - Works on macOS, Linux, and WSL
 
-### v2.1.0 Features (NEW!)
+### v2.2.0 Features (NEW!)
+- ✅ **Enhanced Agent System** - 11 specialized agent types with comprehensive prompts
+  - Context-aware prompts tailored to each agent specialty
+  - Detailed workflows, quality standards, and best practices
+  - Automatic PRISM context integration
+  - Role-specific tool permissions and capabilities
+- ✅ **Improved Agent Execution** - Enhanced prompt generation system
+  - Specialized prompts for each of 11 agent types
+  - Clear guidance and detailed instructions
+  - Better task execution and results
+
+### v2.1.0 Features
 - ✅ **Resource Management System** - Complete production safeguards
   - Configurable timeouts for agents and swarms
   - Concurrent execution limits (agents: 10, swarms: 3)
@@ -140,16 +151,36 @@ prism context load-critical          # Load critical context items
 
 ### Agent System
 
+PRISM includes **11 specialized agent types**, each with enhanced, context-aware prompts and detailed capabilities:
+
+| Agent | Role | Specialization |
+|-------|------|----------------|
+| 🏗️ **architect** | System Architecture | Design, API contracts, data models, scalability |
+| 💻 **coder** | Implementation | Clean code, patterns, error handling, testing |
+| 🧪 **tester** | Quality Assurance | Test strategy, coverage, edge cases, automation |
+| 🔍 **reviewer** | Code Review | Quality analysis, security, performance, patterns |
+| 📚 **documenter** | Documentation | API docs, guides, architecture documentation |
+| 🛡️ **security** | Security Analysis | OWASP Top 10, vulnerabilities, threat modeling |
+| ⚡ **performance** | Optimization | Profiling, bottlenecks, algorithm optimization |
+| 🔧 **refactorer** | Code Quality | Code smells, refactoring, technical debt |
+| 🐛 **debugger** | Bug Fixing | Root cause analysis, systematic debugging |
+| 📋 **planner** | Task Planning | Decomposition, workflow design, orchestration |
+| ⚡ **sparc** | SPARC Methodology | Full SPARC cycle orchestration |
+
 ```bash
 # Initialize and manage agents
 prism agent init                                    # Initialize agent system
 prism agent create architect "name" "task"         # Create architect agent
 prism agent create coder "name" "implementation"   # Create coder agent
 prism agent create tester "name" "test strategy"   # Create tester agent
+prism agent create security "name" "audit task"    # Create security agent
+prism agent create sparc "name" "full SPARC task"  # Create SPARC agent
 prism agent list                                    # List active agents
 prism agent execute <agent_id>                     # Execute agent task
 prism agent decompose "complex task"               # Decompose into subtasks
 ```
+
+Each agent automatically loads relevant PRISM context and generates specialized prompts tailored to their domain expertise.
 
 ### Swarm Coordination
 

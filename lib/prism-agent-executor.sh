@@ -13,6 +13,7 @@ readonly _PRISM_PRISM_AGENT_EXECUTOR_LOADED=1
 source "$(dirname "${BASH_SOURCE[0]}")/prism-log.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/prism-agents.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/prism-resource-management.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/prism-agent-prompts.sh"
 
 # Agent tool capabilities (what tools each agent can use)
 # Using function for Bash 3.x compatibility (no associative arrays)
@@ -189,51 +190,22 @@ execute_agent_action() {
     local task=$(grep "^task:" "$agent_dir/config.yaml" | cut -d' ' -f2-)
     local tools="$(get_agent_tools "$agent_type")"
 
-    # Generate Claude Code prompt
-    cat > "$agent_dir/action_prompt.md" << EOF
-# PRISM Agent: ${agent_type^}
+    # Load context
+    local context=""
+    if [[ -f "$agent_dir/context.txt" ]]; then
+        context="$(cat "$agent_dir/context.txt")"
+    fi
 
-You are a specialized ${agent_type} agent executing a focused task.
+    # Generate enhanced agent-specific prompt using the new prompt system
+    log_info "[$agent_id] Generating enhanced ${agent_type} agent prompt..."
+    generate_agent_prompt "$agent_type" "$task" "$tools" "$context" > "$agent_dir/action_prompt.md"
 
-## Task
-${task}
-
-## Context
-$(cat "$agent_dir/context.txt" 2>/dev/null)
-
-## Available Tools
-You have access to these Claude Code tools:
-${tools}
-
-## Workflow (Anthropic Agent SDK Pattern)
-1. **Analyze**: Understand the task and context fully
-2. **Plan**: Break down into specific actions
-3. **Execute**: Use tools to complete the task
-4. **Validate**: Ensure quality and correctness
-5. **Document**: Update relevant files
-
-## Quality Standards
-- Follow patterns from context
-- Maintain consistency with existing code
-- Include error handling
-- Add tests where applicable
-- Update documentation
-
-## Output
-Save all work to:
-- Code: Appropriate project files
-- Results: ${agent_dir}/results.md
-- Logs: ${agent_dir}/execution.log
-
-Execute this task systematically using the available tools.
-EOF
-
-    log_info "[$agent_id] Action prompt generated at $agent_dir/action_prompt.md"
+    log_info "[$agent_id] Enhanced action prompt generated at $agent_dir/action_prompt.md"
     log_info "[$agent_id] USER ACTION REQUIRED: Execute this agent via Claude Code"
     log_info "[$agent_id] Copy the prompt from $agent_dir/action_prompt.md and use Claude Code to execute"
 
     # In a full implementation, this would trigger Claude Code's Task tool
-    # For now, we generate the prompt for manual execution
+    # For now, we generate the enhanced prompt for manual execution
 
     return 0
 }
