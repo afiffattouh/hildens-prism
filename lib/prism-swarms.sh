@@ -13,6 +13,7 @@ readonly _PRISM_PRISM_SWARMS_LOADED=1
 source "$(dirname "${BASH_SOURCE[0]}")/prism-log.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/prism-agents.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/prism-agent-executor.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/prism-resource-management.sh"
 
 # Swarm registry
 SWARM_REGISTRY_DIR=".prism/agents/swarms"
@@ -81,12 +82,26 @@ add_agent_to_swarm() {
 # Pattern: Agent1 → Agent2 → Agent3 (sequential)
 execute_pipeline_swarm() {
     local swarm_id="$1"
+    local timeout="${2:-$DEFAULT_SWARM_TIMEOUT}"
     local swarm_dir="$SWARM_REGISTRY_DIR/active/$swarm_id"
 
-    log_info "[PIPELINE] Executing swarm: $swarm_id"
+    # Validate resources
+    if ! validate_resources "swarm"; then
+        log_error "[PIPELINE] Resource limits exceeded, cannot execute swarm"
+        return 1
+    fi
+
+    increment_swarm_count
+    trap "decrement_swarm_count" EXIT INT TERM
+
+    log_info "[PIPELINE] Executing swarm: $swarm_id (timeout: ${timeout}s)"
+
+    # Record start time
+    local start_time=$(date +%s)
 
     if [[ ! -f "$swarm_dir/agents.list" ]]; then
         log_error "No agents in swarm"
+        decrement_swarm_count
         return 1
     fi
 
@@ -108,9 +123,18 @@ execute_pipeline_swarm() {
             echo "$previous_output" >> "$agent_dir/context.txt"
         fi
 
+        # Check timeout
+        local elapsed=$(($(date +%s) - start_time))
+        if [[ $elapsed -gt $timeout ]]; then
+            log_error "[PIPELINE] Swarm timeout exceeded: ${elapsed}s > ${timeout}s"
+            decrement_swarm_count
+            return 124
+        fi
+
         # Execute agent
         if ! execute_agent_with_workflow "$agent_id"; then
             log_error "[PIPELINE] Agent failed: $agent_id, stopping pipeline"
+            decrement_swarm_count
             return 1
         fi
 
@@ -123,6 +147,8 @@ execute_pipeline_swarm() {
         log_success "[PIPELINE] Agent completed: $agent_id"
     done
 
+    decrement_swarm_count
+    trap - EXIT INT TERM
     log_success "[PIPELINE] Swarm completed successfully: $swarm_id"
     return 0
 }

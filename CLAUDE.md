@@ -113,5 +113,5 @@ ONLY create files outside PRISM structure when:
 - ALWAYS use `.prism/references/` for PRDs and specifications
 - ALWAYS use `.prism/sessions/` for tasks and TODOs
 
-## PRISM Framework Version: 2.0.4
+## PRISM Framework Version: 2.1.0
 For PRISM documentation: `.prism/PRISM.md`

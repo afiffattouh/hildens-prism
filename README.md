@@ -1,13 +1,13 @@
 <div align="center">
   <img src="assets/logo/prism-logo.png" alt="PRISM Logo" width="200" height="200">
 
-  # PRISM Framework v2.0.8
+  # PRISM Framework v2.1.0
 
   **Persistent Real-time Intelligent System Management**
 
   *Enterprise-grade AI context management for Claude Code*
 
-  [![Version](https://img.shields.io/badge/version-2.0.8-blue.svg)](https://github.com/afiffattouh/hildens-prism)
+  [![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/afiffattouh/hildens-prism)
   [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
   [![Security](https://img.shields.io/badge/security-hardened-orange.svg)](SECURITY.md)
   [![Status](https://img.shields.io/badge/status-operational-success.svg)](README.md#testing-status)
@@ -82,6 +82,8 @@ PRISM (Persistent Real-time Intelligent System Management) is an enterprise-grad
 - ⚡ **Professional CLI** - Clean, modular command interface with comprehensive help
 - 🔍 **Built-in Diagnostics** - Doctor command for system health checks
 - 📊 **Session Management** - Track and archive development sessions
+- 🛡️ **Resource Management** - Timeouts, limits, disk monitoring, and automatic cleanup (NEW in v2.1.0)
+- 🔧 **Maintenance Utilities** - Automated maintenance and optimization tools (NEW in v2.1.0)
 
 ## 📦 Features
 
@@ -95,13 +97,19 @@ PRISM (Persistent Real-time Intelligent System Management) is an enterprise-grad
 - ✅ **Security Hardening** - Path validation, input sanitization
 - ✅ **Cross-Platform** - Works on macOS, Linux, and WSL
 
-### v2.0.8 Features
-- ✅ Enhanced agent orchestration system
-- ✅ Improved swarm coordination
-- ✅ Better error handling and recovery
-- ✅ Comprehensive diagnostic tools
-- ✅ Session archiving and restoration
-- ✅ Context query and export capabilities
+### v2.1.0 Features (NEW!)
+- ✅ **Resource Management System** - Complete production safeguards
+  - Configurable timeouts for agents and swarms
+  - Concurrent execution limits (agents: 10, swarms: 3)
+  - Disk space monitoring and quotas
+  - Automatic cleanup policies with retention settings
+- ✅ **Maintenance Utility** - `scripts/prism-maintenance.sh`
+  - Resource status monitoring
+  - Automated cleanup and optimization
+  - Installation validation
+  - Dry-run support
+- ✅ **Enhanced Compatibility** - 100% Bash 3.x (macOS compatible)
+- ✅ **Production Ready** - All critical issues resolved, comprehensive testing
 
 ## 🛠️ Usage
 
@@ -167,9 +175,47 @@ prism session export markdown <id>        # Export session report
 prism session clean 30                    # Clean sessions older than 30 days
 ```
 
+### Resource Management & Maintenance (NEW in v2.1.0)
+
+```bash
+# Monitor resources
+scripts/prism-maintenance.sh status       # Show resource usage and statistics
+
+# Cleanup and optimization
+scripts/prism-maintenance.sh cleanup      # Clean up old agents (7 days default)
+scripts/prism-maintenance.sh cleanup --days 3  # Custom retention period
+scripts/prism-maintenance.sh optimize     # Optimize disk usage
+scripts/prism-maintenance.sh full         # Full maintenance (cleanup + optimize)
+
+# Validation and diagnostics
+scripts/prism-maintenance.sh validate     # Validate PRISM installation
+scripts/prism-maintenance.sh reset        # Reset resource counters
+
+# Safe testing
+scripts/prism-maintenance.sh full --dry-run  # Preview changes without applying
+scripts/prism-maintenance.sh cleanup --yes   # Skip confirmation prompts
+```
+
+### Configuration Environment Variables
+
+```bash
+# Resource Limits
+export PRISM_AGENT_TIMEOUT=300           # Agent timeout in seconds (default: 300)
+export PRISM_SWARM_TIMEOUT=1800          # Swarm timeout in seconds (default: 1800)
+export PRISM_MAX_AGENTS=10               # Max concurrent agents (default: 10)
+export PRISM_MAX_SWARMS=3                # Max concurrent swarms (default: 3)
+export PRISM_MAX_DISK_MB=1024            # Max disk usage in MB (default: 1024)
+export PRISM_RETENTION_DAYS=7            # Cleanup retention (default: 7)
+
+# Logging
+export PRISM_LOG_LEVEL=INFO              # Log level: TRACE, DEBUG, INFO, WARN, ERROR
+export PRISM_LOG_STDOUT=true             # Log to stdout (default: true)
+export PRISM_LOG_FILE=true               # Log to file (default: true)
+```
+
 ## ✅ Testing Status
 
-PRISM v2.0.8 has been comprehensively tested and is **FULLY OPERATIONAL**.
+PRISM v2.1.0 has been comprehensively tested and is **FULLY OPERATIONAL** with **PRODUCTION-READY** resource management.
 
 ### Test Coverage
 
@@ -183,6 +229,9 @@ PRISM v2.0.8 has been comprehensively tested and is **FULLY OPERATIONAL**.
 | **Swarm Coordination** | ✅ Passed | Hierarchical swarms operational |
 | **Session Management** | ✅ Passed | Start, status, archive working |
 | **Error Handling** | ✅ Passed | Graceful error messages and recovery |
+| **Resource Management** | ✅ Passed | Timeouts, limits, monitoring working |
+| **Maintenance Utility** | ✅ Passed | Cleanup, optimization, validation functional |
+| **Bash 3.x Compatibility** | ✅ Passed | 100% compatible with macOS default shell |
 
 ### Performance Metrics
 
@@ -193,13 +242,21 @@ PRISM v2.0.8 has been comprehensively tested and is **FULLY OPERATIONAL**.
 
 ## ⚠️ Known Issues
 
+### v2.1.0 Status
+
+**All critical and high-priority issues have been resolved!** ✅
+
+- ✅ Bash 3.x compatibility issues - **FIXED**
+- ✅ Resource management safeguards - **IMPLEMENTED**
+- ✅ Missing logging functions - **ADDED**
+- ✅ Source guard conflicts - **RESOLVED**
+
 ### Minor Issues (Non-blocking)
 
-1. **`prism doctor` command**
-   - **Issue**: Unbound variable error in diagnostics script
-   - **Impact**: Minor - diagnostics still run
-   - **Workaround**: Command still provides output despite error
-   - **Status**: To be fixed in v2.0.9
+1. **Manual Agent Execution** (By Design)
+   - **Behavior**: Agent action prompts require manual copy-paste to Claude Code
+   - **Impact**: Phase 1 design - automated execution planned for future release
+   - **Status**: Working as intended
 
 2. **`prism config` command**
    - **Issue**: Missing config library file

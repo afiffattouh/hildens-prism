@@ -12,6 +12,7 @@ readonly _PRISM_PRISM_AGENT_EXECUTOR_LOADED=1
 # Source dependencies
 source "$(dirname "${BASH_SOURCE[0]}")/prism-log.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/prism-agents.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/prism-resource-management.sh"
 
 # Agent tool capabilities (what tools each agent can use)
 # Using function for Bash 3.x compatibility (no associative arrays)
@@ -36,6 +37,7 @@ get_agent_tools() {
 # Agent workflows (gather context → take action → verify work → repeat)
 execute_agent_with_workflow() {
     local agent_id="$1"
+    local timeout="${2:-$DEFAULT_AGENT_TIMEOUT}"
     local agent_dir=".prism/agents/active/$agent_id"
 
     if [[ ! -d "$agent_dir" ]]; then
@@ -43,7 +45,20 @@ execute_agent_with_workflow() {
         return 1
     fi
 
-    log_info "Executing agent workflow: $agent_id"
+    # Validate resources before execution
+    if ! validate_resources "agent"; then
+        log_error "Resource limits exceeded, cannot execute agent"
+        update_agent_state "$agent_id" "failed"
+        return 1
+    fi
+
+    # Increment active agent counter
+    increment_agent_count
+
+    # Set up cleanup trap
+    trap "cleanup_on_exit '$agent_id'" EXIT INT TERM
+
+    log_info "Executing agent workflow: $agent_id (timeout: ${timeout}s)"
 
     # Update state to working
     update_agent_state "$agent_id" "working"
@@ -76,7 +91,12 @@ execute_agent_with_workflow() {
 
     # Success
     update_agent_state "$agent_id" "completed"
+    decrement_agent_count
     log_success "Agent completed successfully: $agent_id"
+
+    # Clear trap
+    trap - EXIT INT TERM
+
     return 0
 }
 
