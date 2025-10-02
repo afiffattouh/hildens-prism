@@ -31,6 +31,7 @@ get_agent_tools() {
         debugger) echo "Read Bash Glob Grep" ;;
         planner) echo "Read Glob Grep" ;;
         sparc) echo "Read Write Edit Bash Glob Grep" ;;
+        ui-designer|ui_designer|designer) echo "Read Write Edit Bash Glob Grep Playwright" ;;
         *) echo "Read" ;;  # Default: Read only
     esac
 }
@@ -145,6 +146,9 @@ gather_agent_context() {
             ;;
         planner)
             context_files=(".prism/context/patterns.md" ".prism/context/architecture.md")
+            ;;
+        ui-designer|ui_designer|designer)
+            context_files=(".prism/context/patterns.md" ".prism/design/style-guide.md")
             ;;
         sparc)
             # Load all context files for SPARC

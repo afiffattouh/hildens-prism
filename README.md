@@ -151,7 +151,7 @@ prism context load-critical          # Load critical context items
 
 ### Agent System
 
-PRISM includes **11 specialized agent types**, each with enhanced, context-aware prompts and detailed capabilities:
+PRISM includes **12 specialized agent types**, each with enhanced, context-aware prompts and detailed capabilities:
 
 | Agent | Role | Specialization |
 |-------|------|----------------|
@@ -165,22 +165,34 @@ PRISM includes **11 specialized agent types**, each with enhanced, context-aware
 | 🔧 **refactorer** | Code Quality | Code smells, refactoring, technical debt |
 | 🐛 **debugger** | Bug Fixing | Root cause analysis, systematic debugging |
 | 📋 **planner** | Task Planning | Decomposition, workflow design, orchestration |
+| 🎨 **ui-designer** | UI/UX Design | Interface design, accessibility (WCAG), Playwright testing |
 | ⚡ **sparc** | SPARC Methodology | Full SPARC cycle orchestration |
 
 ```bash
 # Initialize and manage agents
-prism agent init                                    # Initialize agent system
-prism agent create architect "name" "task"         # Create architect agent
-prism agent create coder "name" "implementation"   # Create coder agent
-prism agent create tester "name" "test strategy"   # Create tester agent
-prism agent create security "name" "audit task"    # Create security agent
-prism agent create sparc "name" "full SPARC task"  # Create SPARC agent
-prism agent list                                    # List active agents
-prism agent execute <agent_id>                     # Execute agent task
-prism agent decompose "complex task"               # Decompose into subtasks
+prism agent init                                      # Initialize agent system
+prism agent create architect "name" "task"           # Create architect agent
+prism agent create coder "name" "implementation"     # Create coder agent
+prism agent create tester "name" "test strategy"     # Create tester agent
+prism agent create security "name" "audit task"      # Create security agent
+prism agent create ui-designer "name" "UI task"      # Create UI designer agent
+prism agent create sparc "name" "full SPARC task"    # Create SPARC agent
+prism agent list                                      # List active agents
+prism agent execute <agent_id>                       # Execute agent task
+prism agent decompose "complex task"                 # Decompose into subtasks
 ```
 
 Each agent automatically loads relevant PRISM context and generates specialized prompts tailored to their domain expertise.
+
+#### UI Designer Agent - Playwright Integration
+
+The **UI Designer** agent includes full **Playwright MCP integration** for automated browser testing:
+- Visual regression testing with screenshots
+- Responsive design validation across breakpoints
+- Accessibility audits (WCAG 2.1 AA compliance)
+- User flow testing and interaction validation
+- Console and network monitoring
+- Cross-browser compatibility testing
 
 ### Swarm Coordination
 

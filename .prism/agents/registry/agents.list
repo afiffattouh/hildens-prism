@@ -13,3 +13,4 @@ agent_test_refactorer_31878:refactorer:Test task for refactorer
 agent_test_debugger_31878:debugger:Test task for debugger
 agent_test_planner_31878:planner:Test task for planner
 agent_test_sparc_31878:sparc:Test task for sparc
+agent_login_page_47394:ui-designer:Design a modern, accessible login page

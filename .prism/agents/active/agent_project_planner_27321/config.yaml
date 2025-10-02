@@ -1,8 +1,0 @@
-id: agent_project_planner_27321
-name: project_planner
-type: planner
-description: Task planning and decomposition specialist
-task: Plan implementation for PRISM v3.0 features
-state: idle
-created: 2025-09-30T09:44:47Z
-pid: 27321

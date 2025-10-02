@@ -6,7 +6,7 @@ All notable changes to the PRISM Framework will be documented in this file.
 
 ### Added
 - **Enhanced Agent Prompt System** (`lib/prism-agent-prompts.sh`)
-  - **11 Specialized Agent Types** with comprehensive, context-aware prompts:
+  - **12 Specialized Agent Types** with comprehensive, context-aware prompts:
     - 🏗️ **Architect Agent**: System architecture and design specialist
     - 💻 **Coder Agent**: Clean code implementation expert
     - 🧪 **Tester Agent**: Quality assurance and test strategy specialist
@@ -17,6 +17,7 @@ All notable changes to the PRISM Framework will be documented in this file.
     - 🔧 **Refactorer Agent**: Code refactoring and quality improvement expert
     - 🐛 **Debugger Agent**: Bug fixing and root cause analysis specialist
     - 📋 **Planner Agent**: Task decomposition and orchestration expert
+    - 🎨 **UI Designer Agent**: UI/UX design, accessibility (WCAG 2.1 AA), Playwright integration
     - ⚡ **SPARC Agent**: Full SPARC methodology orchestrator
 
   - **Each agent includes**:
@@ -27,6 +28,16 @@ All notable changes to the PRISM Framework will be documented in this file.
     - Tool usage guidance
     - PRISM context integration instructions
 
+- **UI Designer Agent - Playwright MCP Integration**
+  - Full browser automation and testing capabilities
+  - Visual regression testing with screenshots
+  - Responsive design validation across breakpoints
+  - Accessibility audits (WCAG 2.1 AA compliance)
+  - User flow testing and interaction validation
+  - Console and network monitoring
+  - Cross-browser compatibility testing
+  - Design system creation and management
+
 - **Agent Prompt Integration**
   - Enhanced `execute_agent_action()` to use specialized prompts
   - Automatic context loading based on agent type
@@ -34,10 +45,11 @@ All notable changes to the PRISM Framework will be documented in this file.
   - Seamless integration with existing agent executor
 
 ### Improved
-- **Agent System**: All 11 agent types now generate detailed, role-specific prompts
+- **Agent System**: All 12 agent types now generate detailed, role-specific prompts
 - **Context Awareness**: Each agent type loads relevant PRISM context automatically
 - **Documentation**: README updated with comprehensive agent type table and capabilities
 - **User Experience**: Enhanced prompts provide clear guidance and better task execution
+- **Playwright Integration**: UI Designer agent has full access to Playwright MCP tools for automated testing
 
 ## [2.1.0] - 2025-10-02
 

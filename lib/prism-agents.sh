@@ -22,12 +22,13 @@ get_agent_description() {
         debugger) echo "Bug detection and debugging specialist" ;;
         planner) echo "Task planning and decomposition specialist" ;;
         sparc) echo "SPARC methodology orchestrator" ;;
+        ui-designer) echo "UI/UX design and accessibility specialist with Playwright testing" ;;
         *) echo "Unknown agent type" ;;
     esac
 }
 
 # Valid agent types
-VALID_AGENT_TYPES="architect coder tester reviewer documenter security performance refactorer debugger planner sparc"
+VALID_AGENT_TYPES="architect coder tester reviewer documenter security performance refactorer debugger planner sparc ui-designer"
 
 # Agent states
 readonly AGENT_STATE_IDLE="idle"
