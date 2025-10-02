@@ -2,24 +2,36 @@
 # PRISM Agent Executor with Claude Code Tool Integration
 # Implements tool-based agent execution following Anthropic's Claude Agent SDK principles
 
+# Source guard - prevent multiple sourcing
+if [[ -n "${_PRISM_PRISM_AGENT_EXECUTOR_LOADED:-}" ]]; then
+    return 0
+fi
+readonly _PRISM_PRISM_AGENT_EXECUTOR_LOADED=1
+
+
 # Source dependencies
 source "$(dirname "${BASH_SOURCE[0]}")/prism-log.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/prism-agents.sh"
 
 # Agent tool capabilities (what tools each agent can use)
-declare -A AGENT_TOOL_PERMISSIONS=(
-    ["architect"]="Read Glob Grep"
-    ["coder"]="Read Write Edit Bash Glob Grep"
-    ["tester"]="Read Bash Glob"
-    ["reviewer"]="Read Glob Grep"
-    ["documenter"]="Read Write Edit"
-    ["security"]="Read Bash Glob Grep"
-    ["performance"]="Read Bash Glob"
-    ["refactorer"]="Read Write Edit Glob Grep"
-    ["debugger"]="Read Bash Glob Grep"
-    ["planner"]="Read Glob Grep"
-    ["sparc"]="Read Write Edit Bash Glob Grep"
-)
+# Using function for Bash 3.x compatibility (no associative arrays)
+get_agent_tools() {
+    local agent_type="$1"
+    case "$agent_type" in
+        architect) echo "Read Glob Grep" ;;
+        coder) echo "Read Write Edit Bash Glob Grep" ;;
+        tester) echo "Read Bash Glob" ;;
+        reviewer) echo "Read Glob Grep" ;;
+        documenter) echo "Read Write Edit" ;;
+        security) echo "Read Bash Glob Grep" ;;
+        performance) echo "Read Bash Glob" ;;
+        refactorer) echo "Read Write Edit Glob Grep" ;;
+        debugger) echo "Read Bash Glob Grep" ;;
+        planner) echo "Read Glob Grep" ;;
+        sparc) echo "Read Write Edit Bash Glob Grep" ;;
+        *) echo "Read" ;;  # Default: Read only
+    esac
+}
 
 # Agent workflows (gather context → take action → verify work → repeat)
 execute_agent_with_workflow() {
@@ -80,45 +92,63 @@ gather_agent_context() {
 
     # Load agent-specific context files
     local context_content=""
+    local context_files=()
+
     case "$agent_type" in
         architect)
-            context_content=$(cat .prism/context/{architecture,patterns,decisions}.md 2>/dev/null || echo "")
+            context_files=(".prism/context/architecture.md" ".prism/context/patterns.md" ".prism/context/decisions.md")
             ;;
         coder)
-            context_content=$(cat .prism/context/patterns.md 2>/dev/null || echo "")
+            context_files=(".prism/context/patterns.md")
             ;;
         tester)
-            context_content=$(cat .prism/context/patterns.md 2>/dev/null || echo "")
+            context_files=(".prism/context/patterns.md")
             ;;
         security)
-            context_content=$(cat .prism/context/{security,patterns}.md 2>/dev/null || echo "")
+            context_files=(".prism/context/security.md" ".prism/context/patterns.md")
             ;;
         performance)
-            context_content=$(cat .prism/context/{performance,patterns}.md 2>/dev/null || echo "")
+            context_files=(".prism/context/performance.md" ".prism/context/patterns.md")
             ;;
         reviewer)
-            context_content=$(cat .prism/context/{patterns,security}.md 2>/dev/null || echo "")
+            context_files=(".prism/context/patterns.md" ".prism/context/security.md")
             ;;
         documenter)
-            context_content=$(cat .prism/context/patterns.md 2>/dev/null || echo "")
+            context_files=(".prism/context/patterns.md")
             ;;
         refactorer)
-            context_content=$(cat .prism/context/patterns.md 2>/dev/null || echo "")
+            context_files=(".prism/context/patterns.md")
             ;;
         debugger)
-            context_content=$(cat .prism/context/patterns.md 2>/dev/null || echo "")
+            context_files=(".prism/context/patterns.md")
             ;;
         planner)
-            context_content=$(cat .prism/context/{patterns,architecture}.md 2>/dev/null || echo "")
+            context_files=(".prism/context/patterns.md" ".prism/context/architecture.md")
             ;;
         sparc)
-            context_content=$(cat .prism/context/*.md 2>/dev/null || echo "")
+            # Load all context files for SPARC
+            if [[ -d ".prism/context" ]]; then
+                for file in .prism/context/*.md; do
+                    if [[ -f "$file" ]]; then
+                        context_files+=("$file")
+                    fi
+                done
+            fi
             ;;
         *)
             log_warning "Unknown agent type: $agent_type, loading default context"
-            context_content=$(cat .prism/context/patterns.md 2>/dev/null || echo "")
+            context_files=(".prism/context/patterns.md")
             ;;
     esac
+
+    # Load files with existence checking
+    for file in "${context_files[@]}"; do
+        if [[ -f "$file" ]]; then
+            context_content="${context_content}$(cat "$file")"$'\n\n'
+        else
+            log_warning "[$agent_id] Context file not found: $file"
+        fi
+    done
 
     # Save gathered context
     echo "$context_content" > "$agent_dir/context.txt"
@@ -137,7 +167,7 @@ execute_agent_action() {
     # Read agent config
     local agent_type=$(grep "^type:" "$agent_dir/config.yaml" | awk '{print $2}')
     local task=$(grep "^task:" "$agent_dir/config.yaml" | cut -d' ' -f2-)
-    local tools="${AGENT_TOOL_PERMISSIONS[$agent_type]}"
+    local tools="$(get_agent_tools "$agent_type")"
 
     # Generate Claude Code prompt
     cat > "$agent_dir/action_prompt.md" << EOF

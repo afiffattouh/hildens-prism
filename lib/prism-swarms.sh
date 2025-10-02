@@ -2,6 +2,13 @@
 # PRISM Swarm Orchestration
 # Implements multi-agent coordination patterns following Anthropic's Claude Agent SDK principles
 
+# Source guard - prevent multiple sourcing
+if [[ -n "${_PRISM_PRISM_SWARMS_LOADED:-}" ]]; then
+    return 0
+fi
+readonly _PRISM_PRISM_SWARMS_LOADED=1
+
+
 # Source dependencies
 source "$(dirname "${BASH_SOURCE[0]}")/prism-log.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/prism-agents.sh"

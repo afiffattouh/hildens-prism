@@ -1,6 +1,20 @@
 #!/bin/bash
 # PRISM Logging Library - Logging functions for PRISM framework
 
+# Source guard - prevent multiple sourcing
+if [[ -n "${_PRISM_LOG_SH_LOADED:-}" ]]; then
+    return 0
+fi
+readonly _PRISM_LOG_SH_LOADED=1
+
+# Color definitions for terminal output
+readonly RED='\033[0;31m'
+readonly GREEN='\033[0;32m'
+readonly YELLOW='\033[1;33m'
+readonly BLUE='\033[0;34m'
+readonly GRAY='\033[0;37m'
+readonly BOLD='\033[1m'
+readonly NC='\033[0m'  # No Color
 
 # Logging configuration
 readonly LOG_LEVELS=(TRACE DEBUG INFO WARN ERROR FATAL)
@@ -132,6 +146,15 @@ log_info()  { log INFO  "$@"; }
 log_warn()  { log WARN  "$@"; }
 log_error() { log ERROR "$@"; }
 log_fatal() { log FATAL "$@"; }
+log_success() {
+    local message="$*"
+    if [[ -t 1 ]] && [[ "${NO_COLOR:-}" != "1" ]]; then
+        echo -e "${GREEN}[SUCCESS]${NC} $message"
+    else
+        echo "[SUCCESS] $message"
+    fi
+    log INFO "[SUCCESS] $message"
+}
 
 # Log with context
 log_context() {
@@ -260,6 +283,7 @@ export -f log_info
 export -f log_warn
 export -f log_error
 export -f log_fatal
+export -f log_success
 export -f log_context
 export -f log_command
 export -f log_file_operation

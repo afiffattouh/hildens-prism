@@ -2,6 +2,13 @@
 # PRISM Verification System
 # Implements formal verification loops following Anthropic's Claude Agent SDK principles
 
+# Source guard - prevent multiple sourcing
+if [[ -n "${_PRISM_PRISM_VERIFICATION_LOADED:-}" ]]; then
+    return 0
+fi
+readonly _PRISM_PRISM_VERIFICATION_LOADED=1
+
+
 # Source dependencies
 source "$(dirname "${BASH_SOURCE[0]}")/prism-log.sh"
 
@@ -171,8 +178,11 @@ run_linter() {
     case "$file_path" in
         *.js|*.jsx)
             if command -v eslint >/dev/null 2>&1; then
-                eslint "$file_path" 2>&1 | tee ".prism/agents/active/$agent_id/lint_results.txt"
-                return ${PIPESTATUS[0]}
+                local output exit_code
+                output=$(eslint "$file_path" 2>&1)
+                exit_code=$?
+                echo "$output" | tee ".prism/agents/active/$agent_id/lint_results.txt" >/dev/null
+                return $exit_code
             else
                 log_warning "[LINT] ESLint not available, skipping JavaScript linting"
                 return 0
@@ -180,11 +190,17 @@ run_linter() {
             ;;
         *.ts|*.tsx)
             if command -v tslint >/dev/null 2>&1; then
-                tslint "$file_path" 2>&1 | tee ".prism/agents/active/$agent_id/lint_results.txt"
-                return ${PIPESTATUS[0]}
+                local output exit_code
+                output=$(tslint "$file_path" 2>&1)
+                exit_code=$?
+                echo "$output" | tee ".prism/agents/active/$agent_id/lint_results.txt" >/dev/null
+                return $exit_code
             elif command -v eslint >/dev/null 2>&1; then
-                eslint "$file_path" 2>&1 | tee ".prism/agents/active/$agent_id/lint_results.txt"
-                return ${PIPESTATUS[0]}
+                local output exit_code
+                output=$(eslint "$file_path" 2>&1)
+                exit_code=$?
+                echo "$output" | tee ".prism/agents/active/$agent_id/lint_results.txt" >/dev/null
+                return $exit_code
             else
                 log_warning "[LINT] No TypeScript linter available, skipping"
                 return 0
@@ -192,11 +208,17 @@ run_linter() {
             ;;
         *.py)
             if command -v pylint >/dev/null 2>&1; then
-                pylint "$file_path" 2>&1 | tee ".prism/agents/active/$agent_id/lint_results.txt"
-                return ${PIPESTATUS[0]}
+                local output exit_code
+                output=$(pylint "$file_path" 2>&1)
+                exit_code=$?
+                echo "$output" | tee ".prism/agents/active/$agent_id/lint_results.txt" >/dev/null
+                return $exit_code
             elif command -v flake8 >/dev/null 2>&1; then
-                flake8 "$file_path" 2>&1 | tee ".prism/agents/active/$agent_id/lint_results.txt"
-                return ${PIPESTATUS[0]}
+                local output exit_code
+                output=$(flake8 "$file_path" 2>&1)
+                exit_code=$?
+                echo "$output" | tee ".prism/agents/active/$agent_id/lint_results.txt" >/dev/null
+                return $exit_code
             else
                 log_warning "[LINT] No Python linter available, skipping"
                 return 0
@@ -204,8 +226,11 @@ run_linter() {
             ;;
         *.go)
             if command -v golint >/dev/null 2>&1; then
-                golint "$file_path" 2>&1 | tee ".prism/agents/active/$agent_id/lint_results.txt"
-                return ${PIPESTATUS[0]}
+                local output exit_code
+                output=$(golint "$file_path" 2>&1)
+                exit_code=$?
+                echo "$output" | tee ".prism/agents/active/$agent_id/lint_results.txt" >/dev/null
+                return $exit_code
             else
                 log_warning "[LINT] golint not available, skipping Go linting"
                 return 0
@@ -213,8 +238,11 @@ run_linter() {
             ;;
         *.sh)
             if command -v shellcheck >/dev/null 2>&1; then
-                shellcheck "$file_path" 2>&1 | tee ".prism/agents/active/$agent_id/lint_results.txt"
-                return ${PIPESTATUS[0]}
+                local output exit_code
+                output=$(shellcheck "$file_path" 2>&1)
+                exit_code=$?
+                echo "$output" | tee ".prism/agents/active/$agent_id/lint_results.txt" >/dev/null
+                return $exit_code
             else
                 log_warning "[LINT] shellcheck not available, skipping shell linting"
                 return 0

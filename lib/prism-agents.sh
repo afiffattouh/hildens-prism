@@ -2,6 +2,12 @@
 # PRISM Agent Orchestration Library
 # Provides multi-agent coordination and task decomposition capabilities
 
+# Source guard - prevent multiple sourcing
+if [[ -n "${_PRISM_AGENTS_SH_LOADED:-}" ]]; then
+    return 0
+fi
+readonly _PRISM_AGENTS_SH_LOADED=1
+
 # Agent type definitions (using functions for Bash 3.x compatibility)
 get_agent_description() {
     case "$1" in
@@ -332,7 +338,8 @@ update_agent_state() {
     local agent_dir=".prism/agents/active/$agent_id"
 
     if [[ -f "$agent_dir/config.yaml" ]]; then
-        sed -i '' "s/^state: .*/state: $new_state/" "$agent_dir/config.yaml"
+        sed -i.bak "s/^state: .*/state: $new_state/" "$agent_dir/config.yaml"
+        rm -f "$agent_dir/config.yaml.bak"
         echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) - State changed to: $new_state" >> "$agent_dir/log.txt"
     fi
 }
@@ -379,20 +386,23 @@ add_agent_to_swarm() {
     # Simple approach: just add to the agents list by inserting after last agent entry
     if grep -q "^agents: \[\]$" "$swarm_dir/config.yaml"; then
         # Replace empty array
-        sed -i '' "s/^agents: \[\]$/agents:\n  - $agent_id/" "$swarm_dir/config.yaml"
+        sed -i.bak "s/^agents: \[\]$/agents:\n  - $agent_id/" "$swarm_dir/config.yaml"
+        rm -f "$swarm_dir/config.yaml.bak"
     else
         # Find the last line that starts with "  - " under agents section and add after it
         # Or if no agents exist yet, add after "agents:" line
         local last_agent_line=$(grep -n "^  - agent_" "$swarm_dir/config.yaml" | tail -n 1 | cut -d: -f1)
         if [[ -n "$last_agent_line" ]]; then
             # Add after last agent
-            sed -i '' "${last_agent_line}a\\
+            sed -i.bak "${last_agent_line}a\\
   - $agent_id
 " "$swarm_dir/config.yaml"
+            rm -f "$swarm_dir/config.yaml.bak"
         else
             # Add after agents: line
-            sed -i '' "/^agents:$/a\\
+            sed -i.bak "/^agents:$/a\\
   - $agent_id" "$swarm_dir/config.yaml"
+            rm -f "$swarm_dir/config.yaml.bak"
         fi
     fi
 
