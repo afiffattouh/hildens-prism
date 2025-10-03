@@ -29,7 +29,7 @@
 If you discover a security vulnerability in PRISM, please:
 
 1. **DO NOT** open a public issue
-2. Email security concerns to: [Create a security contact]
+2. Email security concerns to: prism@hildens.ai
 3. Include:
    - Description of the vulnerability
    - Steps to reproduce
