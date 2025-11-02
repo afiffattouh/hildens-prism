@@ -69,5 +69,7 @@ __pycache__/
 # Internal documentation
 UPDATE_ROUTINE.md
 
-# Assets (images, logos - not core framework)
-assets/
+# Assets (exclude all except logo which is used in framework)
+assets/*
+!assets/logo/
+!assets/logo/prism-logo.png
