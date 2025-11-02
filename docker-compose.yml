@@ -1,0 +1,56 @@
+# PRISM Framework Website - Docker Compose Configuration
+# For local development and production deployment
+
+version: '3.8'
+
+services:
+  # Main website service
+  website:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: prism-website
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    networks:
+      - prism-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    labels:
+      - "com.prism.service=website"
+      - "com.prism.version=2.3.0"
+
+  # Optional: API service (for future backend integration)
+  # Uncomment when API is ready
+  # api:
+  #   build:
+  #     context: ./website/api
+  #     dockerfile: Dockerfile
+  #   container_name: prism-api
+  #   ports:
+  #     - "3000:3000"
+  #   restart: unless-stopped
+  #   environment:
+  #     - NODE_ENV=production
+  #     - RESEND_API_KEY=${RESEND_API_KEY}
+  #   networks:
+  #     - prism-network
+  #   depends_on:
+  #     - website
+
+networks:
+  prism-network:
+    driver: bridge
+    name: prism-network
+
+# Volumes for persistence (if needed in future)
+# volumes:
+#   prism-data:
+#     name: prism-data

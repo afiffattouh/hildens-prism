@@ -1,0 +1,77 @@
+# PRISM Framework - Docker Ignore File
+# Excludes unnecessary files from Docker build context
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# PRISM session data
+.prism/sessions/
+.prism/.time_sync
+.prism/.time_sync_errors
+
+# OS Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Logs
+*.log
+logs/
+
+# Dependencies
+node_modules/
+venv/
+__pycache__/
+*.pyc
+
+# Temporary files
+*.tmp
+*.bak
+.env.local
+.env.development
+
+# Documentation (not needed in container)
+docs/development/
+*.draft.md
+UPDATE_ROUTINE.md
+
+# Test files
+tests/
+*.test.js
+*.spec.js
+
+# Build artifacts (if any)
+dist/
+build/
+*.map
+
+# Docker files themselves
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# README (not needed in container)
+README.md
+CONTRIBUTING.md
+LICENSE
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Reference files
+.prism/references/enterprise-team-use-case.md
+.prism/references/skills-implementation-examples.md
+.prism/references/skills-integration-design.md
+.prism/references/skills-integration-summary.md
+.prism/workflows/prism-skills-implementation.md
