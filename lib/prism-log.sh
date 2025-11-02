@@ -7,14 +7,8 @@ if [[ -n "${_PRISM_LOG_SH_LOADED:-}" ]]; then
 fi
 readonly _PRISM_LOG_SH_LOADED=1
 
-# Color definitions for terminal output
-readonly RED='\033[0;31m'
-readonly GREEN='\033[0;32m'
-readonly YELLOW='\033[1;33m'
-readonly BLUE='\033[0;34m'
-readonly GRAY='\033[0;37m'
-readonly BOLD='\033[1m'
-readonly NC='\033[0m'  # No Color
+# Color variables are inherited from prism-core.sh
+# No need to redefine them here
 
 # Logging configuration
 readonly LOG_LEVELS=(TRACE DEBUG INFO WARN ERROR FATAL)
