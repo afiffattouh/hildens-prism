@@ -1,5 +1,37 @@
-# PRISM Framework
-# Session and temporary files
+# PRISM Framework - Core Files Only
+# This repository tracks ONLY the core PRISM framework
+
+# =============================================================================
+# NON-CORE FILES (EXCLUDED FROM REPOSITORY)
+# =============================================================================
+
+# Website and deployment
+website/
+docker/
+docker-compose.yml
+Dockerfile
+.dockerignore
+DEPLOYMENT.md
+TROUBLESHOOTING.md
+
+# Documentation (keep only core framework docs)
+docs/
+examples/
+legacy/
+context-export.md.md
+TROUBLESHOOTING_PRISM.md
+
+# Reference files in .prism
+.prism/references/
+.prism/workflows/
+.prism/testing/
+.prism/TEST_REPORT*.md
+
+# =============================================================================
+# CORE FRAMEWORK EXCLUSIONS
+# =============================================================================
+
+# PRISM session and temporary files
 .prism/sessions/current.md
 .prism/sessions/history/
 .prism/.time_sync
@@ -14,12 +46,13 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+.claude/
 
 # Logs
 *.log
 logs/
 
-# Dependencies (if any get added)
+# Dependencies
 node_modules/
 venv/
 __pycache__/
@@ -35,3 +68,6 @@ __pycache__/
 
 # Internal documentation
 UPDATE_ROUTINE.md
+
+# Assets (images, logos - not core framework)
+assets/
