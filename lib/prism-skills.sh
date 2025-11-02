@@ -333,14 +333,14 @@ prism_skills() {
             skill_create
             ;;
         list)
-            if [[ "$1" == "-v" || "$1" == "--verbose" ]]; then
+            if [[ "${1:-}" == "-v" || "${1:-}" == "--verbose" ]]; then
                 skill_list true
             else
                 skill_list false
             fi
             ;;
         info|show)
-            skill_info "$1"
+            skill_info "${1:-}"
             ;;
         link-claude|link)
             skill_link_claude
