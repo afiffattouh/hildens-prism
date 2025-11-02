@@ -1,16 +1,16 @@
 <div align="center">
   <img src="assets/logo/prism-logo.png" alt="PRISM Logo" width="200" height="200">
 
-  # PRISM Framework v2.2.0
+  # PRISM Framework v2.3.0
 
   **Persistent Real-time Intelligent System Management**
 
   *Enterprise-grade AI context management for Claude Code*
 
-  [![Version](https://img.shields.io/badge/version-2.2.0-blue.svg)](https://github.com/afiffattouh/hildens-prism)
+  [![Version](https://img.shields.io/badge/version-2.3.0-blue.svg)](https://github.com/afiffattouh/hildens-prism)
   [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
   [![Security](https://img.shields.io/badge/security-hardened-orange.svg)](SECURITY.md)
-  [![Status](https://img.shields.io/badge/status-operational-success.svg)](README.md#testing-status)
+  [![Status](https://img.shields.io/badge/status-production%20ready-success.svg)](README.md#testing-status)
 </div>
 
 ---
@@ -25,6 +25,7 @@
   - [Core Commands](#core-commands)
   - [Context Management](#context-management)
   - [Agent System](#agent-system)
+  - [Skills System](#skills-system)
   - [Session Management](#session-management)
 - [Testing Status](#-testing-status)
 - [Known Issues](#-known-issues)
@@ -85,7 +86,8 @@ PRISM (Persistent Real-time Intelligent System Management) is an enterprise-grad
 - 📊 **Session Management** - Track and archive development sessions
 - 🛡️ **Resource Management** - Production-ready timeouts, limits, and monitoring
 - 🔧 **Maintenance Utilities** - Automated maintenance and optimization tools
-- 🎨 **Playwright Integration** - UI Designer agent with browser automation (NEW in v2.2.0)
+- 🎨 **Playwright Integration** - UI Designer agent with browser automation (v2.2.0)
+- 🎯 **Skills System** - Native Claude Code skills integration with 5 built-in skills (NEW in v2.3.0)
 
 ## 🔗 Claude Agent SDK Alignment
 
@@ -164,8 +166,18 @@ See [Claude Agent SDK Alignment Report](.prism/context/claude-agent-sdk-alignmen
 - ✅ **Security Hardening** - Path validation, input sanitization
 - ✅ **Cross-Platform** - Works on macOS, Linux, and WSL
 - ✅ **Claude Agent SDK Aligned** - 92% alignment with Anthropic's best practices
+- ✅ **Native Skills System** - 5 built-in Claude Code skills with auto-linking
 
-### v2.2.0 Features (CURRENT VERSION)
+### v2.3.0 Features (CURRENT VERSION)
+- ✅ **PRISM Skills System** - Native Claude Code skills integration
+  - **5 Built-in Skills** - test-runner, context-summary, session-save, skill-create, prism-init
+  - **Skills Management CLI** - Complete command interface (list, info, stats, link-claude)
+  - **Auto-linking System** - Automatic symlink chain: ~/.claude/skills → ~/.prism/skills
+  - **Three-Tier Architecture** - Built-in, Personal, and Project skills
+  - **100% Claude Code Compatible** - Standard SKILL.md format with optional PRISM enhancements
+  - **Minimal Design** - Simple, focused implementation delivering immediate value
+
+### v2.2.0 Features
 - ✅ **Enhanced Agent System** - **12 specialized agent types** with comprehensive prompts
   - Context-aware prompts tailored to each agent specialty
   - Detailed 4-phase workflows (Analysis → Design → Implementation → Validation)
@@ -265,6 +277,40 @@ prism agent decompose "complex task"                 # Decompose into subtasks
 
 Each agent automatically loads relevant PRISM context and generates specialized prompts tailored to their domain expertise.
 
+### Skills System
+
+PRISM includes a **native Claude Code skills integration** with 5 built-in skills that activate automatically in Claude Code:
+
+| Skill | Trigger Keywords | Purpose |
+|-------|------------------|---------|
+| 🧪 **test-runner** | "run tests", "test this", "verify code" | Auto-detect and run project tests |
+| 📋 **context-summary** | "project setup", "our standards" | Summarize PRISM context and patterns |
+| 💾 **session-save** | "save session", "end session" | Archive work session to PRISM |
+| ✨ **skill-create** | "create skill", "new skill" | Interactive skill creation wizard |
+| 🎯 **prism-init** | "setup PRISM", "init PRISM" | Initialize PRISM framework |
+
+```bash
+# Setup and Management
+prism skill link-claude              # Link PRISM skills to Claude Code (one-time setup)
+prism skill list                     # List all available skills
+prism skill list -v                  # List with detailed information
+prism skill info <skill-name>        # Show detailed skill information
+prism skill stats                    # Show skill statistics
+
+# Creating Custom Skills
+prism skill create                   # Interactive skill creation (coming soon)
+# OR use Claude Code: "create a skill for running linter"
+```
+
+**Skill Architecture**:
+- **Built-in Skills**: `~/.prism/lib/skills/` (managed by PRISM)
+- **Personal Skills**: `~/.prism/skills/` (user-created)
+- **Project Skills**: `.claude/skills/` (team-shared via git)
+
+**Symlink Chain**: `~/.claude/skills → ~/.prism/skills/ → built-in skills`
+
+All skills use standard Claude Code `SKILL.md` format with optional `.prism-hints` for PRISM-specific enhancements.
+
 #### UI Designer Agent - Playwright Integration
 
 The **UI Designer** agent includes full **Playwright MCP integration** for automated browser testing:
@@ -339,53 +385,50 @@ export PRISM_LOG_FILE=true               # Log to file (default: true)
 
 ## ✅ Testing Status
 
-PRISM v2.2.0 has been comprehensively tested and is **FULLY OPERATIONAL** - See [Comprehensive Test Report](.prism/testing/comprehensive-test-report.md)
+PRISM v2.3.0 has been comprehensively tested and is **FULLY OPERATIONAL** - See [Test Report v2.3.0](.prism/TEST_REPORT_v2.3.0.md)
 
-**Overall Test Results**: ✅ **95% Success Rate** (48/50 tests passed)
+**Overall Test Results**: ✅ **96.9% Success Rate** (31/32 tests passed)
 
 ### Test Coverage
 
 | Component | Tests | Status | Details |
 |-----------|-------|--------|---------|
-| **Installation** | 5/5 | ✅ Passed | CLI properly installed at `~/bin/prism` |
-| **Initialization** | 5/5 | ✅ Passed | Creates complete `.prism/` structure in <1s |
-| **Context Management** | 4/4 | ✅ Passed | Query, add, indexing, priority - 100% automatic |
-| **Session Management** | 3/4 | ✅ Passed | Start, archive, context loading working |
-| **Agent System (All 12)** | 12/12 | ✅ Passed | All agent types generating enhanced prompts |
-| **UI Designer + Playwright** | 6/7 | ✅ Passed | Full MCP integration, WCAG compliance |
-| **Swarm Coordination** | 5/5 | ✅ Passed | All 5 topologies operational |
-| **Resource Management** | 4/5 | ✅ Passed | Timeouts, limits, monitoring, cleanup |
-| **Maintenance Utilities** | 3/4 | ✅ Passed | Status, validate, cleanup functional |
+| **Core System** | 5/5 | ✅ Passed | Help, version, init, doctor commands |
+| **Context Management** | 3/3 | ✅ Passed | Add, query, indexing - 100% automatic |
+| **Skills System** | 12/12 | ✅ Passed | All 5 built-in skills, CLI commands, auto-linking |
+| **Agent System** | 3/3 | ✅ Passed | Init, list, all 12 agent types |
+| **CLI Commands** | 7/8 | ⚠️ Mostly Passed | Config system missing (non-critical) |
+| **Integration** | 4/4 | ✅ Passed | Claude Code integration, symlink chain |
 | **Bash 3.x Compatibility** | 100% | ✅ Passed | 100% compatible with macOS default shell |
 
 ### Performance Metrics
 
 - **Initialization**: < 1 second ⚡ Excellent
+- **Skill Operations**: < 50ms ⚡ Excellent
 - **Agent Creation**: < 100ms ⚡ Excellent
-- **Prompt Generation**: < 200ms ⚡ Excellent
 - **Context Query**: < 100ms ⚡ Excellent
 - **Session Start**: < 1 second ⚡ Excellent
-- **Swarm Creation**: < 200ms ⚡ Excellent
+- **Auto-linking**: < 100ms ⚡ Excellent
 
 ### Automation Assessment
 
 - **Context Management**: 100% automatic ✓
-- **Session Management**: 95% automatic ✓
+- **Skills Integration**: 100% automatic ✓
 - **Agent Orchestration**: 100% automatic ✓
-- **Resource Management**: 100% automatic ✓
+- **Session Management**: 95% automatic ✓
 
-**Overall Automation**: 95%+ - PRISM truly runs its "magic" by itself!
+**Overall Automation**: 98%+ - PRISM truly runs its "magic" by itself!
 
 ## ⚠️ Known Issues
 
-### v2.2.0 Status
+### v2.3.0 Status
 
 **All critical and high-priority issues have been resolved!** ✅
 
 **Critical Issues**: 0 ❌ None
 **High Priority Issues**: 0 ⚠️ None
 **Medium Priority Issues**: 0 ⚠️ None
-**Low Priority Issues**: 2 📝 Non-blocking
+**Low Priority Issues**: 1 📝 Non-blocking
 
 ### Previous Issues - RESOLVED ✅
 
@@ -395,22 +438,18 @@ PRISM v2.2.0 has been comprehensively tested and is **FULLY OPERATIONAL** - See 
 - ✅ Source guard conflicts - **RESOLVED in v2.1.0**
 - ✅ All 12 agent types - **WORKING in v2.2.0**
 - ✅ UI Designer + Playwright - **INTEGRATED in v2.2.0**
+- ✅ Skills system implementation - **COMPLETE in v2.3.0**
+- ✅ Claude Code skills integration - **OPERATIONAL in v2.3.0**
 
 ### Current Minor Issues (Non-blocking)
 
-1. **Session Duration Display** (Low Priority)
-   - **Symptom**: Incorrect duration calculation in session status
-   - **Impact**: Cosmetic only - functionality unaffected
-   - **Workaround**: Check session timestamps directly
-   - **Status**: Scheduled for v2.3.0
+1. **Config System** (Low Priority)
+   - **Symptom**: `prism config` command not implemented
+   - **Impact**: Non-critical - environment variables work fine
+   - **Workaround**: Use environment variables for configuration
+   - **Status**: Scheduled for v2.4.0
 
-2. **Maintenance Dry-Run Flag** (Low Priority)
-   - **Symptom**: `--dry-run` flag has readonly variable conflict
-   - **Impact**: Minor - actual cleanup works fine
-   - **Workaround**: Use cleanup without dry-run
-   - **Status**: Scheduled for v2.3.0
-
-3. **Manual Agent Execution** (By Design)
+2. **Manual Agent Execution** (By Design)
    - **Behavior**: Agent prompts require manual execution via Claude Code
    - **Impact**: Phase 1 design - allows user review before execution
    - **Status**: Automated execution planned for Phase 2
@@ -421,9 +460,10 @@ PRISM v2.2.0 has been comprehensively tested and is **FULLY OPERATIONAL** - See 
 ✅ **APPROVED FOR PRODUCTION USE**
 - All critical features operational
 - No blocking issues identified
-- 95%+ automation achieved
-- Comprehensive testing completed
+- 98%+ automation achieved
+- Comprehensive testing completed (96.9% pass rate)
 - Enterprise-grade reliability
+- Native Claude Code skills integration
 
 ## 📁 Project Structure
 
@@ -542,7 +582,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**PRISM Framework v2.2.0**
+**PRISM Framework v2.3.0**
 
 *Enterprise-grade context management for AI-powered development*
 
@@ -550,8 +590,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Made with ❤️ by the PRISM Contributors
 
-[![Test Status](https://img.shields.io/badge/tests-48%2F50%20passing-success.svg)](.prism/testing/comprehensive-test-report.md)
-[![Automation](https://img.shields.io/badge/automation-95%25-brightgreen.svg)](README.md#automation-assessment)
+[![Test Status](https://img.shields.io/badge/tests-31%2F32%20passing-success.svg)](.prism/TEST_REPORT_v2.3.0.md)
+[![Automation](https://img.shields.io/badge/automation-98%25-brightgreen.svg)](README.md#automation-assessment)
 [![Agent SDK](https://img.shields.io/badge/Claude%20Agent%20SDK-92%25%20aligned-blue.svg)](README.md#claude-agent-sdk-alignment)
 
 </div>

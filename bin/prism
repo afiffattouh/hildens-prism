@@ -10,6 +10,7 @@ PRISM_ROOT="$HOME/.prism"
 source "${PRISM_ROOT}/lib/prism-core.sh"
 source "${PRISM_ROOT}/lib/prism-log.sh"
 source "${PRISM_ROOT}/lib/prism-security.sh"
+source "${PRISM_ROOT}/lib/prism-skills.sh"
 
 # Version is now inherited from prism-core.sh which reads from VERSION file
 readonly PRISM_CLI_VERSION="${PRISM_VERSION}"
@@ -26,6 +27,7 @@ Commands:
   init [options]       Initialize PRISM in current directory
   context <action>     Manage project context
   session <action>     Manage development sessions
+  skill <action>       Manage Claude Code skills (new!)
   config <action>      Configure PRISM settings
   update [options]     Update PRISM framework
   agent <action>       Multi-agent orchestration and coordination
@@ -53,6 +55,13 @@ Session Actions:
   export [format] [session-id]   Export session report
   refresh                        Refresh session context
   clean [days]                   Clean old sessions
+
+Skill Actions:
+  create                         Create a new skill interactively
+  list [-v]                      List all available skills
+  info <name>                    Show skill details
+  link-claude                    Link to Claude Code directory
+  stats                          Show skills statistics
 
 Config Actions:
   get <key>          Get configuration value
@@ -341,6 +350,28 @@ cmd_update() {
     prism_update "$check_only" "$force" "$beta"
 }
 
+# Skills management command
+cmd_skill() {
+    # Create a temporary script to run skill commands without strict mode conflicts
+    local temp_script=$(mktemp)
+    cat > "$temp_script" << 'EOF'
+#!/bin/bash
+export PRISM_NO_STRICT=1
+source "$PRISM_ROOT/lib/prism-core.sh"
+source "$PRISM_ROOT/lib/prism-log.sh"
+source "$PRISM_ROOT/lib/prism-skills.sh"
+
+# Call the skills command handler
+prism_skills "$@"
+EOF
+
+    # Execute the script and clean up
+    PRISM_ROOT="$PRISM_ROOT" bash "$temp_script" "$@"
+    local result=$?
+    rm -f "$temp_script"
+    return $result
+}
+
 # Agent orchestration command
 cmd_agent() {
     # Create a temporary script to run agent commands without strict mode conflicts
@@ -458,6 +489,9 @@ main() {
             ;;
         session)
             cmd_session "$@"
+            ;;
+        skill)
+            cmd_skill "$@"
             ;;
         config)
             cmd_config "$@"

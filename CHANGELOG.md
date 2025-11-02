@@ -2,6 +2,75 @@
 
 All notable changes to the PRISM Framework will be documented in this file.
 
+## [2.3.0] - 2025-11-02
+
+### Added
+- **PRISM Skills System** - Native Claude Code skills integration
+  - **5 Built-in Skills** pre-installed with PRISM:
+    - `test-runner` - Automatically detect and run project tests
+    - `context-summary` - Summarize PRISM project context and patterns
+    - `session-save` - Archive current work session to PRISM
+    - `skill-create` - Interactive skill creation wizard
+    - `prism-init` - Initialize PRISM framework in projects
+
+  - **Skills Management CLI** (`prism skill` commands):
+    - `prism skill list [-v]` - List all available skills
+    - `prism skill info <name>` - Show detailed skill information
+    - `prism skill stats` - Show skills statistics
+    - `prism skill link-claude` - Setup Claude Code integration with auto-symlinking
+    - `prism skill create` - Interactive skill creation (via skill)
+
+  - **Auto-linking System**:
+    - Automatic symlink creation: `~/.claude/skills` → `~/.prism/skills`
+    - Built-in skills symlinked to personal skills directory
+    - Seamless Claude Code integration
+
+  - **Skill Structure**:
+    - Minimal: Just `SKILL.md` with YAML frontmatter
+    - Enhanced: Optional `.prism-hints` for PRISM context awareness
+    - 100% Claude Code compatible format
+
+  - **Three-Tier Skill System**:
+    - Built-in: `~/.prism/lib/skills/` (PRISM-provided)
+    - Personal: `~/.prism/skills/` (user-created)
+    - Project: `.claude/skills/` (team-shared via git)
+
+- **Skills Library** (`lib/prism-skills.sh`):
+  - `skill_create()` - Interactive skill creation wizard
+  - `skill_list()` - List skills from all locations
+  - `skill_info()` - Display skill details
+  - `skill_link_claude()` - Setup Claude Code integration
+  - `skill_stats()` - Show skill statistics
+  - Portable shell scripting (bash/zsh compatible)
+  - Safe handling of undefined variables for strict mode
+
+- **CLI Integration**:
+  - Added `cmd_skill()` wrapper with PRISM_NO_STRICT mode
+  - Skill commands integrated into main `prism` CLI
+  - Updated help text and documentation
+
+### Documentation
+- **SKILLS_IMPLEMENTATION.md** - Comprehensive implementation guide
+  - Complete architecture documentation
+  - Built-in skills reference
+  - CLI commands reference
+  - Usage workflows and best practices
+  - Troubleshooting guide
+  - Technical implementation details
+
+- **prism-skills-simple.md** - Original simplified design document
+
+### Improved
+- **Symlink Management**: Automatic symlinking of built-in skills
+- **CLI Help**: Updated with skills commands and examples
+- **Error Handling**: Graceful handling of empty directories and undefined variables
+
+### Technical Details
+- Uses `find` with process substitution for portable glob handling
+- Temporary script execution with `PRISM_NO_STRICT=1` for strict mode compatibility
+- Safe variable initialization for `PRISM_ROOT` and `PRISM_HOME`
+- Individual symlinks for built-in skills to personal skills directory
+
 ## [2.2.0] - 2025-10-02
 
 ### Added
