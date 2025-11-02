@@ -35,6 +35,3 @@ __pycache__/
 
 # Internal documentation
 UPDATE_ROUTINE.md
-
-# Website (landing page - not part of core framework)
-website/
