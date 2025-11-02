@@ -65,11 +65,20 @@ All notable changes to the PRISM Framework will be documented in this file.
 - **CLI Help**: Updated with skills commands and examples
 - **Error Handling**: Graceful handling of empty directories and undefined variables
 
+### Fixed
+- **Strict Mode CLI Failures** (Nov 2, 2024)
+  - Fixed silent command failures when running PRISM CLI commands
+  - Added source guard to `prism-log.sh` to prevent readonly variable re-declaration errors
+  - Updated `prism-skills.sh` to safely handle unset variables using `${1:-}` pattern
+  - All commands now work correctly in strict mode without requiring `PRISM_NO_STRICT=1`
+  - Resolves issue where `prism help`, `prism --version`, and other commands would fail silently
+
 ### Technical Details
 - Uses `find` with process substitution for portable glob handling
 - Temporary script execution with `PRISM_NO_STRICT=1` for strict mode compatibility
 - Safe variable initialization for `PRISM_ROOT` and `PRISM_HOME`
 - Individual symlinks for built-in skills to personal skills directory
+- Source guards prevent multiple library sourcing and readonly conflicts
 
 ## [2.2.0] - 2025-10-02
 
