@@ -2,7 +2,20 @@
 
 All notable changes to the PRISM Framework will be documented in this file.
 
-## [2.3.0] - 2025-11-02
+## [2.3.1] - 2024-11-02
+
+### Fixed
+- **CLI Command Failures** - Resolved all strict mode execution issues
+  - Fixed unset variable access in `prism-skills.sh` using `${1:-}` pattern
+  - Added source guard to `prism-log.sh` to prevent multiple sourcing
+  - Removed duplicate color variable definitions causing readonly conflicts
+  - All PRISM CLI commands now work correctly without `PRISM_NO_STRICT=1` workaround
+
+### Changed
+- Updated local installation with all fixes applied
+- Improved library loading reliability and error handling
+
+## [2.3.0] - 2024-11-02
 
 ### Added
 - **PRISM Skills System** - Native Claude Code skills integration

@@ -1,13 +1,13 @@
 <div align="center">
   <img src="assets/logo/prism-logo.png" alt="PRISM Logo" width="200" height="200">
 
-  # PRISM Framework v2.3.0
+  # PRISM Framework v2.3.1
 
   **Persistent Real-time Intelligent System Management**
 
   *Enterprise-grade AI context management for Claude Code*
 
-  [![Version](https://img.shields.io/badge/version-2.3.0-blue.svg)](https://github.com/afiffattouh/hildens-prism)
+  [![Version](https://img.shields.io/badge/version-2.3.1-blue.svg)](https://github.com/afiffattouh/hildens-prism)
   [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
   [![Security](https://img.shields.io/badge/security-hardened-orange.svg)](SECURITY.md)
   [![Status](https://img.shields.io/badge/status-production%20ready-success.svg)](README.md#testing-status)
