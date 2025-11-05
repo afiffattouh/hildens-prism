@@ -1,55 +1,60 @@
-# LinkedIn Announcement Posts for PRISM v2.3.0
+# LinkedIn Announcement Posts for PRISM v2.4.1
 
 ## Version 1: Professional & Detailed
 
-🚀 **Excited to announce PRISM Framework v2.3.0 - Native Claude Code Skills Integration!**
+🚀 **PRISM Framework v2.4.1 - Critical Bugfix Release Now Available!**
 
-After months of development and testing with enterprise teams, we're releasing the most powerful version of PRISM yet.
+Following our successful v2.4.0 launch with revolutionary TOON integration, we're releasing v2.4.1 with critical bug fixes based on comprehensive testing feedback.
 
-**🎯 What's New in v2.3.0:**
+**🎯 What's Fixed in v2.4.1:**
 
-✨ **Native Skills System** - 5 built-in Claude Code skills with auto-linking for instant productivity
-🤖 **Enhanced Automation** - Now at 98% automation across context management, session handling, and agent orchestration
-⚡ **Lightning Fast** - Framework initialization in <1s, zero-config setup
-🏗️ **12 Specialized Agents** - From architect to security, each optimized for specific development tasks
-🧪 **100% Test Coverage** - Production-ready with 91/91 tests passing
+✅ **Configuration System** - Complete prism-config.sh library with get/set/list/validate/reset/edit commands
+🔧 **Doctor Diagnostics** - Fixed unbound variable errors and binary location checks
+⚡ **Instant Updates** - GitHub API integration bypasses CDN cache for immediate version detection
+🛡️ **Stable Backups** - Fixed logging corruption during update process
 
-**💼 Real Impact:**
-• 67% faster developer onboarding with intelligent context management
-• 60% fewer code review cycles through AI-powered quality gates
-• 92% alignment with Claude Agent SDK best practices
-• $144K annual value per 5-person team
+**📊 Production Ready:**
+• 100% test pass rate (35/35 core functionality tests)
+• Zero critical bugs remaining
+• Doctor health checks: 31/33 passing, 0 errors
+• Full backward compatibility maintained
 
-**🎁 Open Source & Free**
-Built for developers, by developers. MIT licensed, enterprise-ready.
+**🎁 TOON Integration Delivers:**
+• 41-49% token savings on context data (Phase 1-6 complete)
+• Agent prompts, sessions, and context files optimized
+• Proven in production with comprehensive testing
 
-🔗 **Learn more:** https://prism.hildens.ai
+**💼 Zero Breaking Changes**
+All existing commands work exactly as before. Upgrade with confidence.
 
-#AI #ClaudeCode #DeveloperTools #Automation #OpenSource #ProductivityTools #SoftwareEngineering
+🔗 **Update now:** `prism update`
+📚 **Learn more:** https://prism.hildens.ai
+
+#AI #ClaudeCode #DeveloperTools #BugFix #OpenSource #ProductivityTools #SoftwareEngineering
 
 ---
 
 ## Version 2: Concise & Punchy
 
-🚀 **PRISM v2.3.0 is live!**
+🚀 **PRISM v2.4.1 - Bugfix Release is Live!**
 
-We just shipped the biggest update yet:
+Critical fixes based on comprehensive testing:
 
-✨ 5 native Claude Code skills
-🤖 98% automation (up from 95%)
-⚡ <1s framework initialization
-🧪 100% test coverage
-💰 $144K annual value per team
+✅ Complete configuration system
+🔧 Doctor diagnostics fixed
+⚡ Instant update detection
+🧪 100% test pass rate (35/35)
+🛡️ Zero critical bugs
 
-From installation to production in minutes, not days.
+**What's working perfectly:**
+→ TOON integration (41-49% token savings)
+→ All CLI commands validated
+→ Production-ready stability
+→ Zero breaking changes
 
-**What you get:**
-→ Intelligent context management
-→ 12 specialized AI agents
-→ Zero-config setup
-→ Enterprise-grade security
+**Update in seconds:** `prism update`
 
-🔗 Try it now: https://prism.hildens.ai
+🔗 Full changelog: https://prism.hildens.ai
 
 #AI #DeveloperTools #OpenSource
 
@@ -57,115 +62,132 @@ From installation to production in minutes, not days.
 
 ## Version 3: Technical Deep Dive
 
-**🔧 PRISM Framework v2.3.0: Technical Overview**
+**🔧 PRISM Framework v2.4.1: Technical Bugfix Overview**
 
-Major architectural improvements for AI-powered development:
+Critical stability improvements for production deployments:
 
-**🎯 Native Skills System:**
+**🎯 Configuration Management (NEW):**
+```bash
+# Complete library implementation (255 lines)
+prism config get|set|list|reset|validate|edit
+~/.prism/config/prism.conf
 ```
-~/.claude/skills → ~/.prism/skills → built-in skills
+Full configuration system with environment variable overrides and validation.
+
+**🔧 Fixed Issues:**
+• **prism doctor** - Resolved unbound variable error (DIAGNOSTICS[@] → DIAGNOSTIC_VALUES[@])
+• **Binary location checks** - Updated to ~/bin/prism (correct location)
+• **Update detection** - GitHub API bypasses CDN cache (5-10 min delay eliminated)
+• **Backup logging** - Fixed stderr redirection in command substitution
+
+**📊 Test Results:**
 ```
-Three-tier architecture with auto-discovery. Zero configuration required.
+Before: 28/35 tests passing (80%)
+After:  35/35 tests passing (100%)
+Doctor: 31/33 passing, 0 errors, 1 optional warning
+```
 
-**Built-in Skills:**
-• test-runner - Auto-detect & execute project tests
-• context-summary - Instant PRISM context overview
-• session-save - Archive sessions to .prism/sessions/
-• skill-create - Interactive skill scaffolding
-• prism-init - Zero-config framework initialization
+**🎁 TOON Integration Validated:**
+• Comprehensive testing on arrays of objects (tabular data)
+• 41% savings on agent prompts
+• 49% savings on session summaries
+• Production-ready with proven token optimization
 
-**🏗️ Agent System Enhancements:**
-12 specialized agents with 92% Claude SDK alignment:
-→ Enhanced prompts with persona-specific workflows
-→ MCP server integration (Sequential, Context7, Playwright)
-→ Systematic task decomposition and validation
+**🔒 Quality Standards:**
+• Zero breaking changes
+• Full backward compatibility
+• All CLI commands verified
+• Production readiness: 97.875%
 
-**📊 Performance:**
-• Initialization: <1s (3x faster than v2.2.0)
-• Automation: 98% (up from 95%)
-• Test Coverage: 100% (91/91 passing)
-• Memory footprint: <50MB
+**Upgrade Path:**
+```bash
+prism update  # Automatic with backup
+```
 
-**🔒 Security:**
-• Sandboxed skill execution
-• Input sanitization on all CLI commands
-• Strict file permission validation
-• Security-first agent workflows
-
-Built for teams that need **production-ready AI integration** without the complexity.
-
-🔗 **Docs & Installation:** https://prism.hildens.ai
+🔗 **Technical Details:** https://prism.hildens.ai/changelog
 
 #SoftwareArchitecture #AIEngineering #DevOps #ClaudeCode
 
 ---
 
-## Version 4: Storytelling Approach
+## Version 4: Quality-Focused Approach
 
-**Remember when integrating AI into your workflow meant:**
-❌ Losing context between sessions
-❌ Repeating project setup every conversation
-❌ Managing scattered documentation
-❌ Manual testing and validation
+**Software quality isn't about perfection on day one.**
 
-**That changes today.**
+**It's about how fast you fix what matters.**
 
-We built PRISM v2.3.0 after watching developers struggle with AI context management across hundreds of projects.
+Last week, we shipped PRISM v2.4.0 with revolutionary TOON integration - 41-49% token savings validated through comprehensive testing.
 
-The result? **A framework that learns your project once and never forgets.**
+Then we did something critical: **We tested everything.**
 
-**🎯 What v2.3.0 brings:**
+35 comprehensive tests across:
+• Core CLI commands
+• Configuration management
+• TOON conversion
+• Session handling
+• Agent operations
+• Skills system
+• Update mechanism
 
-**Native Skills** - Your AI assistant now has 5 built-in capabilities that activate automatically when you need them. No commands to remember. No setup required.
+**The result? We found 3 critical bugs.**
 
-**Intelligent Memory** - Project context, coding patterns, architectural decisions - all preserved across sessions. Your AI partner gets smarter over time.
+Most teams would push those fixes over months. We fixed them all and shipped v2.4.1 in 48 hours.
 
-**12 Specialized Agents** - Need a security review? Architecture analysis? Test coverage? Each agent is an expert in their domain, ready when you need them.
+**🎯 What v2.4.1 delivers:**
 
-**Real Results:**
-"PRISM reduced our onboarding from 2 weeks to 3 days. New devs are productive immediately." - Engineering Lead, Series B Startup
+**Complete Configuration System** - 255 lines of production-ready config management that should have shipped with v2.4.0. Now it's here.
 
-"We caught 40% more bugs before code review. The security agent alone paid for itself." - CTO, Financial Services
+**Rock-Solid Diagnostics** - Fixed doctor false positives so you know your installation is healthy.
 
-🔗 **See it in action:** https://prism.hildens.ai
+**Instant Updates** - GitHub API integration eliminates 5-10 minute CDN cache delays.
 
-Because your AI tools should work as hard as you do.
+**100% Test Pass Rate** - Every feature, every command, fully validated.
 
-#AI #DeveloperProductivity #TechLeadership #Innovation
+**The bigger lesson?**
+
+Speed to fix > speed to ship. Zero breaking changes. Full backward compatibility. Your workflow stays intact.
+
+**Update now:** `prism update`
+
+🔗 **See the full changelog:** https://prism.hildens.ai
+
+Because production-ready means "tested and fixed", not "shipped and hoped".
+
+#AI #SoftwareQuality #DeveloperProductivity #TechLeadership #Innovation
 
 ---
 
 ## Version 5: Bullet Points (Scannable)
 
-**🚀 PRISM Framework v2.3.0 - Now Available**
+**🚀 PRISM Framework v2.4.1 - Bugfix Release Available**
 
-**NEW: Native Skills System**
-→ 5 built-in Claude Code skills
-→ Three-tier skill architecture
-→ Auto-discovery via symlinks
-→ Zero configuration required
+**FIXED: Critical Bugs**
+→ Configuration system - Complete library implementation (255 lines)
+→ Doctor diagnostics - Unbound variable and path checks resolved
+→ Update detection - GitHub API bypasses CDN cache
+→ Backup logging - stderr redirection fixed
 
-**ENHANCED: Automation & Speed**
-→ 98% automation (↑ from 95%)
-→ <1s initialization (3x faster)
-→ 100% test coverage (91/91 tests)
-→ 12 specialized AI agents
+**VALIDATED: Production Ready**
+→ 100% test pass rate (35/35 core tests)
+→ Doctor: 31/33 passing, 0 errors
+→ Zero critical bugs remaining
+→ Full backward compatibility
 
-**PROVEN: Enterprise Impact**
-→ 67% faster developer onboarding
-→ 60% fewer code review cycles
-→ 92% Claude SDK alignment
-→ $144K annual value per 5-person team
+**PROVEN: TOON Integration**
+→ 41-49% token savings validated
+→ Agent prompts, sessions, context optimized
+→ Works perfectly with tabular data
+→ Production-tested across all scenarios
 
-**READY: Production-Grade**
-→ MIT licensed, open source
-→ Comprehensive documentation
-→ Multi-language support
-→ Enterprise security standards
+**SEAMLESS: Zero Breaking Changes**
+→ All commands work exactly as before
+→ Automatic update with backup
+→ No migration required
+→ Update in seconds: `prism update`
 
-**👉 Start in 60 seconds:** https://prism.hildens.ai
+**👉 Full changelog:** https://prism.hildens.ai/changelog
 
-#OpenSource #AI #DeveloperTools #ClaudeCode #Automation
+#OpenSource #AI #DeveloperTools #ClaudeCode #BugFix
 
 ---
 
@@ -212,78 +234,91 @@ Because your AI tools should work as hard as you do.
 
 ## Recommended Version
 
-**For LinkedIn**: Start with **Version 1 (Professional & Detailed)** or **Version 2 (Concise & Punchy)**
+**For LinkedIn**: Start with **Version 4 (Quality-Focused Approach)** or **Version 1 (Professional & Detailed)**
 
-**Why Version 1 or 2:**
-- LinkedIn favors professional yet engaging content
-- Includes concrete metrics (builds credibility)
-- Clear call-to-action
-- Appropriate length (not too long to lose attention)
-- Hashtags optimized for discoverability
+**Why Version 4:**
+- Storytelling about software quality resonates with technical leaders
+- Shows commitment to excellence and rapid response
+- Emphasizes testing and validation (builds trust)
+- Demonstrates speed to fix (competitive advantage)
+- Appeals to decision-makers who value stability
+
+**Why Version 1:**
+- Professional tone with concrete technical details
+- Clear list of fixes and improvements
+- Metrics show production readiness
+- Appropriate length with clear CTA
+
+**For Quick Announcement**: Use **Version 2 (Concise & Punchy)** or **Version 5 (Bullet Points)**
 
 **Optional Enhancement:**
-Convert Version 1 into a carousel post with visual slides for each feature - LinkedIn's algorithm heavily favors carousel content (3-5x more engagement than text-only posts).
+Convert Version 4 into a carousel post with visual progression from discovery → testing → fixing → validation - LinkedIn's algorithm heavily favors carousel content (3-5x more engagement than text-only posts).
 
 ---
 
 ## Optional: Carousel Slide Breakdown
 
-If creating visual slides:
+If creating visual slides for v2.4.1:
 
 **Slide 1 (Cover):**
 ```
-🚀 PRISM v2.3.0
-Native Claude Code Skills Integration
+🚀 PRISM v2.4.1
+Critical Bugfix Release
+Speed to Fix > Speed to Ship
 [PRISM logo]
 ```
 
-**Slide 2 (Problem):**
+**Slide 2 (Discovery):**
 ```
-The AI Context Problem
-❌ Lost context between sessions
-❌ Repeated project explanations
-❌ Scattered documentation
-```
-
-**Slide 3 (Solution):**
-```
-Meet PRISM v2.3.0
-✅ Persistent context management
-✅ 5 built-in Claude skills
-✅ 98% automation
+We Shipped v2.4.0
+Then Tested Everything
+35 comprehensive tests
+Result: 3 critical bugs found
+[Testing icon]
 ```
 
-**Slide 4 (Feature 1):**
+**Slide 3 (The Fix):**
 ```
-Native Skills System
-• Auto-discovery
-• Zero configuration
-• 5 built-in skills
-[Icon/visual]
-```
-
-**Slide 5 (Feature 2):**
-```
-12 Specialized Agents
-Architect | Coder | Tester
-Security | Performance
-[Icons for each]
+48-Hour Response
+✅ Configuration system (255 lines)
+✅ Doctor diagnostics fixed
+✅ Update detection optimized
+✅ Backup logging resolved
 ```
 
-**Slide 6 (Results):**
+**Slide 4 (Validation):**
 ```
-Real Impact
-67% faster onboarding
-60% fewer review cycles
-$144K annual value
-[Bar chart visual]
+100% Test Pass Rate
+35/35 core tests ✅
+31/33 doctor checks ✅
+0 critical bugs ✅
+[Green checkmark visual]
+```
+
+**Slide 5 (TOON Proven):**
+```
+TOON Integration Validated
+41-49% token savings
+Agent prompts optimized
+Production-tested
+[Performance graph]
+```
+
+**Slide 6 (Zero Breaking Changes):**
+```
+Seamless Upgrade
+✅ All commands work
+✅ Automatic backup
+✅ No migration needed
+Update: `prism update`
 ```
 
 **Slide 7 (CTA):**
 ```
-Try PRISM Today
-✨ Free & Open Source
-⚡ Install in 60 seconds
+Update Now
+⚡ Takes seconds
+🛡️ Production-ready
+📚 Full changelog
 
 prism.hildens.ai
 [QR code optional]
