@@ -156,15 +156,19 @@ EOF
 _toon_serialize_session() {
     local session_data="$1"
 
-    # Convert session metadata and tasks to TOON format
+    # Session data uses generic serialization (tabular arrays)
+    # Detect if data is suitable for TOON
+    local format=$(toon_detect_format "$session_data")
 
-    cat <<EOF
-session:
- id: $(echo "$session_data" | grep -oP 'id:\s*\K\S+' || echo "unknown")
- status: $(echo "$session_data" | grep -oP 'status:\s*\K\w+' || echo "active")
-
-# Tasks would be converted to TOON tabular format here
-EOF
+    case "$format" in
+        toon_tabular)
+            _toon_tabular_array "$session_data"
+            ;;
+        *)
+            # For scalar session data, keep original
+            echo "$session_data"
+            ;;
+    esac
 }
 
 # ============================================================================

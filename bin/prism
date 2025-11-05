@@ -249,7 +249,16 @@ cmd_session() {
             prism_session_start "$description"
             ;;
         status)
-            prism_session_status
+            # Support --toon flag
+            if [[ "${1:-}" == "--toon" ]]; then
+                prism_session_status "toon"
+            else
+                prism_session_status "human"
+            fi
+            ;;
+        list-toon|toon)
+            local max_sessions=${1:-10}
+            prism_session_list_toon "$max_sessions"
             ;;
         archive)
             prism_session_archive
@@ -278,7 +287,7 @@ cmd_session() {
             ;;
         *)
             log_error "Unknown session action: $action"
-            log_info "Valid actions: start, status, archive, restore, export, refresh, clean"
+            log_info "Valid actions: start, status, status --toon, list-toon, archive, restore, export, refresh, clean"
             return 1
             ;;
     esac

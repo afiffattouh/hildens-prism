@@ -1,6 +1,10 @@
 #!/bin/bash
 # PRISM Session Management Library
 
+# Source TOON library for token optimization
+PRISM_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${PRISM_LIB_DIR}/prism-toon.sh" 2>/dev/null || true
+
 # Start new session
 prism_session_start() {
     local description=${1:-"Development session"}
@@ -59,6 +63,8 @@ EOF
 
 # Check session status
 prism_session_status() {
+    local format="${1:-human}"  # human|toon
+
     log_info "Checking session status..."
 
     if [[ ! -f ".prism/sessions/current.md" ]]; then
@@ -71,10 +77,6 @@ prism_session_status() {
     local started=$(grep "Started:" .prism/sessions/current.md | cut -d: -f2-)
     local status=$(grep "Status:" .prism/sessions/current.md | head -1 | cut -d: -f2- | tr -d ' ')
 
-    echo "Session ID: $session_id"
-    echo "Started: $started"
-    echo "Status: $status"
-
     # Calculate duration
     local start_time=$(date -j -f "%Y-%m-%dT%H:%M:%SZ" "$started" +%s 2>/dev/null || date -d "$started" +%s 2>/dev/null)
     local now=$(date +%s)
@@ -82,12 +84,43 @@ prism_session_status() {
     local hours=$((duration / 3600))
     local minutes=$(((duration % 3600) / 60))
 
-    echo "Duration: ${hours}h ${minutes}m"
+    # Extract metrics
+    local operations=$(grep "Operations:" .prism/sessions/current.md | tail -1 | grep -o '[0-9]\+' || echo "0")
+    local errors=$(grep "Errors:" .prism/sessions/current.md | tail -1 | grep -o '[0-9]\+' || echo "0")
+    local warnings=$(grep "Warnings:" .prism/sessions/current.md | tail -1 | grep -o '[0-9]\+' || echo "0")
 
-    # Show metrics
-    echo ""
-    echo "Metrics:"
-    grep -A3 "## Metrics" .prism/sessions/current.md | tail -3
+    if [[ "$format" == "toon" ]] && toon_is_enabled "session"; then
+        # Build JSON for TOON conversion
+        local session_json=$(cat <<JSON
+{
+  "session_id": "$session_id",
+  "started": "$started",
+  "status": "$status",
+  "duration_hours": $hours,
+  "duration_minutes": $minutes,
+  "operations": $operations,
+  "errors": $errors,
+  "warnings": $warnings
+}
+JSON
+)
+        echo ""
+        echo "Session Status (TOON Format):"
+        toon_optimize "$session_json" "session"
+    else
+        # Human-readable format
+        echo "Session ID: $session_id"
+        echo "Started: $started"
+        echo "Status: $status"
+        echo "Duration: ${hours}h ${minutes}m"
+
+        # Show metrics
+        echo ""
+        echo "Metrics:"
+        echo "  Operations: $operations"
+        echo "  Errors: $errors"
+        echo "  Warnings: $warnings"
+    fi
 }
 
 # Archive current session
@@ -287,3 +320,58 @@ prism_session_log() {
     sed -i '' "/## Operations Log/a\\
 $op_num. $(date -u +%H:%M:%S) - $operation" .prism/sessions/current.md
 }
+
+# List session history in TOON format
+prism_session_list_toon() {
+    local max_sessions="${1:-10}"
+
+    log_info "Listing session history in TOON format..."
+
+    if [[ ! -d ".prism/sessions/archive" ]]; then
+        log_info "No archived sessions found"
+        return 0
+    fi
+
+    # Build JSON array of session metadata
+    local sessions_json="["
+    local count=0
+
+    # Get most recent sessions
+    for session_file in $(ls -t .prism/sessions/archive/*.md 2>/dev/null | head -"$max_sessions"); do
+        if [[ $count -gt 0 ]]; then
+            sessions_json="${sessions_json},"
+        fi
+
+        local session_id=$(basename "$session_file" .md)
+        local status=$(grep "Status:" "$session_file" | head -1 | cut -d: -f2- | tr -d ' ')
+        local started=$(grep "Started:" "$session_file" | cut -d: -f2- | tr -d ' ')
+        local ended=$(grep "Ended:" "$session_file" | cut -d: -f2- | tr -d ' ' || echo "unknown")
+        local operations=$(grep "Total operations:" "$session_file" | grep -o '[0-9]\+' || echo "0")
+
+        sessions_json="${sessions_json}{\"session_id\":\"$session_id\",\"status\":\"$status\",\"started\":\"$started\",\"ended\":\"$ended\",\"operations\":$operations}"
+        count=$((count + 1))
+    done
+
+    sessions_json="${sessions_json}]"
+
+    # Convert to TOON if enabled
+    if toon_is_enabled "session"; then
+        echo ""
+        echo "Session History (TOON Format):"
+        toon_optimize "$sessions_json" "session"
+    else
+        echo "$sessions_json" | python3 -m json.tool 2>/dev/null || echo "$sessions_json"
+    fi
+}
+
+# Export functions
+export -f prism_session_start
+export -f prism_session_status
+export -f prism_session_archive
+export -f prism_session_restore
+export -f prism_session_export
+export -f prism_session_clean
+export -f prism_session_refresh
+export -f prism_session_log
+export -f prism_session_list_toon
+export -f load_priority_contexts
