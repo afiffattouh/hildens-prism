@@ -19,7 +19,13 @@ Integration of TOON (Token-Oriented Object Notation) format into PRISM Framework
 
 ### What is TOON?
 
-TOON (Token-Oriented Object Notation) is a token-optimized serialization format specifically designed for LLM interactions. It achieves significant token reduction through:
+TOON (Token-Oriented Object Notation) is a token-optimized serialization format specifically designed for LLM interactions.
+
+**Original TOON Project**: Created by [Johann Schopplich](https://github.com/johannschopplich)
+**Source**: https://github.com/toon-format/toon
+**PRISM Integration**: Adapted and extended for PRISM-specific use cases
+
+TOON achieves significant token reduction through:
 
 **Core Principles:**
 - **Tabular Arrays**: Declare field names once, stream data as rows

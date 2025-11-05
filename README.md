@@ -86,6 +86,9 @@ TOON is a specialized serialization format designed specifically for LLM interac
 - **Maintains data fidelity** with lossless, validated conversions
 - **Works automatically** with intelligent format detection
 
+**Built on TOON Open Source:**
+PRISM integrates the [TOON format](https://github.com/toon-format/toon) created by [Johann Schopplich](https://github.com/johannschopplich). We've adapted and extended TOON with PRISM-specific optimizations for AI context management, agent orchestration, and session handling.
+
 ### 📊 Proven Results
 
 | Component | Token Savings | Status |
@@ -875,9 +878,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- Claude Code team for the amazing AI assistant
-- Contributors and early adopters
-- Open source community
+- **Claude Code team** for the amazing AI assistant platform
+- **[Johann Schopplich](https://github.com/johannschopplich)** for creating the [TOON format](https://github.com/toon-format/toon)
+- Contributors and early adopters of PRISM Framework
+- Open source community for continuous support and feedback
 
 ---
 
