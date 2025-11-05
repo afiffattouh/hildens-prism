@@ -286,7 +286,7 @@ generate_report() {
     local errors=0
 
     # Count results
-    for result in "${DIAGNOSTICS[@]}"; do
+    for result in "${DIAGNOSTIC_VALUES[@]}"; do
         ((total_tests++))
         case "$result" in
             "OK")

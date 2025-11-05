@@ -1,3 +1,27 @@
+## [2.4.1] - 2024-11-05
+
+### Fixed
+- **prism doctor diagnostic report** - Resolved unbound variable error (`DIAGNOSTICS[@]` → `DIAGNOSTIC_VALUES[@]`)
+- **Configuration management** - Added missing `prism-config.sh` library with full config system
+- **Update detection** - Uses GitHub API to bypass CDN cache delays for immediate version detection
+- **Backup logging** - Fixed command substitution variable corruption by redirecting logs to stderr
+
+### Added
+- **Configuration System** - Complete config management with get/set/list/reset/validate commands
+  - Default configuration file created at `~/.prism/config/prism.conf`
+  - Environment variable overrides supported
+  - Validation and reset functionality
+
+### Improved
+- **Test Coverage** - 100% pass rate on all core functionality
+- **Error Messages** - Clarified command naming (use `session archive` not `session end`)
+- **TOON Documentation** - Clarified TOON works on arrays of objects (tabular data)
+
+### Technical Details
+- Files changed: `lib/prism-doctor.sh`, `lib/prism-config.sh` (new), `lib/prism-update.sh`
+- No breaking changes - this is a bugfix release
+- All tests passing: doctor, config, TOON, sessions, agents, skills, update
+
 # Changelog
 
 All notable changes to the PRISM Framework will be documented in this file.

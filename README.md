@@ -1,13 +1,13 @@
 <div align="center">
   <img src="assets/logo/prism-logo.png" alt="PRISM Logo" width="200" height="200">
 
-  # PRISM Framework v2.4.0
+  # PRISM Framework v2.4.1
 
   **Persistent Real-time Intelligent System Management**
 
   *Enterprise-grade AI context management for Claude Code with TOON integration*
 
-  [![Version](https://img.shields.io/badge/version-2.4.0-blue.svg)](https://github.com/afiffattouh/hildens-prism)
+  [![Version](https://img.shields.io/badge/version-2.4.1-blue.svg)](https://github.com/afiffattouh/hildens-prism)
   [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
   [![Security](https://img.shields.io/badge/security-hardened-orange.svg)](SECURITY.md)
   [![Status](https://img.shields.io/badge/status-production%20ready-success.svg)](README.md#testing-status)
@@ -74,9 +74,9 @@ Then verify installation:
 prism --help  # Should display help information
 ```
 
-## ⚡ TOON Integration (NEW in v2.4.0)
+## ⚡ TOON Integration (NEW in v2.4.1)
 
-PRISM v2.4.0 introduces **TOON (Tree Object Notation)** - a revolutionary token-optimized format that achieves **41-49% token savings** in Claude API interactions, significantly reducing costs and improving performance.
+PRISM v2.4.1 introduces **TOON (Tree Object Notation)** - a revolutionary token-optimized format that achieves **41-49% token savings** in Claude API interactions, significantly reducing costs and improving performance.
 
 ### 🎯 What is TOON?
 
@@ -241,7 +241,7 @@ prism toon help
 PRISM (Persistent Real-time Intelligent System Management) is an enterprise-grade context management framework built on **Anthropic's Claude Agent SDK principles** that enhances Claude Code with:
 
 - 🧠 **Persistent Memory** - Context maintained across sessions with intelligent caching
-- ⚡ **TOON Integration** - 41-49% token savings in Claude interactions (NEW in v2.4.0)
+- ⚡ **TOON Integration** - 41-49% token savings in Claude interactions (NEW in v2.4.1)
 - 🤖 **Multi-Agent Orchestration** - 12 specialized AI agents aligned with Claude Agent SDK
 - 🔄 **Swarm Coordination** - Hierarchical, parallel, pipeline, mesh, and adaptive topologies
 - 📝 **Smart Context Management** - Automatic pattern learning and application
@@ -333,7 +333,7 @@ See [Claude Agent SDK Alignment Report](.prism/context/claude-agent-sdk-alignmen
 - ✅ **Claude Agent SDK Aligned** - 92% alignment with Anthropic's best practices
 - ✅ **Native Skills System** - 5 built-in Claude Code skills with auto-linking
 
-### v2.4.0 Features (CURRENT VERSION - PRODUCTION READY)
+### v2.4.1 Features (CURRENT VERSION - PRODUCTION READY)
 - ✅ **TOON (Tree Object Notation) Integration** - Revolutionary token optimization
   - **41-49% Average Token Savings** - Reduces Claude API costs significantly
   - **7 CLI Commands** - convert, benchmark, validate, stats, demo, clear-cache, help
@@ -542,7 +542,7 @@ scripts/prism-maintenance.sh full --dry-run  # Preview changes without applying
 scripts/prism-maintenance.sh cleanup --yes   # Skip confirmation prompts
 ```
 
-### TOON Management (NEW in v2.4.0)
+### TOON Management (NEW in v2.4.1)
 
 ```bash
 # Conversion and Analysis
@@ -567,7 +567,7 @@ prism session list-toon [max]              # Session history in TOON
 ### Configuration Environment Variables
 
 ```bash
-# TOON Configuration (v2.4.0)
+# TOON Configuration (v2.4.1)
 export PRISM_TOON_ENABLED=true           # Enable TOON globally (default: false)
 export PRISM_TOON_AGENTS=true            # Enable for agents (default: false)
 export PRISM_TOON_CONTEXT=true           # Enable for context (default: false)
@@ -590,7 +590,7 @@ export PRISM_LOG_FILE=true               # Log to file (default: true)
 
 ## ✅ Testing Status
 
-PRISM v2.4.0 has been comprehensively tested and is **PRODUCTION READY**
+PRISM v2.4.1 has been comprehensively tested and is **PRODUCTION READY**
 
 **Overall Test Results**: ✅ **95%+ Success Rate** across all components
 **TOON Integration**: ✅ **100% Critical Tests Passing** (43 tests, 95%+ overall)
@@ -603,7 +603,7 @@ PRISM v2.4.0 has been comprehensively tested and is **PRODUCTION READY**
 | **Context Management** | 3/3 | ✅ Passed | Add, query, indexing - 100% automatic |
 | **Skills System** | 12/12 | ✅ Passed | All 5 built-in skills, CLI commands, auto-linking |
 | **Agent System** | 3/3 | ✅ Passed | Init, list, all 12 agent types |
-| **TOON Integration** | 43/46 | ✅ Passed | 95%+ overall, 100% critical (v2.4.0) |
+| **TOON Integration** | 43/46 | ✅ Passed | 95%+ overall, 100% critical (v2.4.1) |
 | **TOON Agents** | 9/9 | ✅ Passed | 38-53% token savings validated |
 | **TOON Context** | 9/9 | ✅ Passed | 49% token savings validated |
 | **TOON Sessions** | 8/8 | ✅ Passed | 44% token savings validated |
@@ -666,7 +666,7 @@ PRISM v2.4.0 has been comprehensively tested and is **PRODUCTION READY**
    - **Symptom**: `prism config` command not implemented
    - **Impact**: Non-critical - environment variables work fine
    - **Workaround**: Use environment variables for configuration
-   - **Status**: Scheduled for v2.4.0
+   - **Status**: Scheduled for v2.4.1
 
 2. **Manual Agent Execution** (By Design)
    - **Behavior**: Agent prompts require manual execution via Claude Code
@@ -719,7 +719,7 @@ your-project/
 │   │   ├── development.md      # Dev workflow
 │   │   ├── review.md           # Review process
 │   │   └── deployment.md       # Deploy workflow
-│   ├── .toon-cache/            # TOON conversion cache (v2.4.0)
+│   ├── .toon-cache/            # TOON conversion cache (v2.4.1)
 │   ├── config/                  # Project configuration
 │   ├── index.yaml              # PRISM index file
 │   └── AUTO_LOAD               # Auto-load instructions
@@ -833,7 +833,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**PRISM Framework v2.4.0**
+**PRISM Framework v2.4.1**
 
 *Enterprise-grade context management with TOON integration*
 
