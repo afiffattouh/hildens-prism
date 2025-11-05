@@ -1,9 +1,0 @@
-id: swarm_dev_swarm_1759225509
-name: dev_swarm
-topology: parallel
-task: Develop REST API with tests
-created: 2025-09-30T09:45:09Z
-agents:
-  - agent_swarm_dev_swarm_1759225509_architect_29348
-  - agent_swarm_dev_swarm_1759225509_tester_29749state: initializing
-  - agent_swarm_dev_swarm_1759225509_security_30149

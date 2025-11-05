@@ -26,16 +26,17 @@ TROUBLESHOOTING_PRISM.md
 # These files will be regenerated when users run 'prism init' in their local copy
 .prism/
 
-# But keep the activation marker (this should be committed)
+# But keep ONLY essential framework files in .prism/
 !.prism_active
+!.prism/PRISM.md
+!.prism/AUTO_LOAD
+!.prism/TIMESTAMP
+!.prism/index.yaml
 
-# Keep core PRISM context files that define the framework
+# Keep ONLY TOON documentation (core framework feature docs)
 !.prism/context/
 .prism/context/*
 !.prism/context/toon-*.md
-
-# Exclude project-specific references (PRDs, specs, etc.)
-.prism/references/
 
 # Serena MCP cache (temporary IDE files)
 .serena/
@@ -69,8 +70,9 @@ __pycache__/
 .env
 .env.local
 
-# Internal documentation
+# Internal documentation and project-specific files
 UPDATE_ROUTINE.md
+TEST_RESULTS.md
 
 # Marketing and project-specific content
 LINKEDIN_POST.md
