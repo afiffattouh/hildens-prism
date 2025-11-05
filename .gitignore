@@ -34,6 +34,9 @@ TROUBLESHOOTING_PRISM.md
 .prism/context/*
 !.prism/context/toon-*.md
 
+# Serena MCP cache (temporary IDE files)
+.serena/
+
 # OS Files
 .DS_Store
 Thumbs.db
