@@ -77,14 +77,14 @@ compare_versions() {
 backup_installation() {
     local backup_dir="$PRISM_HOME.backup.$(date +%Y%m%d_%H%M%S)"
 
-    log_info "Backing up current installation to $backup_dir"
+    log_info "Backing up current installation to $backup_dir" >&2
 
     if cp -r "$PRISM_HOME" "$backup_dir"; then
-        log_info "✅ Backup created successfully"
+        log_info "✅ Backup created successfully" >&2
         echo "$backup_dir"
         return 0
     else
-        log_error "Failed to create backup"
+        log_error "Failed to create backup" >&2
         return 1
     fi
 }
