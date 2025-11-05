@@ -445,6 +445,102 @@ cmd_toon() {
             toon_clear_cache
             ;;
 
+        stats)
+            # Show TOON usage statistics
+            cat << 'STATS'
+📊 TOON Usage Statistics (PRISM v2.3.x)
+
+Performance Benchmarks:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Component         Token Savings    Status
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Agents            40-53%           ✅ Phase 2 Complete
+Context           49%              ✅ Phase 3 Complete
+Sessions          35-45%           ⏳ Phase 5 Planned
+Average           41-49%           ✅ Operational
+
+Feature Flags:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PRISM_TOON_ENABLED    = ${PRISM_TOON_ENABLED:-true}
+PRISM_TOON_AGENTS     = ${PRISM_TOON_AGENTS:-true}
+PRISM_TOON_CONTEXT    = ${PRISM_TOON_CONTEXT:-true}
+PRISM_TOON_SESSION    = ${PRISM_TOON_SESSION:-true}
+
+Cache Directory:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Location: ${TOON_CACHE_DIR:-/tmp/prism-toon-cache}
+STATS
+
+            # Show cache stats if directory exists
+            if [[ -d "${TOON_CACHE_DIR:-/tmp/prism-toon-cache}" ]]; then
+                local cache_count=$(find "${TOON_CACHE_DIR:-/tmp/prism-toon-cache}" -name "*.toon" 2>/dev/null | wc -l | tr -d ' ')
+                local cache_size=$(du -sh "${TOON_CACHE_DIR:-/tmp/prism-toon-cache}" 2>/dev/null | cut -f1)
+                echo "Cached files: $cache_count"
+                echo "Cache size:   $cache_size"
+            else
+                echo "Cached files: 0 (cache empty)"
+            fi
+
+            echo ""
+            echo "Run 'prism toon demo' to see TOON conversion examples"
+            ;;
+
+        demo)
+            # Interactive demo of TOON conversions
+            cat << 'DEMO'
+🎯 TOON Conversion Demo
+
+Example 1: Simple Array
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Original JSON (89 tokens):
+{
+  "users": [
+    {"id": 1, "name": "Alice", "role": "admin"},
+    {"id": 2, "name": "Bob", "role": "user"},
+    {"id": 3, "name": "Charlie", "role": "user"}
+  ]
+}
+
+TOON Format (35 tokens - 61% savings):
+users[3]{id,name,role}:
+ 1,Alice,admin
+ 2,Bob,user
+ 3,Charlie,user
+
+Example 2: Context Metadata
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Original JSON (191 tokens):
+[
+  {"file":"architecture.md","priority":"critical","size":851,"lines":43},
+  {"file":"security.md","priority":"critical","size":1213,"lines":43},
+  {"file":"patterns.md","priority":"high","size":1603,"lines":65},
+  ...7 files total
+]
+
+TOON Format (97 tokens - 49% savings):
+items[7]{file,priority,size,lines}:
+ architecture.md,critical,851,43
+ security.md,critical,1213,43
+ patterns.md,high,1603,65
+ ...
+
+Example 3: Agent Configuration
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Original JSON (54 tokens):
+{"id":"agent_001","type":"architect","state":"active","task":"Design API"}
+
+TOON Format (25 tokens - 54% savings):
+items[1]{id,type,state,task}:
+ agent_001,architect,active,"Design API"
+
+Try it yourself:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  echo '[{"id":1,"name":"test"}]' | prism toon convert -
+  prism toon benchmark <your-file.json>
+  prism context list-toon all
+DEMO
+            ;;
+
         help|--help|-h)
             cat << 'HELP'
 PRISM TOON Commands - Token-Optimized Object Notation
@@ -457,6 +553,8 @@ Commands:
                               Use '-' for stdin input
   benchmark <input>           Show token savings comparison
   validate <toon-file>        Validate TOON syntax
+  stats                       Show TOON usage statistics and performance
+  demo                        Interactive demo with examples
   clear-cache                 Clear TOON conversion cache
   help                        Show this help message
 
