@@ -101,7 +101,7 @@ check_prism_installation() {
     fi
 
     # Check directory structure
-    local required_dirs=(lib bin config)
+    local required_dirs=(lib config)
     for dir in "${required_dirs[@]}"; do
         if [[ -d "$PRISM_HOME/$dir" ]]; then
             add_diagnostic "install" "dir_$dir" "OK" "$PRISM_HOME/$dir exists"
@@ -116,40 +116,47 @@ check_prism_installation() {
         "lib/prism-core.sh"
         "lib/prism-log.sh"
         "lib/prism-security.sh"
-        "bin/prism"
     )
     for file in "${core_files[@]}"; do
         if [[ -f "$PRISM_HOME/$file" ]]; then
             add_diagnostic "install" "file_$(basename $file)" "OK" "$file exists"
-
-            # Check if executable
-            if [[ "$file" == "bin/prism" ]] && [[ ! -x "$PRISM_HOME/$file" ]]; then
-                add_diagnostic "install" "executable" "ERROR" "$PRISM_HOME/$file"
-            fi
         else
             add_diagnostic "install" "file_$(basename $file)" "ERROR" "$file not found"
             add_diagnostic "install" "missing_file" "ERROR" "$PRISM_HOME/$file"
         fi
     done
+
+    # Check prism binary in ~/bin
+    if [[ -f "$HOME/bin/prism" ]]; then
+        add_diagnostic "install" "prism_binary" "OK" "$HOME/bin/prism exists"
+        if [[ -x "$HOME/bin/prism" ]]; then
+            add_diagnostic "install" "prism_executable" "OK" "prism is executable"
+        else
+            add_diagnostic "install" "prism_executable" "ERROR" "$HOME/bin/prism not executable"
+        fi
+    else
+        add_diagnostic "install" "prism_binary" "ERROR" "$HOME/bin/prism not found"
+    fi
 }
 
 # Check PATH configuration
 check_path_configuration() {
     log_section "PATH Configuration"
 
-    # Check if prism is in PATH
-    if [[ ":$PATH:" == *":$PRISM_HOME/bin:"* ]]; then
-        add_diagnostic "config" "path" "OK" "PRISM in PATH"
+    # Check if ~/bin is in PATH (where prism binary lives)
+    if [[ ":$PATH:" == *":$HOME/bin:"* ]]; then
+        add_diagnostic "config" "path" "OK" "$HOME/bin in PATH"
     else
-        add_diagnostic "config" "path" "WARNING" "PRISM not in PATH"
-        FIXES+=("export PATH=\"\$PATH:$PRISM_HOME/bin\"")
+        add_diagnostic "config" "path" "WARNING" "$HOME/bin not in PATH"
+        FIXES+=("export PATH=\"\$PATH:$HOME/bin\"")
     fi
 
     # Check if prism command is accessible
     if command -v prism &> /dev/null; then
-        add_diagnostic "config" "prism_command" "OK" "prism command accessible"
+        local prism_location=$(command -v prism)
+        add_diagnostic "config" "prism_command" "OK" "prism command accessible at $prism_location"
     else
-        add_diagnostic "config" "prism_command" "WARNING" "prism command not found"
+        add_diagnostic "config" "prism_command" "ERROR" "prism command not found"
     fi
 }
 
