@@ -33,6 +33,17 @@ get_current_version() {
 # Get remote version
 get_remote_version() {
     local remote_version
+
+    # Try GitHub API first (bypasses CDN cache)
+    if command -v python3 &>/dev/null; then
+        if remote_version=$(curl -fsSL "https://api.github.com/repos/afiffattouh/hildens-prism/contents/VERSION" 2>/dev/null | \
+            python3 -c "import sys, json, base64; data = json.load(sys.stdin); print(base64.b64decode(data['content']).decode('utf-8').strip())" 2>/dev/null); then
+            echo "$remote_version" | tr -d '[:space:]'
+            return 0
+        fi
+    fi
+
+    # Fallback to raw.githubusercontent.com (may be cached)
     if remote_version=$(curl -fsSL "$VERSION_URL" 2>/dev/null); then
         echo "$remote_version" | tr -d '[:space:]'
     else
