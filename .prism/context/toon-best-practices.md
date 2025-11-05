@@ -6,7 +6,7 @@
 
 ## Executive Summary
 
-This guide provides comprehensive best practices for using TOON (Tree Object Notation) in PRISM Framework to achieve optimal token savings (40-50%) while maintaining code quality and system reliability.
+This guide provides comprehensive best practices for using TOON (Token-Oriented Object Notation) in PRISM Framework to achieve optimal token savings (40-50%) while maintaining code quality and system reliability.
 
 **Key Principles:**
 - 🎯 Use TOON for structured data, not prose

@@ -76,7 +76,7 @@ prism --help  # Should display help information
 
 ## ⚡ TOON Integration (NEW in v2.4.1)
 
-PRISM v2.4.1 introduces **TOON (Tree Object Notation)** - a revolutionary token-optimized format that achieves **41-49% token savings** in Claude API interactions, significantly reducing costs and improving performance.
+PRISM v2.4.1 introduces **TOON (Token-Oriented Object Notation)** - a revolutionary token-optimized format that achieves **41-49% token savings** in Claude API interactions, significantly reducing costs and improving performance.
 
 ### 🎯 What is TOON?
 
@@ -334,7 +334,7 @@ See [Claude Agent SDK Alignment Report](.prism/context/claude-agent-sdk-alignmen
 - ✅ **Native Skills System** - 5 built-in Claude Code skills with auto-linking
 
 ### v2.4.1 Features (CURRENT VERSION - PRODUCTION READY)
-- ✅ **TOON (Tree Object Notation) Integration** - Revolutionary token optimization
+- ✅ **TOON (Token-Oriented Object Notation) Integration** - Revolutionary token optimization
   - **41-49% Average Token Savings** - Reduces Claude API costs significantly
   - **7 CLI Commands** - convert, benchmark, validate, stats, demo, clear-cache, help
   - **Automatic Format Detection** - Intelligent conversion with safe fallback

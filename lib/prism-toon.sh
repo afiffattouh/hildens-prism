@@ -1,6 +1,6 @@
 #!/bin/bash
 # PRISM TOON Integration Library
-# Provides TOON (Tree Object Notation) serialization for token-optimized Claude Code interactions
+# Provides TOON (Token-Oriented Object Notation) serialization for token-optimized Claude Code interactions
 # TOON achieves 30-60% token reduction while maintaining data fidelity
 
 # Source guard

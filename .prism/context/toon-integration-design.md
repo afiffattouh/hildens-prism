@@ -6,7 +6,7 @@
 
 ## Executive Summary
 
-Integration of TOON (Tree Object Notation) format into PRISM Framework to achieve 30-60% token reduction in Claude Code interactions while maintaining data fidelity and improving LLM comprehension accuracy.
+Integration of TOON (Token-Oriented Object Notation) format into PRISM Framework to achieve 30-60% token reduction in Claude Code interactions while maintaining data fidelity and improving LLM comprehension accuracy.
 
 **Key Benefits:**
 - 30-60% token reduction in context transmission
@@ -19,7 +19,7 @@ Integration of TOON (Tree Object Notation) format into PRISM Framework to achiev
 
 ### What is TOON?
 
-TOON (Tree Object Notation) is a token-optimized serialization format specifically designed for LLM interactions. It achieves significant token reduction through:
+TOON (Token-Oriented Object Notation) is a token-optimized serialization format specifically designed for LLM interactions. It achieves significant token reduction through:
 
 **Core Principles:**
 - **Tabular Arrays**: Declare field names once, stream data as rows

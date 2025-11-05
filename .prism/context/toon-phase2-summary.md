@@ -1,7 +1,7 @@
 # TOON Integration Phase 2: Agent Integration - Summary
 
 ## Overview
-Phase 2 successfully integrated TOON (Tree Object Notation) into PRISM's agent orchestration system, achieving 38-53% token savings in agent-related operations.
+Phase 2 successfully integrated TOON (Token-Oriented Object Notation) into PRISM's agent orchestration system, achieving 38-53% token savings in agent-related operations.
 
 ## Implementation Date
 November 5, 2024

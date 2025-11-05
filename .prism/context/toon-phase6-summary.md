@@ -213,7 +213,7 @@ v2.4.0 (2024-11-05) - TOON Production Release
 ==========================================
 
 Major Features:
-- Complete TOON (Tree Object Notation) integration
+- Complete TOON (Token-Oriented Object Notation) integration
 - 41-49% token savings across agents, context, sessions
 - 7 new CLI commands (prism toon *)
 - Automatic format detection and optimization
