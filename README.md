@@ -99,25 +99,68 @@ TOON is a specialized serialization format designed specifically for LLM interac
 
 ### 🚀 Quick Start with TOON
 
-TOON is **production-ready** and can be enabled immediately:
+TOON is **production-ready** and can be enabled in two ways:
+
+#### Option 1: Persistent Configuration (Recommended)
+
+Enable TOON permanently using the config system:
 
 ```bash
-# Enable TOON globally (recommended)
+# Enable TOON globally (persists across sessions)
+prism config set PRISM_TOON_ENABLED true
+prism config set PRISM_TOON_AGENTS true
+prism config set PRISM_TOON_CONTEXT true
+prism config set PRISM_TOON_SESSION true
+
+# Verify configuration
+prism config get PRISM_TOON_ENABLED
+# Output: true
+```
+
+**What each flag controls:**
+- `PRISM_TOON_ENABLED` - Master switch (enables TOON system-wide)
+- `PRISM_TOON_AGENTS` - Optimizes agent configurations (41% savings)
+- `PRISM_TOON_CONTEXT` - Optimizes context metadata (49% savings)
+- `PRISM_TOON_SESSION` - Optimizes session summaries (44% savings)
+
+#### Option 2: Temporary Configuration
+
+Enable TOON for current shell session only:
+
+```bash
+# Temporary (only for this terminal session)
 export PRISM_TOON_ENABLED=true
 export PRISM_TOON_AGENTS=true
 export PRISM_TOON_CONTEXT=true
 export PRISM_TOON_SESSION=true
 
-# Use TOON-optimized commands
-prism agent list --toon              # Agent list with 40-53% savings
-prism context list-toon              # Context with 49% savings
-prism session status --toon          # Session with 44% savings
+# These expire when you close the terminal
+```
 
-# Check TOON statistics
-prism toon stats                     # View usage and savings
+**When to use temporary config:**
+- Testing TOON before committing to persistent config
+- Troubleshooting (disable TOON temporarily)
+- Per-project overrides (different settings per project)
 
-# Run benchmarks
-prism toon benchmark input.json      # See token comparison
+#### Using TOON-Optimized Commands
+
+Once enabled, use TOON commands for token savings:
+
+```bash
+# View agents with TOON optimization
+prism agent list --toon              # 40-53% token savings
+
+# View context with TOON format
+prism context list-toon              # 49% token savings
+
+# Check session status with TOON
+prism session status --toon          # 44% token savings
+
+# View TOON usage statistics
+prism toon stats
+
+# Benchmark token savings on your data
+prism toon benchmark input.json      # Shows before/after comparison
 ```
 
 ### 🎨 TOON CLI Tools
@@ -136,24 +179,31 @@ prism toon help                      # Complete help system
 
 ### 📋 Gradual Rollout Plan
 
-TOON supports safe, gradual deployment with feature flags:
+TOON supports safe, gradual deployment with granular feature flags:
 
-**Week 1: Development Environment**
+**Week 1: Development Environment (Agents Only)**
 ```bash
-export PRISM_TOON_ENABLED=true
-export PRISM_TOON_AGENTS=true
+# Enable master switch + agents only
+prism config set PRISM_TOON_ENABLED true
+prism config set PRISM_TOON_AGENTS true
+
 # Test with development workloads
+prism agent list --toon
 ```
 
-**Week 2: Staging + Context**
+**Week 2: Staging + Context Optimization**
 ```bash
-export PRISM_TOON_CONTEXT=true
+# Add context optimization
+prism config set PRISM_TOON_CONTEXT true
+
 # Validate with realistic data
+prism context list-toon
 ```
 
-**Week 3: Production (Sessions)**
+**Week 3: Production (Full Rollout)**
 ```bash
-export PRISM_TOON_SESSION=true
+# Enable session optimization for full benefits
+prism config set PRISM_TOON_SESSION true
 # Monitor for 3-5 days
 ```
 
