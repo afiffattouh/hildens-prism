@@ -23,7 +23,7 @@ readonly TOON_MIN_ARRAY_SIZE=2  # Minimum array size for TOON optimization
 
 # Serialize JSON/YAML data to TOON format
 # Usage: toon_serialize <data> [type]
-# Types: agent|index|session|generic
+# Types: agent|context|index|session|generic
 toon_serialize() {
     local input_data="$1"
     local data_type="${2:-generic}"
@@ -31,6 +31,10 @@ toon_serialize() {
     case "$data_type" in
         agent)
             _toon_serialize_agent "$input_data"
+            ;;
+        context)
+            # Context data uses generic serialization (tabular arrays)
+            _toon_serialize_generic "$input_data"
             ;;
         index)
             _toon_serialize_index "$input_data"

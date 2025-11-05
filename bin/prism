@@ -224,9 +224,13 @@ cmd_context() {
         load-critical)
             prism_context_load_critical
             ;;
+        list-toon|toon)
+            local priority_filter=${1:-all}
+            prism_context_list_toon "$priority_filter"
+            ;;
         *)
             log_error "Unknown context action: $action"
-            log_info "Valid actions: add, query, export, update-templates, load-critical"
+            log_info "Valid actions: add, query, export, update-templates, load-critical, list-toon"
             return 1
             ;;
     esac
