@@ -518,7 +518,12 @@ case "$action" in
         execute_agent_task "$@"
         ;;
     list)
-        list_active_agents
+        # Support optional --toon flag for TOON format
+        if [[ "${2:-}" == "--toon" ]]; then
+            list_active_agents "toon"
+        else
+            list_active_agents "human"
+        fi
         ;;
     result)
         get_agent_result "$@"

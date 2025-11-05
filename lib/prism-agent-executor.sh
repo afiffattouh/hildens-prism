@@ -14,6 +14,7 @@ source "$(dirname "${BASH_SOURCE[0]}")/prism-log.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/prism-agents.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/prism-resource-management.sh"
 source "$(dirname "${BASH_SOURCE[0]}")/prism-agent-prompts.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/prism-toon.sh"
 
 # Agent tool capabilities (what tools each agent can use)
 # Using function for Bash 3.x compatibility (no associative arrays)
@@ -198,6 +199,30 @@ execute_agent_action() {
     local context=""
     if [[ -f "$agent_dir/context.txt" ]]; then
         context="$(cat "$agent_dir/context.txt")"
+    fi
+
+    # TOON INTEGRATION: Convert agent configuration to TOON format for token efficiency
+    if toon_is_enabled "agent"; then
+        log_debug "[$agent_id] Converting agent config to TOON format..."
+
+        # Convert agent config to JSON first
+        local agent_config_json=$(cat "$agent_dir/config.yaml" | python3 -c "
+import yaml, json, sys
+try:
+    data = yaml.safe_load(sys.stdin)
+    print(json.dumps(data))
+except Exception as e:
+    sys.exit(1)
+" 2>/dev/null)
+
+        if [[ $? -eq 0 ]] && [[ -n "$agent_config_json" ]]; then
+            # Convert to TOON and save
+            local agent_config_toon=$(toon_safe_convert "$agent_config_json" "agent")
+            echo "$agent_config_toon" > "$agent_dir/config_toon.txt"
+            log_debug "[$agent_id] Agent config converted to TOON (saved to config_toon.txt)"
+        else
+            log_warning "[$agent_id] Failed to convert config to TOON, using original format"
+        fi
     fi
 
     # Generate enhanced agent-specific prompt using the new prompt system

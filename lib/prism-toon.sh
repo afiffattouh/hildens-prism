@@ -115,18 +115,21 @@ EOF
 
 # Serialize agent configuration to TOON
 _toon_serialize_agent() {
-    local agent_config="$1"
+    local agent_data="$1"
 
-    # Parse agent config and convert structured parts to TOON
-    # This is a placeholder - will be enhanced with actual YAML parsing
+    # Agent data should be JSON format for proper conversion
+    # Detect and convert structured arrays to TOON tabular format
+    local format=$(toon_detect_format "$agent_data")
 
-    cat <<EOF
-agent:
- type: $(echo "$agent_config" | grep -oP 'type:\s*\K\w+' || echo "unknown")
- status: $(echo "$agent_config" | grep -oP 'status:\s*\K\w+' || echo "active")
-
-# Tasks and capabilities would be converted to TOON tabular format here
-EOF
+    case "$format" in
+        toon_tabular)
+            _toon_tabular_array "$agent_data"
+            ;;
+        *)
+            # For scalar agent data or non-uniform structures, keep original
+            echo "$agent_data"
+            ;;
+    esac
 }
 
 # Serialize context index to TOON

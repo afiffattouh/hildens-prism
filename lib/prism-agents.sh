@@ -8,6 +8,10 @@ if [[ -n "${_PRISM_AGENTS_SH_LOADED:-}" ]]; then
 fi
 readonly _PRISM_AGENTS_SH_LOADED=1
 
+# Source TOON library for token optimization
+PRISM_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${PRISM_LIB_DIR}/prism-toon.sh" 2>/dev/null || true
+
 # Agent type definitions (using functions for Bash 3.x compatibility)
 get_agent_description() {
     case "$1" in
@@ -598,12 +602,15 @@ get_agent_result() {
     return 1
 }
 
-# List active agents
+# List active agents (with optional TOON format)
 list_active_agents() {
+    local format="${1:-human}"  # human|toon
+
     log_info "Active Agents:"
 
     local agent_dir=".prism/agents/active"
     local count=0
+    local agents_json="["
 
     if [[ -d "$agent_dir" ]]; then
         for dir in "$agent_dir"/agent_*; do
@@ -612,7 +619,17 @@ list_active_agents() {
                 local agent_type=$(grep "^type:" "$dir/config.yaml" | cut -d' ' -f2)
                 local task=$(grep "^task:" "$dir/config.yaml" | cut -d' ' -f2-)
                 local state=$(grep "^state:" "$dir/config.yaml" | cut -d' ' -f2)
-                echo "  - $agent_id ($agent_type): $task [${state}]"
+
+                if [[ "$format" == "toon" ]]; then
+                    # Build JSON array for TOON conversion
+                    if [[ $count -gt 0 ]]; then
+                        agents_json="${agents_json},"
+                    fi
+                    agents_json="${agents_json}{\"id\":\"$agent_id\",\"type\":\"$agent_type\",\"state\":\"$state\",\"task\":\"$task\"}"
+                else
+                    # Human-readable format
+                    echo "  - $agent_id ($agent_type): $task [${state}]"
+                fi
                 count=$((count + 1))
             fi
         done
@@ -620,6 +637,21 @@ list_active_agents() {
 
     if [[ $count -eq 0 ]]; then
         echo "  No active agents"
+        return 0
+    fi
+
+    # If TOON format requested and TOON enabled, convert
+    if [[ "$format" == "toon" ]] && [[ $count -gt 0 ]]; then
+        agents_json="${agents_json}]"
+        # Always show TOON format if requested (toon_optimize handles the enabled check)
+        echo ""
+        echo "TOON Format:"
+        local toon_result=$(toon_optimize "$agents_json" "agent" 2>/dev/null)
+        if [[ $? -eq 0 ]] && [[ -n "$toon_result" ]]; then
+            echo "$toon_result"
+        else
+            echo "$agents_json"
+        fi
     fi
 }
 
