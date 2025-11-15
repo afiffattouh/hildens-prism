@@ -33,10 +33,15 @@ TROUBLESHOOTING_PRISM.md
 !.prism/TIMESTAMP
 !.prism/index.yaml
 
-# Keep ONLY TOON documentation (core framework feature docs)
+# Keep ONLY core framework documentation
 !.prism/context/
 .prism/context/*
 !.prism/context/toon-*.md
+!.prism/context/prd-task-management.md
+
+# Keep templates (core framework feature)
+!.prism/templates/
+!.prism/templates/*.md
 
 # Serena MCP cache (temporary IDE files)
 .serena/
@@ -51,6 +56,8 @@ Thumbs.db
 *.swp
 *.swo
 .claude/
+!.claude/commands/
+!.claude/commands/prism-*.md
 
 # Logs
 *.log
@@ -73,6 +80,7 @@ __pycache__/
 # Internal documentation and project-specific files
 UPDATE_ROUTINE.md
 TEST_RESULTS.md
+claudedocs/
 
 # Marketing and project-specific content
 LINKEDIN_POST.md

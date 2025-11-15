@@ -27,8 +27,10 @@ Commands:
   init [options]       Initialize PRISM in current directory
   context <action>     Manage project context
   session <action>     Manage development sessions
+  prd <action>         Manage Product Requirement Documents
+  tasks <action>       Manage feature task lists
   skill <action>       Manage Claude Code skills
-  toon <action>        TOON format conversion and optimization (new!)
+  toon <action>        TOON format conversion and optimization
   config <action>      Configure PRISM settings
   update [options]     Update PRISM framework
   agent <action>       Multi-agent orchestration and coordination
@@ -56,6 +58,16 @@ Session Actions:
   export [format] [session-id]   Export session report
   refresh                        Refresh session context
   clean [days]                   Clean old sessions
+
+PRD Actions:
+  create <feature-name>          Create new PRD from template
+  amend <feature-name> "change"  Amend existing PRD
+  list                           List all PRDs
+
+Task Actions:
+  generate <prd-file>            Generate task list from PRD
+  status [feature-name]          Show task completion status
+  list                           List all task files
 
 Skill Actions:
   create                         Create a new skill interactively
@@ -288,6 +300,89 @@ cmd_session() {
         *)
             log_error "Unknown session action: $action"
             log_info "Valid actions: start, status, status --toon, list-toon, archive, restore, export, refresh, clean"
+            return 1
+            ;;
+    esac
+}
+
+# Manage PRDs (Product Requirement Documents)
+cmd_prd() {
+    local action=$1
+    shift
+
+    source "${PRISM_ROOT}/lib/prism-prd.sh"
+
+    case "$action" in
+        create)
+            local feature_name=$1
+            if [[ -z "$feature_name" ]]; then
+                log_error "Please specify a feature name"
+                log_info "Usage: prism prd create <feature-name>"
+                return 1
+            fi
+            prism_prd_create "$feature_name"
+            ;;
+        amend)
+            local feature_name=$1
+            local amendment=$2
+            if [[ -z "$feature_name" ]]; then
+                log_error "Please specify a feature name"
+                log_info "Usage: prism prd amend <feature-name> \"amendment description\""
+                return 1
+            fi
+            if [[ -z "$amendment" ]]; then
+                log_error "Please specify amendment description"
+                log_info "Usage: prism prd amend <feature-name> \"amendment description\""
+                return 1
+            fi
+            prism_prd_amend "$feature_name" "$amendment"
+            ;;
+        list)
+            prism_prd_list
+            ;;
+        help|--help)
+            prism_prd_help
+            ;;
+        *)
+            log_error "Unknown PRD action: $action"
+            log_info "Valid actions: create, amend, list"
+            log_info "Run 'prism prd help' for more information"
+            return 1
+            ;;
+    esac
+}
+
+# Manage tasks
+cmd_tasks() {
+    local action=$1
+    shift
+
+    source "${PRISM_ROOT}/lib/prism-prd.sh"
+
+    case "$action" in
+        generate)
+            local prd_file=$1
+            if [[ -z "$prd_file" ]]; then
+                log_error "Please specify a PRD file"
+                log_info "Usage: prism tasks generate <prd-file>"
+                return 1
+            fi
+            prism_tasks_generate "$prd_file"
+            ;;
+        status)
+            local feature_name=${1:-}
+            prism_tasks_status "$feature_name"
+            ;;
+        list)
+            prism_tasks_list
+            ;;
+        help|--help)
+            prism_prd_help
+            ;;
+        *)
+            log_error "Unknown tasks action: $action"
+            log_info "Valid actions: generate, status, list"
+            log_info "Run 'prism tasks help' for more information"
             return 1
             ;;
     esac
@@ -724,6 +819,12 @@ main() {
             ;;
         session)
             cmd_session "$@"
+            ;;
+        prd)
+            cmd_prd "$@"
+            ;;
+        tasks)
+            cmd_tasks "$@"
             ;;
         skill)
             cmd_skill "$@"
