@@ -79,7 +79,9 @@ prism --help  # Should display help information
 
 ## 📋 PRD & Task Management (NEW in v2.5.0)
 
-PRISM v2.5.0 introduces **comprehensive project lifecycle management** with Product Requirement Documents (PRDs) and structured task management inspired by ai-dev-tasks workflow.
+PRISM v2.5.0 introduces **comprehensive project lifecycle management** with Product Requirement Documents (PRDs) and structured task management.
+
+**Inspired by [ai-dev-tasks](https://github.com/snarktank/ai-dev-tasks)** by [Ryan Carson](https://www.linkedin.com/in/ryancarson/) - We've adapted and extended the PRD/Task workflow concept with PRISM-specific integrations including context linking, agent assignment, and automated progress tracking.
 
 ### 🎯 What is PRD & Task Management?
 
@@ -249,6 +251,26 @@ cat .claude/commands/prism-tasks.md # /prism:tasks command guide
 - **Progress Visibility**: Real-time tracking of implementation progress
 - **Version Control**: Full audit trail of requirement changes
 - **Team Alignment**: Clear, comprehensive documentation for all stakeholders
+
+### 🙏 Attribution
+
+The PRD & Task Management workflow in PRISM v2.5.0 was **inspired by [ai-dev-tasks](https://github.com/snarktank/ai-dev-tasks)**, a brilliant project by **[Ryan Carson](https://www.linkedin.com/in/ryancarson/)** that demonstrates effective AI-assisted development workflows.
+
+**What we adapted from ai-dev-tasks**:
+- Core concept of structured PRD documents for AI development
+- Hierarchical task breakdown methodology
+- Progress tracking with completion percentages
+
+**PRISM-specific enhancements**:
+- Deep integration with PRISM context system (architecture, patterns, security, decisions)
+- Automatic agent type assignment (12 specialized PRISM agents)
+- Version control with automatic backups and revision history
+- CLI commands and slash command integration for Claude Code
+- Template system with 13 comprehensive PRD sections
+- 5-phase task structure with verification criteria
+- Real-time progress tracking by phase and overall
+
+We're grateful to Ryan Carson for pioneering this workflow approach and making it available to the community. Check out [ai-dev-tasks](https://github.com/snarktank/ai-dev-tasks) for the original implementation!
 
 ## ⚡ TOON Integration (NEW in v2.4.1)
 
